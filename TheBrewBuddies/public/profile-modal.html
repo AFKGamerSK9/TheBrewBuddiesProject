@@ -1,0 +1,238 @@
+<div class="modal-overlay" id="profileModal">
+  <div class="profile-card">
+    <button class="modal-close" onclick="closeProfileModal()">✕</button>
+
+    <div class="profile-header">
+      <div class="header-tag">
+        <img
+          src="logo.png"
+          alt="Logo"
+          style="height: 16px; vertical-align: middle; margin-right: 4px"
+        />
+        THE BREW BUDDIES PROFILE
+      </div>
+      <div class="avatar-circle">S</div>
+      <h2>Hello, Sarah!</h2>
+      <div class="user-email">sarah.k@thebrewbuddies.com</div>
+    </div>
+
+    <div class="rewards-card">
+      <div class="rewards-label">Brew Rewards Balance</div>
+      <div class="rewards-row">
+        <div>
+          <div class="points-val">350 Points</div>
+          <div class="value-text">
+            Value: <strong>NRs. 350</strong> off your next order!
+          </div>
+        </div>
+        <div class="tier-badge">Silver Beans Member</div>
+      </div>
+      <a href="#" class="redeem-link">Redeem Points at Checkout →</a>
+    </div>
+
+    <div class="menu-group">
+      <a href="/edit-profile" class="menu-btn"
+        ><span>Edit Profile</span> <span>›</span></a
+      >
+      <a href="/edit-picture" class="menu-btn"
+        ><span>Edit Profile Picture</span> <span>›</span></a
+      >
+      <a href="/change-password" class="menu-btn"
+        ><span>Change Password</span> <span>›</span></a
+      >
+      <a href="/orders" class="menu-btn"
+        ><span>Order History</span> <span>›</span></a
+      >
+      <a href="/wishlist" class="menu-btn"
+        ><span>My Wishlist</span> <span>›</span></a
+      >
+    </div>
+
+    <div class="signout-wrapper">
+      <button class="btn-signout" onclick="handleSignOut()">Sign Out</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(22, 18, 16, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+  }
+
+  .profile-card {
+    background: #ffffff;
+    width: 380px;
+    border-radius: 20px;
+    padding: 24px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    font-family:
+      "Segoe UI",
+      system-ui,
+      -apple-system,
+      sans-serif;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: #f2ece4;
+    color: #6e6862;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .header-tag {
+    font-size: 9px;
+    font-weight: 700;
+    color: #8c857b;
+    letter-spacing: 0.8px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .avatar-circle {
+    width: 56px;
+    height: 56px;
+    background: #eae3d9;
+    color: #5c5248;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 20px;
+    margin: 0 auto 12px;
+  }
+
+  .profile-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2c2623;
+    margin-bottom: 4px;
+  }
+
+  .user-email {
+    font-size: 12px;
+    color: #8c857b;
+  }
+
+  .rewards-card {
+    background: #faf8f3;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+
+  .rewards-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #3d352e;
+    margin-bottom: 12px;
+  }
+
+  .rewards-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .points-val {
+    font-size: 22px;
+    font-weight: 800;
+    color: #2c2623;
+    margin-bottom: 4px;
+  }
+
+  .value-text {
+    font-size: 11px;
+    color: #7a7268;
+  }
+
+  .tier-badge {
+    background: #965b36;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 12px 14px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 1.2;
+    max-width: 90px;
+  }
+
+  .redeem-link {
+    display: block;
+    text-align: center;
+    color: #1d7a46;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    border-top: 1px dashed #eae3d9;
+    padding-top: 12px;
+  }
+
+  .menu-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .menu-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border: 1px solid #f0ece4;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #3d352e;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.15s;
+  }
+
+  .menu-btn:hover {
+    background: #faf8f5;
+  }
+
+  .signout-wrapper {
+    text-align: center;
+  }
+
+  .btn-signout {
+    background: none;
+    border: none;
+    color: #1d7a46;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+</style>

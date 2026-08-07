@@ -1,0 +1,68 @@
+[
+  {
+    "id": "p1",
+    "name": "Ethiopian Yirgacheffe",
+    "category": "Single Origin Coffee",
+    "roastLevel": "Medium Roast",
+    "price": 1250,
+    "rating": 4.9,
+    "reviewCount": 124,
+    "tag": "SINGLE ORIGIN",
+    "image": "https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=500&q=80"
+  },
+  {
+    "id": "p2",
+    "name": "Sumatra Mandheling",
+    "category": "Single Origin Coffee",
+    "roastLevel": "Dark Roast",
+    "price": 1350,
+    "rating": 4.8,
+    "reviewCount": 89,
+    "tag": "SINGLE ORIGIN",
+    "image": "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=500&q=80"
+  },
+  {
+    "id": "p3",
+    "name": "Golden Hour Espresso",
+    "category": "Espresso Blends",
+    "roastLevel": "Medium Roast",
+    "price": 1100,
+    "rating": 5.0,
+    "reviewCount": 215,
+    "tag": "ARTISANAL BLEND",
+    "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=500&q=80"
+  },
+  {
+    "id": "p4",
+    "name": "Organic Ceremonial Matcha",
+    "category": "Loose-Leaf Tea",
+    "roastLevel": "None",
+    "price": 1600,
+    "rating": 4.9,
+    "reviewCount": 178,
+    "tag": "LOOSE TEA",
+    "image": "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=500&q=80"
+  },
+  {
+    "id": "p5",
+    "name": "Kenya AA Kirinyaga",
+    "category": "Single Origin Coffee",
+    "roastLevel": "Light Roast",
+    "price": 1400,
+    "rating": 4.7,
+    "reviewCount": 62,
+    "tag": "SINGLE ORIGIN",
+    "image": "https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?auto=format&fit=crop&w=500&q=80"
+  },
+  {
+    "id": "p6",
+    "name": "Highland Earl Grey",
+    "category": "Loose-Leaf Tea",
+    "roastLevel": "None",
+    "price": 850,
+    "rating": 4.8,
+    "reviewCount": 94,
+    "tag": "LOOSE TEA",
+    "image": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=500&q=80"
+  }
+]

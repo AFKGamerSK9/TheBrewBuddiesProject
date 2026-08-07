@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome Back — The Brew Buddies</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+      body {
+        background-color: #faf8f5;
+        color: #2c2623;
+        min-height: 100vh;
+      }
+
+      .announcement-bar {
+        background-color: #1f1916;
+        color: #ffffff;
+        text-align: center;
+        padding: 8px;
+        font-size: 13px;
+        letter-spacing: 0.3px;
+      }
+
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 64px;
+        background-color: #faf8f5;
+      }
+      .logo {
+        font-weight: 700;
+        font-size: 22px;
+        color: #1d7a46;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .logo img {
+        height: 32px;
+        width: auto;
+      }
+
+      .nav-right {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        font-size: 14px;
+        color: #2c2623;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        text-decoration: none;
+        color: #2c2623;
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .cart-badge {
+        background: #1d7a46;
+        color: white;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .dashboard-container {
+        max-width: 1100px;
+        margin: 16px auto 0;
+        padding: 0 48px;
+        display: grid;
+        grid-template-columns: 1.2fr 340px;
+        gap: 32px;
+        align-items: start;
+      }
+
+      .hero-section h1 {
+        font-size: 36px;
+        font-weight: 800;
+        color: #2c2623;
+        margin-bottom: 8px;
+      }
+      .hero-section p {
+        font-size: 14px;
+        color: #6e6862;
+        line-height: 1.5;
+        max-width: 540px;
+        margin-bottom: 20px;
+      }
+      .hero-image {
+        width: 100%;
+        height: 380px;
+        object-fit: cover;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      }
+
+      .profile-card-inline {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
+      .user-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #f0ece4;
+        margin-bottom: 16px;
+      }
+      .avatar-circle-inline {
+        width: 44px;
+        height: 44px;
+        background: #eae3d9;
+        color: #736961;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .user-info h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #2c2623;
+      }
+      .user-info span {
+        font-size: 12px;
+        color: #8c857b;
+      }
+
+      .menu-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 20px;
+      }
+      .menu-item a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 14px;
+        border-radius: 10px;
+        text-decoration: none;
+        color: #4a443f;
+        font-size: 14px;
+        font-weight: 500;
+        transition: background 0.2s;
+      }
+      .menu-item.active a {
+        background-color: #f0ece4;
+        color: #111;
+        font-weight: 600;
+      }
+      .menu-item a:hover:not(.active) {
+        background-color: #faf8f5;
+      }
+      .menu-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .menu-badge {
+        background: #1d7a46;
+        color: white;
+        border-radius: 12px;
+        padding: 2px 8px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .subscription-banner {
+        background: #f6f3ee;
+        border-radius: 10px;
+        padding: 14px 16px;
+      }
+      .sub-title {
+        color: #1d7a46;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+      }
+      .sub-date {
+        font-size: 12px;
+        color: #6e6862;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="announcement-bar">
+      Flash Offers — Free shipping on orders over NRs. 2,500
+    </div>
+
+    <header class="navbar">
+      <a href="/" style="text-decoration: none"
+        ><div class="logo">
+          <img src="logo.png" alt="The Brew Buddies Logo" />
+          <span>The Brew Buddies</span>
+        </div></a
+      >
+      <div class="nav-right">
+        <div class="nav-item" onclick="openProfileModal()">👤 Account</div>
+        <a href="/cart" class="nav-item"
+          >🛒 <span class="cart-badge">3</span></a
+        >
+      </div>
+    </header>
+
+    <main class="dashboard-container">
+      <section class="hero-section">
+        <h1>Welcome Back</h1>
+        <p>
+          Select from your premium profile options, manage active orders, or
+          browse personalized beans right from the quick navigation panel.
+        </p>
+        <img
+          class="hero-image"
+          src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=80"
+          alt="Coffee brewing"
+        />
+      </section>
+
+      <aside class="profile-card-inline">
+        <div class="user-header">
+          <div class="avatar-circle-inline">SK</div>
+          <div class="user-info">
+            <h3>Sarah K.</h3>
+            <span>Premium Member</span>
+          </div>
+        </div>
+
+        <ul class="menu-list">
+          <li class="menu-item active">
+            <a href="#" onclick="openProfileModal()"
+              ><span class="menu-left">👤 My Account</span></a
+            >
+          </li>
+          <li class="menu-item">
+            <a href="#"><span class="menu-left">⚙️ Settings</span></a>
+          </li>
+          <li class="menu-item">
+            <a href="/cart">
+              <span class="menu-left">🛒 Cart</span>
+              <span class="menu-badge">3</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#"><span class="menu-left">💬 About Us</span></a>
+          </li>
+          <li class="menu-item">
+            <a href="#"><span class="menu-left">🎧 Support</span></a>
+          </li>
+        </ul>
+
+        <div class="subscription-banner">
+          <div class="sub-title">SUBSCRIPTION ACTIVE</div>
+          <div class="sub-date">Next bag ships Jan 26</div>
+        </div>
+      </aside>
+    </main>
+
+    <div id="profileModalContainer"></div>
+
+    <script>
+      fetch("/profile-modal.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("profileModalContainer").innerHTML = html;
+        });
+
+      function openProfileModal() {
+        const modal = document.getElementById("profileModal");
+        if (modal) modal.style.display = "flex";
+      }
+
+      function closeProfileModal() {
+        const modal = document.getElementById("profileModal");
+        if (modal) modal.style.display = "none";
+      }
+
+      function handleSignOut() {
+        alert("Signed out successfully.");
+        closeProfileModal();
+      }
+    </script>
+  </body>
+</html>

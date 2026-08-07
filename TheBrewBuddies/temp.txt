@@ -1,0 +1,20 @@
+File handling maps directly to several key features you've designed across these frames.
+
+1. Customer Product Review Uploads (write-a-review-modal)
+Where: The image attachment dropzone in the review modal.
+Implementation: Accept user image uploads (.jpg, .png), validate file extensions and sizes on the backend, generate unique filenames (e.g., review_10293_img1.jpg), and store them in a media directory while writing the file path to your database.
+2. Product Catalog Data Persistence (the-brew-buddies-homepage)
+Where: Loading and saving products (Ethiopian Yirgacheffe, Sumatra Mandheling, etc.).
+Implementation: If you aren't using a full SQL/NoSQL database yet (like in a C++ academic or desktop application), use file I/O to read product metadata, pricing in NRs., stock quantities, and image path mappings from a structured flat file (products.json, products.csv, or custom .dat files).
+3. Order Invoice & Receipt Generation (the-brew-buddies-cart-drawer)
+Where: Triggered immediately when the user clicks Proceed to Checkout.
+Implementation: Use file writing operations (ofstream in C++, or fs in Node.js) to dynamically compile order details (items, quantity, total price in NRs.) into a formatted text log file or generated PDF invoice saved in an invoices/ folder.
+4. User Profile Picture Updates (the-brew-buddies-account-modal)
+Where: The "Edit Profile Picture" option inside the account drawer.
+Implementation: Handle file streams to allow users to upload custom avatar images, overwrite previous avatar files, and manage directory permissions.
+5. System Activity & Transaction Logging (Backend Service)
+Where: Global app operations.
+Implementation: Maintain an append-only log file (app_events.log) to record cart actions, stock updates, and authentication events with timestamps for auditing.
+
+Best Core Implementation:
+If you need to demonstrate core C++ or backend file-handling proficiency, focus on Invoice PDF/Text File Generation for checkouts and File-Based Product Storage (JSON/CSV parsing).
