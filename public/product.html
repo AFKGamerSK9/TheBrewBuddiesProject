@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ethiopian Yirgacheffe — The Brew Buddies</title>
+
     <style>
       * {
         box-sizing: border-box;
@@ -48,11 +49,6 @@
       .footer-brand img {
         height: 30px;
         width: auto;
-      }
-      .footer-brand h3 {
-        display: flex;
-        align-items: center;
-        gap: 8px;
       }
       .search-bar input {
         width: 380px;
@@ -288,7 +284,7 @@
         text-decoration: none;
       }
 
-      /* Tabs & Content */
+      /* Tabs Section */
       .tabs-section {
         padding: 0 48px 64px;
       }
@@ -326,14 +322,8 @@
         font-size: 13px;
         font-weight: 600;
         cursor: pointer;
-        margin-bottom: 12px;
       }
 
-      .tab-content {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 48px;
-      }
       .story-col h3 {
         font-size: 20px;
         margin-bottom: 16px;
@@ -343,6 +333,93 @@
         color: #6e6862;
         line-height: 1.7;
         margin-bottom: 16px;
+      }
+
+      /* Review Summary & Detail Card Layouts */
+      .review-summary-card {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        align-items: center;
+        background: white;
+        border: 1px solid #e2ddd5;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 24px;
+      }
+      .rating-overview {
+        text-align: center;
+      }
+      .rating-score {
+        font-size: 48px;
+        font-weight: 800;
+        color: #2c2623;
+      }
+      .rating-overview .stars {
+        color: #e5a000;
+        margin: 4px 0;
+      }
+      .rating-badge {
+        display: block;
+        color: #1d7a46;
+        font-weight: 700;
+        font-size: 13px;
+      }
+      .rating-overview small {
+        color: #8a847c;
+        font-size: 11px;
+      }
+      .bar-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 12px;
+        margin-bottom: 6px;
+      }
+      .bar-row span {
+        width: 45px;
+      }
+      .progress-bar {
+        flex: 1;
+        height: 8px;
+        background: #eae5dc;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .progress-bar .fill {
+        height: 100%;
+        background: #1d7a46;
+      }
+      .summary-cta {
+        text-align: center;
+        border-left: 1px solid #eae5dc;
+        padding-left: 20px;
+      }
+      .summary-cta p {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .review-filters {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        font-size: 13px;
+      }
+      .filter-pill {
+        border: 1px solid #e2ddd5;
+        background: white;
+        padding: 6px 14px;
+        border-radius: 16px;
+        cursor: pointer;
+        font-size: 12px;
+      }
+      .filter-pill.active {
+        background: #e3f2e9;
+        color: #1d7a46;
+        border-color: #1d7a46;
+        font-weight: 600;
       }
 
       .review-card {
@@ -375,8 +452,34 @@
         justify-content: center;
         font-size: 12px;
       }
+      .verified-tag {
+        font-size: 11px;
+        color: #1d7a46;
+        font-weight: 700;
+      }
+      .review-date {
+        font-size: 11px;
+        color: #8a847c;
+        font-weight: normal;
+        margin-left: 8px;
+      }
+      .review-photos {
+        display: flex;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .review-photos img {
+        width: 60px;
+        height: 60px;
+        border-radius: 6px;
+        object-fit: cover;
+      }
 
-      /* Modal Overlay Injection Styles */
+      /* Cleaned Up Modal Container & Dynamic Component Styles */
+      #modalContainer {
+        display: none;
+      }
+
       .modal-overlay {
         display: none;
         position: fixed;
@@ -384,20 +487,25 @@
         left: 0;
         width: 100vw;
         height: 100vh;
-        background: rgba(22, 18, 16, 0.7);
+        background: rgba(22, 18, 16, 0.65);
+        backdrop-filter: blur(4px);
         justify-content: center;
         align-items: center;
-        z-index: 1000;
+        z-index: 9999;
       }
+
       .modal-card {
         background: #ffffff;
-        width: 440px;
+        width: 420px;
+        max-width: 90vw;
         border-radius: 16px;
         padding: 24px;
         position: relative;
         max-height: 90vh;
         overflow-y: auto;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
       }
+
       .modal-close {
         position: absolute;
         top: 20px;
@@ -405,83 +513,357 @@
         width: 28px;
         height: 28px;
         border-radius: 50%;
-        border: 1px solid #e2ddd5;
-        background: #fff;
+        background: #f4f0ea;
+        border: none;
+        font-size: 12px;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #555;
       }
+
       .modal-title {
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 700;
+        color: #2c2623;
         margin-bottom: 16px;
       }
+
       .product-summary {
         display: flex;
         align-items: center;
         gap: 12px;
         background: #faf7f2;
         padding: 10px 14px;
-        border-radius: 8px;
+        border-radius: 12px;
         margin-bottom: 20px;
       }
+
       .product-summary img {
-        width: 42px;
-        height: 42px;
-        border-radius: 6px;
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
         object-fit: cover;
       }
-      .star-rating span {
-        font-size: 20px;
-        color: #dbd5cc;
-        cursor: pointer;
+
+      .product-summary .p-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #2c2623;
       }
-      .star-rating span.active {
-        color: #e5a000;
+
+      .product-summary .p-meta {
+        font-size: 11px;
+        color: #8a847c;
+        margin-top: 2px;
       }
+
+      .modal-group {
+        margin-bottom: 16px;
+      }
+
+      .modal-group label {
+        display: block;
+        font-size: 12px;
+        font-weight: 700;
+        color: #2c2623;
+        margin-bottom: 6px;
+      }
+
       .modal-input,
       .modal-textarea {
         width: 100%;
         padding: 10px 12px;
         border: 1px solid #e2ddd5;
         border-radius: 8px;
-        font-size: 13px;
-        background: #faf7f2;
+        font-size: 12px;
+        background: #fdfbf7;
+        color: #2c2623;
         outline: none;
       }
+
+      .modal-input:focus,
+      .modal-textarea:focus {
+        border-color: #1d7a46;
+        background: #ffffff;
+      }
+
       .modal-textarea {
-        height: 72px;
+        height: 70px;
         resize: none;
       }
-      .dropzone {
-        border: 1px dashed #e2ddd5;
-        background: #faf7f2;
-        border-radius: 8px;
-        padding: 16px;
-        text-align: center;
-        color: #8a847c;
-        font-size: 12px;
+
+      .star-rating {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
       }
+
+      .star-rating .star {
+        font-size: 20px;
+        color: #e0d8cd;
+        transition: color 0.15s ease;
+      }
+
+      .star-rating .star.active {
+        color: #e5a000;
+      }
+
+      .rating-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #1d7a46;
+        margin-left: 8px;
+      }
+
+      .dropzone {
+        border: 1px dashed #d8d2c7;
+        background: #faf7f2;
+        border-radius: 10px;
+        padding: 14px;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .dropzone-icon {
+        font-size: 18px;
+        margin-bottom: 4px;
+      }
+
+      .dropzone-text {
+        font-size: 11px;
+        color: #7a746e;
+      }
+
       .radio-row {
         display: flex;
         gap: 16px;
         font-size: 12px;
-        align-items: center;
+        color: #2c2623;
       }
+
+      .radio-row label {
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+      }
+
+      .radio-row input[type="radio"] {
+        accent-color: #1d7a46;
+      }
+
       .form-grid-2 {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 12px;
       }
+
       .btn-submit-review {
         width: 100%;
         background-color: #1d7a46;
-        color: white;
+        color: #ffffff;
         border: none;
         padding: 12px;
         border-radius: 8px;
-        font-weight: 600;
-        font-size: 14px;
+        font-weight: 700;
+        font-size: 13px;
         cursor: pointer;
         margin-top: 8px;
+        transition: background 0.2s ease;
+      }
+
+      .btn-submit-review:hover {
+        background-color: #155c34;
+      }
+
+      /* Instant Search Modal Styling */
+      .instant-search-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(22, 18, 16, 0.65);
+        backdrop-filter: blur(4px);
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+
+      .instant-search-card {
+        background: #f4f0ea;
+        width: 720px;
+        max-width: 92vw;
+        border-radius: 20px;
+        padding: 32px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.25);
+        border: 1px solid #e2ddd5;
+      }
+
+      .instant-search-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .instant-search-header h2 {
+        font-size: 26px;
+        color: #2c2623;
+        font-family: serif;
+      }
+
+      .esc-btn {
+        background: #eae5dc;
+        border: 1px solid #dcd5cc;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #555;
+        cursor: pointer;
+      }
+
+      .instant-search-bar {
+        display: flex;
+        align-items: center;
+        background: #e9e4dc;
+        border: 1.5px solid #1d7a46;
+        border-radius: 24px;
+        padding: 10px 18px;
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+
+      .instant-search-bar input {
+        border: none;
+        background: transparent;
+        width: 100%;
+        outline: none;
+        font-size: 15px;
+        color: #2c2623;
+      }
+
+      .quick-filters-section {
+        margin-bottom: 24px;
+      }
+
+      .quick-filters-title {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        color: #7a746e;
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .filter-pills-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .search-pill {
+        background: #ffffff;
+        border: 1px solid #1d7a46;
+        color: #1d7a46;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .search-pill.active {
+        background-color: #1d7a46;
+        color: #ffffff;
+      }
+
+      .matching-title {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        color: #7a746e;
+        display: block;
+        margin-bottom: 12px;
+      }
+
+      .search-product-card {
+        display: flex;
+        align-items: center;
+        background: #ffffff;
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1px solid #e2ddd5;
+        margin-bottom: 12px;
+        gap: 16px;
+      }
+
+      .search-product-card img {
+        width: 52px;
+        height: 52px;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+
+      .search-product-details {
+        flex: 1;
+      }
+
+      .search-meta-top {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 4px;
+      }
+
+      .search-tag {
+        background-color: #e3f2e9;
+        color: #1d7a46;
+        font-size: 9px;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+
+      .search-rating {
+        font-size: 11px;
+        color: #e5a000;
+      }
+
+      .review-count {
+        color: #8a847c;
+      }
+
+      .search-product-details h4 {
+        font-size: 14px;
+        color: #2c2623;
+      }
+
+      .search-product-pricing {
+        text-align: right;
+      }
+
+      .search-price {
+        display: block;
+        font-size: 14px;
+        font-weight: 700;
+        color: #2c2623;
+        margin-bottom: 2px;
+      }
+
+      .in-stock-label {
+        font-size: 9px;
+        font-weight: 700;
+        color: #1d7a46;
+        letter-spacing: 0.5px;
       }
 
       footer {
@@ -497,6 +879,9 @@
       .footer-brand h3 {
         color: white;
         margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
       }
       .footer-brand p {
         max-width: 320px;
@@ -524,6 +909,7 @@
         font-size: 12px;
       }
     </style>
+    <link rel="icon" type="image/png" href="logo.png" />
   </head>
   <body>
     <!-- Top Announcement Bar -->
@@ -689,15 +1075,17 @@
     <section class="tabs-section">
       <div class="tab-header">
         <div class="tab-left">
-          <button class="tab-btn active">Origin Story & Specs</button>
-          <button class="tab-btn">Reviews (2)</button>
+          <button class="tab-btn active" onclick="switchTab(this, 'specsTab')">
+            Origin Story & Specs
+          </button>
+          <button class="tab-btn" onclick="switchTab(this, 'reviewsTab')">
+            Reviews (2)
+          </button>
         </div>
-        <button class="btn-open-review" onclick="openReviewModal()">
-          ✍ Write a Review
-        </button>
       </div>
 
-      <div class="tab-content">
+      <!-- Tab 1: Origin Story & Specs -->
+      <div id="specsTab" class="tab-panel">
         <div class="story-col">
           <h3>A Heritage of High Altitudes</h3>
           <p>
@@ -713,53 +1101,235 @@
             has made Yirgacheffe famous worldwide.
           </p>
         </div>
+      </div>
 
+      <!-- Tab 2: Reviews Section (Figma Design Layout) -->
+      <div id="reviewsTab" class="tab-panel" style="display: none">
+        <!-- Rating Overview Card -->
+        <div class="review-summary-card">
+          <div class="rating-overview">
+            <span class="rating-score">4.9</span>
+            <div class="stars">★★★★★</div>
+            <span class="rating-badge">Excellent Average</span>
+            <small>Based on 428 Verified Ratings</small>
+          </div>
+
+          <div class="rating-bars">
+            <div class="bar-row">
+              <span>5 Stars</span>
+              <div class="progress-bar">
+                <div class="fill" style="width: 92%"></div>
+              </div>
+              <span>92%</span>
+            </div>
+            <div class="bar-row">
+              <span>4 Stars</span>
+              <div class="progress-bar">
+                <div class="fill" style="width: 6%"></div>
+              </div>
+              <span>6%</span>
+            </div>
+            <div class="bar-row">
+              <span>3 Stars</span>
+              <div class="progress-bar">
+                <div class="fill" style="width: 1%"></div>
+              </div>
+              <span>1%</span>
+            </div>
+            <div class="bar-row">
+              <span>2 Stars</span>
+              <div class="progress-bar">
+                <div class="fill" style="width: 1%"></div>
+              </div>
+              <span>1%</span>
+            </div>
+            <div class="bar-row">
+              <span>1 Star</span>
+              <div class="progress-bar">
+                <div class="fill" style="width: 0%"></div>
+              </div>
+              <span>0%</span>
+            </div>
+          </div>
+
+          <div class="summary-cta">
+            <p>Bought this brew?</p>
+            <button class="btn-open-review" onclick="openReviewModal()">
+              Write a Review
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="review-filters">
+          <span>Filter & Sort:</span>
+          <button class="filter-pill active">Most Recent</button>
+          <button class="filter-pill">Highest Rated</button>
+          <button class="filter-pill">With Photos</button>
+          <button class="filter-pill">Verified Buyers Only</button>
+        </div>
+
+        <!-- Reviews List -->
         <div class="reviews-col">
           <div class="review-card">
             <div class="review-header">
               <div class="user-avatar">
-                <div class="avatar-icon">JW</div>
+                <div class="avatar-icon">PB</div>
                 <div>
-                  Julian Vance
-                  <span style="font-size: 11px; color: #1d7a46"
-                    >✔ Verified Buyer</span
-                  >
+                  Pranish B.
+                  <span class="verified-tag">✔ Verified Buyer</span>
                 </div>
               </div>
-              <div class="rating" style="color: #e5a000">★★★★★</div>
+              <div class="rating" style="color: #e5a000">
+                ★★★★★ <span class="review-date">Jan 12, 2026</span>
+              </div>
             </div>
-            <div style="font-size: 13px; color: #6e6862; line-height: 1.5">
-              "Incredible jasmine florals. I prepare this on my V60 with a 1:16
-              ratio and it consistently produces the cleanest morning cup.
-              Stunning quality and quick delivery."
+            <p style="font-size: 13px; color: #6e6862; line-height: 1.5">
+              Absolutely stunning clean acidity! You get the lemon blossom
+              instantly on the first sip. This Yirgacheffe remains my all-time
+              favorite single origin.
+            </p>
+            <div class="review-photos">
+              <img
+                src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=150&q=80"
+                alt="Review photo 1"
+              />
+              <img
+                src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=150&q=80"
+                alt="Review photo 2"
+              />
             </div>
           </div>
 
           <div class="review-card">
             <div class="review-header">
               <div class="user-avatar">
-                <div class="avatar-icon">EB</div>
+                <div class="avatar-icon">AK</div>
                 <div>
-                  Elena Bandara
-                  <span style="font-size: 11px; color: #1d7a46"
-                    >✔ Verified Buyer</span
-                  >
+                  Anisha K.
+                  <span class="verified-tag">✔ Verified Buyer</span>
                 </div>
               </div>
-              <div class="rating" style="color: #e5a000">★★★★★</div>
+              <div class="rating" style="color: #e5a000">
+                ★★★★★ <span class="review-date">Jan 08, 2026</span>
+              </div>
             </div>
-            <div style="font-size: 13px; color: #6e6862; line-height: 1.5">
-              "Bright citrus and lemon tea notes dominate. If you prefer deep,
-              heavy-body roasts this isn't for you, but for lovers of light,
-              bright, nuanced coffee, this is gold."
-            </div>
+            <p style="font-size: 13px; color: #6e6862; line-height: 1.5">
+              This bag is exactly what ethical premium coffee tastes like.
+              Superbly roasted, with deep floral notes and no bitter aftertaste.
+              Will buy again!
+            </p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Container for dynamically fetched review-modal.html -->
+    <!-- Hidden dynamic modal container -->
     <div id="modalContainer"></div>
+
+    <!-- Instant Search Overlay Modal -->
+    <div id="instantSearchModal" class="instant-search-overlay">
+      <div class="instant-search-card">
+        <!-- Top Header -->
+        <div class="instant-search-header">
+          <h2>Instant Search</h2>
+          <button class="esc-btn" onclick="closeInstantSearch()">
+            ESC to Close
+          </button>
+        </div>
+
+        <!-- Search Input Bar -->
+        <div class="instant-search-bar">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            id="instantSearchInput"
+            placeholder="Yirgacheffe"
+            value="Yirgacheffe"
+            autofocus
+          />
+        </div>
+
+        <!-- Quick Filters -->
+        <div class="quick-filters-section">
+          <span class="quick-filters-title">QUICK FILTERS</span>
+          <div class="filter-pills-row">
+            <button class="search-pill active">Single Origin</button>
+            <button class="search-pill">Dark Roast</button>
+            <button class="search-pill">Espresso</button>
+            <button class="search-pill">Loose Tea</button>
+          </div>
+        </div>
+
+        <!-- Matching Products List -->
+        <div class="matching-products-section">
+          <span class="matching-title">MATCHING PRODUCTS (3)</span>
+
+          <!-- Product Item 1 -->
+          <div class="search-product-card">
+            <img
+              src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=150&q=80"
+              alt="Ethiopian Yirgacheffe"
+            />
+            <div class="search-product-details">
+              <div class="search-meta-top">
+                <span class="search-tag">Single Origin</span>
+                <span class="search-rating"
+                  >★★★★★ <span class="review-count">(124)</span></span
+                >
+              </div>
+              <h4>Ethiopian Yirgacheffe (Medium Roast)</h4>
+            </div>
+            <div class="search-product-pricing">
+              <span class="search-price">NRs. 1,250</span>
+              <span class="in-stock-label">IN STOCK</span>
+            </div>
+          </div>
+
+          <!-- Product Item 2 -->
+          <div class="search-product-card">
+            <img
+              src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=150&q=80"
+              alt="Golden Hour Espresso Blend"
+            />
+            <div class="search-product-details">
+              <div class="search-meta-top">
+                <span class="search-tag">Artisanal Blend</span>
+                <span class="search-rating"
+                  >★★★★★ <span class="review-count">(215)</span></span
+                >
+              </div>
+              <h4>Golden Hour Espresso Blend</h4>
+            </div>
+            <div class="search-product-pricing">
+              <span class="search-price">NRs. 1,100</span>
+              <span class="in-stock-label">IN STOCK</span>
+            </div>
+          </div>
+
+          <!-- Product Item 3 -->
+          <div class="search-product-card">
+            <img
+              src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=150&q=80"
+              alt="Organic Ceremonial Matcha"
+            />
+            <div class="search-product-details">
+              <div class="search-meta-top">
+                <span class="search-tag">Loose Tea</span>
+                <span class="search-rating"
+                  >★★★★★ <span class="review-count">(76)</span></span
+                >
+              </div>
+              <h4>Organic Ceremonial Matcha</h4>
+            </div>
+            <div class="search-product-pricing">
+              <span class="search-price">NRs. 1,600</span>
+              <span class="in-stock-label">IN STOCK</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -800,7 +1370,7 @@
     </footer>
 
     <script>
-      // Global fallback stub to prevent 'Uncaught ReferenceError' before component loads
+      // Fallback for cart drawer state
       window.toggleCart =
         window.toggleCart ||
         function (show) {
@@ -810,7 +1380,7 @@
           }
         };
 
-      // Fetch Cart Drawer Component dynamically
+      // Load cart drawer dynamic component
       fetch("/cart-drawer.html")
         .then((res) => res.text())
         .then((html) => {
@@ -818,15 +1388,16 @@
         })
         .catch((err) => console.error("Error loading cart drawer:", err));
 
-      // Fetch external review modal component dynamically
+      // Load external review write modal dynamic component
       fetch("/review-modal.html")
         .then((res) => res.text())
         .then((html) => {
           document.getElementById("modalContainer").innerHTML = html;
-          setRating(5);
-        });
+          if (typeof setRating === "function") setRating(5);
+        })
+        .catch((err) => console.error("Error loading review modal:", err));
 
-      // Gallery & Option Interactive Controls
+      // Gallery & Option Selection
       function switchImage(thumb) {
         document
           .querySelectorAll(".gallery-thumbs img")
@@ -848,7 +1419,38 @@
         document.getElementById("qty").innerText = currentQty;
       }
 
-      // Review Modal Functions
+      // Tab Switching Logic
+      function switchTab(clickedBtn, tabId) {
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        clickedBtn.classList.add("active");
+
+        document
+          .querySelectorAll(".tab-panel")
+          .forEach((panel) => (panel.style.display = "none"));
+        const targetPanel = document.getElementById(tabId);
+        if (targetPanel) {
+          targetPanel.style.display = "block";
+        }
+      }
+
+      // Fixed Review Modal Toggle Logic
+      function openReviewModal() {
+        const container = document.getElementById("modalContainer");
+        const modal = document.getElementById("reviewModal");
+        if (container) container.style.display = "block";
+        if (modal) modal.style.display = "flex";
+      }
+
+      function closeReviewModal() {
+        const container = document.getElementById("modalContainer");
+        const modal = document.getElementById("reviewModal");
+        if (modal) modal.style.display = "none";
+        if (container) container.style.display = "none";
+      }
+
+      // Rating selector
       let selectedRating = 5;
       const ratingLabels = [
         "1/5 Poor",
@@ -871,16 +1473,6 @@
         if (label) label.innerText = ratingLabels[stars - 1];
       }
 
-      function openReviewModal() {
-        const modal = document.getElementById("reviewModal");
-        if (modal) modal.style.display = "flex";
-      }
-
-      function closeReviewModal() {
-        const modal = document.getElementById("reviewModal");
-        if (modal) modal.style.display = "none";
-      }
-
       function submitReview(e) {
         e.preventDefault();
         fetch("/api/reviews", {
@@ -898,6 +1490,33 @@
           closeReviewModal();
         });
       }
+
+      // Instant Search Modal Controls
+      function openInstantSearch() {
+        const modal = document.getElementById("instantSearchModal");
+        if (modal) modal.style.display = "flex";
+      }
+
+      function closeInstantSearch() {
+        const modal = document.getElementById("instantSearchModal");
+        if (modal) modal.style.display = "none";
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const searchInputBars = document.querySelectorAll(".search-bar input");
+        searchInputBars.forEach((input) => {
+          input.addEventListener("focus", (e) => {
+            e.preventDefault();
+            openInstantSearch();
+          });
+        });
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeInstantSearch();
+        }
+      });
     </script>
   </body>
 </html>

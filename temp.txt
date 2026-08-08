@@ -18,3 +18,58 @@ Implementation: Maintain an append-only log file (app_events.log) to record cart
 
 Best Core Implementation:
 If you need to demonstrate core C++ or backend file-handling proficiency, focus on Invoice PDF/Text File Generation for checkouts and File-Based Product Storage (JSON/CSV parsing).
+
+
+
+
+
+That is a great direction to take the project. Right now, main.cpp is acting as a "monolith"—handling everything from HTTP routing and HTML file reading to mock JSON databases.
+
+Refactoring into a clean C++ directory structure makes adding complex features much simpler.
+
+Recommended Project Architecture
+
+Plaintext
+
+
+TheBrewBuddies/
+├── include/                 # Header files (.h / .hpp)
+│   ├── Controllers/         # Route handlers & request logic
+│   │   ├── AuthController.h
+│   │   ├── ProductController.h
+│   │   └── ReviewController.h
+│   ├── Models/              # Data structures & serialization
+│   │   ├── Product.h
+│   │   └── User.h
+│   ├── Services/            # Business logic (e.g., File I/O, DB access)
+│   │   └── StaticFileService.h
+│   └── httplib.h            # Third-party dependencies
+├── src/                     # C++ source implementations (.cpp)
+│   ├── Controllers/
+│   │   ├── AuthController.cpp
+│   │   ├── ProductController.cpp
+│   │   └── ReviewController.cpp
+│   ├── Models/
+│   │   ├── Product.cpp
+│   │   └── User.cpp
+│   └── main.cpp             # Clean server startup & route definitions
+├── public/                  # Frontend static files (HTML, CSS, JS)
+├── CMakeLists.txt           # Build system configuration
+└── Dockerfile
+Modern C++ Features to Implement Next
+
+Object-Oriented Models (struct / class): Define strong C++ classes for Product, User, and Review instead of returning hardcoded JSON strings. Use modern JSON libraries (like nlohmann/json) to serialize C++ objects directly to JSON response strings.
+
+Database Integration (SQLite / PostgreSQL): Replace static JSON strings with database queries using SQLite C++ wrappers or libpqxx.
+
+Asynchronous / Thread Pool Workers: Leverage C++11/17 std::async, std::future, or std::thread to handle background logging or processing without blocking server HTTP threads.
+
+RAII & Smart Pointers (std::unique_ptr, std::shared_ptr): Automatically manage memory and server resource lifecycles without manual memory management or memory leaks.
+
+C++20 Modules or Templates: Utilize C++20 features for fast compile times and generic controller interfaces.
+
+Next Steps: Build System
+
+When splitting a C++ project into multiple .cpp files, running raw g++ commands manually becomes cumbersome.
+
+Setting up a basic CMakeLists.txt file lets VS Code or any IDE compile all .cpp files automatically. Would you like a starter CMakeLists.txt and an example of extracting the Product model into its own header file?

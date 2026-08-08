@@ -47,6 +47,24 @@ int main() {
         else { res.status = 404; res.set_content("<h1>404 Not Found - Cart</h1>", "text/html"); }
     });
 
+    svr.Get("/about", [](const httplib::Request& req, httplib::Response& res) {
+        std::string html = readRawFile("public/about.html");
+        if (!html.empty()) res.set_content(html, "text/html");
+        else { res.status = 404; res.set_content("<h1>404 Not Found - About</h1>", "text/html"); }
+    });
+
+    svr.Get("/settings", [](const httplib::Request& req, httplib::Response& res) {
+        std::string html = readRawFile("public/settings.html");
+        if (!html.empty()) res.set_content(html, "text/html");
+        else { res.status = 404; res.set_content("<h1>404 Not Found - Settings</h1>", "text/html"); }
+    });
+
+    svr.Get("/support", [](const httplib::Request& req, httplib::Response& res) {
+        std::string html = readRawFile("public/support.html");
+        if (!html.empty()) res.set_content(html, "text/html");
+        else { res.status = 404; res.set_content("<h1>404 Not Found - Support</h1>", "text/html"); }
+    });
+
     // 2. Component Routes
     svr.Get("/review-modal.html", [](const httplib::Request& req, httplib::Response& res) {
         std::string html = readRawFile("public/review-modal.html");
