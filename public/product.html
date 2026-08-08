@@ -1,0 +1,903 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ethiopian Yirgacheffe — The Brew Buddies</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+      body {
+        background-color: #faf8f5;
+        color: #2c2623;
+      }
+
+      /* Announcement & Navbar */
+      .announcement-bar {
+        background-color: #111111;
+        color: #ffffff;
+        text-align: center;
+        padding: 8px;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+      }
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 48px;
+        background-color: #faf8f5;
+      }
+      .logo {
+        font-weight: 700;
+        font-size: 20px;
+        color: #1d7a46;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .logo img,
+      .footer-brand img {
+        height: 30px;
+        width: auto;
+      }
+      .footer-brand h3 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .search-bar input {
+        width: 380px;
+        padding: 10px 16px;
+        border-radius: 20px;
+        border: 1px solid #e2ddd5;
+        background-color: #f1ece4;
+        outline: none;
+        font-size: 13px;
+      }
+      .nav-right {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+      .nav-link {
+        text-decoration: none;
+        color: #2c2623;
+        font-size: 14px;
+      }
+      .cart-icon {
+        text-decoration: none;
+        background-color: #1d7a46;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 16px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .category-pills {
+        display: flex;
+        gap: 12px;
+        padding: 0 48px 16px;
+        border-bottom: 1px solid #eae5dc;
+      }
+      .pill {
+        border: 1px solid #e2ddd5;
+        background: white;
+        padding: 8px 18px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      .pill.active {
+        background-color: #1d7a46;
+        color: white;
+        border-color: #1d7a46;
+      }
+
+      /* Layout & Detail */
+      .breadcrumb {
+        padding: 16px 48px;
+        font-size: 13px;
+        color: #6e6862;
+      }
+      .breadcrumb a {
+        color: #6e6862;
+        text-decoration: none;
+      }
+      .p-detail-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        padding: 0 48px 64px;
+      }
+      .gallery-main img {
+        width: 100%;
+        height: 480px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-bottom: 16px;
+      }
+      .gallery-thumbs {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+      }
+      .gallery-thumbs img {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
+        border: 2px solid transparent;
+      }
+      .gallery-thumbs img.active {
+        border-color: #1d7a46;
+      }
+
+      .p-info .badge-tag {
+        background-color: #e3f2e9;
+        color: #1d7a46;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+      .p-info .rating-inline {
+        float: right;
+        font-size: 13px;
+        color: #e5a000;
+      }
+      .p-info h1 {
+        font-size: 32px;
+        margin: 12px 0 8px;
+      }
+      .p-info .price-tag {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 16px;
+      }
+      .p-info .description {
+        font-size: 14px;
+        color: #6e6862;
+        line-height: 1.6;
+        margin-bottom: 24px;
+      }
+
+      .option-group {
+        margin-bottom: 20px;
+      }
+      .option-group label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .weight-options {
+        display: flex;
+        gap: 12px;
+      }
+      .btn-weight {
+        padding: 10px 20px;
+        border: 1px solid #e2ddd5;
+        background: white;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 13px;
+      }
+      .btn-weight.active {
+        background-color: #2c2623;
+        color: white;
+        border-color: #2c2623;
+      }
+      .select-dropdown {
+        width: 100%;
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #e2ddd5;
+        background: white;
+        font-size: 14px;
+        outline: none;
+      }
+
+      .purchase-options {
+        border: 1px solid #e2ddd5;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 24px;
+        background-color: #ffffff;
+      }
+      .purchase-option-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .purchase-option-row.selected {
+        border: 1px solid #1d7a46;
+        background-color: #f0f9f4;
+      }
+      .purchase-option-row input[type="radio"] {
+        margin-top: 4px;
+        accent-color: #1d7a46;
+      }
+      .sub-details {
+        margin-left: 28px;
+        margin-top: 12px;
+      }
+      .sub-details select {
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: 1px solid #e2ddd5;
+        background: white;
+        font-size: 13px;
+      }
+
+      .cta-row {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+      .qty-picker {
+        display: flex;
+        align-items: center;
+        border: 1px solid #e2ddd5;
+        border-radius: 6px;
+        background: white;
+      }
+      .qty-picker button {
+        border: none;
+        background: none;
+        padding: 12px 16px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      .qty-picker span {
+        padding: 0 12px;
+        font-weight: 600;
+      }
+      .btn-add-cart-large {
+        flex: 1;
+        background-color: #1d7a46;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+      }
+
+      .action-links {
+        display: flex;
+        gap: 24px;
+        font-size: 13px;
+        color: #6e6862;
+      }
+      .action-links a {
+        color: #6e6862;
+        text-decoration: none;
+      }
+
+      /* Tabs & Content */
+      .tabs-section {
+        padding: 0 48px 64px;
+      }
+      .tab-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #eae5dc;
+        margin-bottom: 32px;
+      }
+      .tab-left {
+        display: flex;
+        gap: 32px;
+      }
+      .tab-btn {
+        background: none;
+        border: none;
+        padding-bottom: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #6e6862;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+      }
+      .tab-btn.active {
+        color: #2c2623;
+        border-bottom-color: #1d7a46;
+      }
+      .btn-open-review {
+        background-color: #1d7a46;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-bottom: 12px;
+      }
+
+      .tab-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+      }
+      .story-col h3 {
+        font-size: 20px;
+        margin-bottom: 16px;
+      }
+      .story-col p {
+        font-size: 14px;
+        color: #6e6862;
+        line-height: 1.7;
+        margin-bottom: 16px;
+      }
+
+      .review-card {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #e2ddd5;
+        margin-bottom: 16px;
+      }
+      .review-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+      .user-avatar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .avatar-icon {
+        width: 32px;
+        height: 32px;
+        background: #eae5dc;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+
+      /* Modal Overlay Injection Styles */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(22, 18, 16, 0.7);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      .modal-card {
+        background: #ffffff;
+        width: 440px;
+        border-radius: 16px;
+        padding: 24px;
+        position: relative;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .modal-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 1px solid #e2ddd5;
+        background: #fff;
+        cursor: pointer;
+      }
+      .modal-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 16px;
+      }
+      .product-summary {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #faf7f2;
+        padding: 10px 14px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+      .product-summary img {
+        width: 42px;
+        height: 42px;
+        border-radius: 6px;
+        object-fit: cover;
+      }
+      .star-rating span {
+        font-size: 20px;
+        color: #dbd5cc;
+        cursor: pointer;
+      }
+      .star-rating span.active {
+        color: #e5a000;
+      }
+      .modal-input,
+      .modal-textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #e2ddd5;
+        border-radius: 8px;
+        font-size: 13px;
+        background: #faf7f2;
+        outline: none;
+      }
+      .modal-textarea {
+        height: 72px;
+        resize: none;
+      }
+      .dropzone {
+        border: 1px dashed #e2ddd5;
+        background: #faf7f2;
+        border-radius: 8px;
+        padding: 16px;
+        text-align: center;
+        color: #8a847c;
+        font-size: 12px;
+      }
+      .radio-row {
+        display: flex;
+        gap: 16px;
+        font-size: 12px;
+        align-items: center;
+      }
+      .form-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .btn-submit-review {
+        width: 100%;
+        background-color: #1d7a46;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        margin-top: 8px;
+      }
+
+      footer {
+        background-color: #231b17;
+        color: #d3cdc6;
+        padding: 48px;
+      }
+      .footer-top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 32px;
+      }
+      .footer-brand h3 {
+        color: white;
+        margin-bottom: 12px;
+      }
+      .footer-brand p {
+        max-width: 320px;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+      .footer-links {
+        display: flex;
+        gap: 48px;
+      }
+      .footer-links h5 {
+        color: white;
+        margin-bottom: 12px;
+      }
+      .footer-links a {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 8px;
+        color: #d3cdc6;
+        text-decoration: none;
+      }
+      .footer-bottom {
+        border-top: 1px solid #382f2a;
+        padding-top: 24px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Announcement Bar -->
+    <div class="announcement-bar">
+      Flash Offers — Free shipping on orders over NRs. 2,500
+    </div>
+
+    <!-- Header -->
+    <header class="navbar">
+      <div class="nav-left">
+        <a href="/" style="text-decoration: none"
+          ><div class="logo">
+            <img src="logo.png" alt="The Brew Buddies Logo" />
+            <span>The Brew Buddies</span>
+          </div></a
+        >
+      </div>
+      <div class="search-bar">
+        <input type="text" placeholder="Search premium beans, loose teas..." />
+      </div>
+      <div class="nav-right">
+        <a href="/account" class="nav-link">👤 Account</a>
+        <a href="/cart" class="cart-icon"
+          >🛒 <span class="cart-count">3</span></a
+        >
+      </div>
+    </header>
+
+    <!-- Navigation Pills -->
+    <nav class="category-pills">
+      <button class="pill active">Coffee</button>
+      <button class="pill">Loose Tea</button>
+      <button class="pill">Espresso Machines</button>
+      <button class="pill">Accessories</button>
+      <button class="pill">Best Sellers</button>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <div class="breadcrumb">
+      <a href="/">Home</a> <span>/</span> <a href="#">Coffee</a> <span>/</span>
+      <b>Ethiopian Yirgacheffe</b>
+    </div>
+
+    <!-- Product Detail Section -->
+    <section class="p-detail-container">
+      <!-- Image Gallery -->
+      <div class="gallery-col">
+        <div class="gallery-main">
+          <img
+            id="mainImage"
+            src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=1000&q=80"
+            alt="Ethiopian Yirgacheffe"
+          />
+        </div>
+        <div class="gallery-thumbs">
+          <img
+            class="active"
+            src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=300&q=80"
+            onclick="switchImage(this)"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=300&q=80"
+            onclick="switchImage(this)"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80"
+            onclick="switchImage(this)"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=300&q=80"
+            onclick="switchImage(this)"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?auto=format&fit=crop&w=300&q=80"
+            onclick="switchImage(this)"
+          />
+        </div>
+      </div>
+
+      <!-- Purchase Info -->
+      <div class="p-info">
+        <div>
+          <span class="badge-tag">SINGLE ORIGIN • ETHIOPIA</span>
+          <span class="rating-inline">★★★★★ (124)</span>
+        </div>
+
+        <h1>Ethiopian Yirgacheffe</h1>
+        <div class="price-tag">NRs. 1,250</div>
+
+        <p class="description">
+          Renowned for its clean, refined floral and citrus cup notes. This
+          wet-processed lot displays high flavor intensity of lemon blossom,
+          bergamot, and fresh jasmine with a smooth black-tea finish.
+        </p>
+
+        <!-- Weight Options -->
+        <div class="option-group">
+          <label>Select Weight</label>
+          <div class="weight-options">
+            <button class="btn-weight active" onclick="selectWeight(this)">
+              250g
+            </button>
+            <button class="btn-weight" onclick="selectWeight(this)">
+              500g
+            </button>
+            <button class="btn-weight" onclick="selectWeight(this)">1kg</button>
+          </div>
+        </div>
+
+        <!-- Grind Options -->
+        <div class="option-group">
+          <label>Select Grind</label>
+          <select class="select-dropdown">
+            <option>Whole Bean (Recommended)</option>
+            <option>Coarse (French Press / Cold Brew)</option>
+            <option>Medium (Drip / Pour Over)</option>
+            <option>Fine (Espresso)</option>
+          </select>
+        </div>
+
+        <!-- One-time vs Subscribe -->
+        <div class="purchase-options">
+          <label class="purchase-option-row">
+            <input type="radio" name="purchase_type" value="once" />
+            <div><strong>One-time Purchase</strong> — NRs. 1,250</div>
+          </label>
+
+          <label class="purchase-option-row selected">
+            <input type="radio" name="purchase_type" value="sub" checked />
+            <div>
+              <strong>Subscribe & Save (10% Off)</strong> — NRs. 1,125
+              <div class="sub-details">
+                <span>Deliver every: </span>
+                <select>
+                  <option>2 Weeks</option>
+                  <option>4 Weeks</option>
+                </select>
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="cta-row">
+          <div class="qty-picker">
+            <button onclick="updateQty(-1)">-</button>
+            <span id="qty">1</span>
+            <button onclick="updateQty(1)">+</button>
+          </div>
+          <button class="btn-add-cart-large" onclick="toggleCart(true)">
+            🛒 Add to Cart — NRs. 1,250
+          </button>
+        </div>
+
+        <div class="action-links">
+          <a href="#">♡ Add to Wishlist</a>
+          <a href="#">🔗 Share Origin</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tabs Section -->
+    <section class="tabs-section">
+      <div class="tab-header">
+        <div class="tab-left">
+          <button class="tab-btn active">Origin Story & Specs</button>
+          <button class="tab-btn">Reviews (2)</button>
+        </div>
+        <button class="btn-open-review" onclick="openReviewModal()">
+          ✍ Write a Review
+        </button>
+      </div>
+
+      <div class="tab-content">
+        <div class="story-col">
+          <h3>A Heritage of High Altitudes</h3>
+          <p>
+            Our Ethiopian Yirgacheffe comes from the family-owned washing
+            station in the Gedeo zone. Grown at altitudes between 1,900 and
+            2,200 meters, these indigenous heirloom trees produce small, dense
+            beans packed with complex sugars.
+          </p>
+          <p>
+            Every harvest cherries are hand-sorted, depulped, fermented
+            underwater for 36 hours, and dried slowly on raised wooden beds.
+            This precise process preserves the delicate, tea-like quality that
+            has made Yirgacheffe famous worldwide.
+          </p>
+        </div>
+
+        <div class="reviews-col">
+          <div class="review-card">
+            <div class="review-header">
+              <div class="user-avatar">
+                <div class="avatar-icon">JW</div>
+                <div>
+                  Julian Vance
+                  <span style="font-size: 11px; color: #1d7a46"
+                    >✔ Verified Buyer</span
+                  >
+                </div>
+              </div>
+              <div class="rating" style="color: #e5a000">★★★★★</div>
+            </div>
+            <div style="font-size: 13px; color: #6e6862; line-height: 1.5">
+              "Incredible jasmine florals. I prepare this on my V60 with a 1:16
+              ratio and it consistently produces the cleanest morning cup.
+              Stunning quality and quick delivery."
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-header">
+              <div class="user-avatar">
+                <div class="avatar-icon">EB</div>
+                <div>
+                  Elena Bandara
+                  <span style="font-size: 11px; color: #1d7a46"
+                    >✔ Verified Buyer</span
+                  >
+                </div>
+              </div>
+              <div class="rating" style="color: #e5a000">★★★★★</div>
+            </div>
+            <div style="font-size: 13px; color: #6e6862; line-height: 1.5">
+              "Bright citrus and lemon tea notes dominate. If you prefer deep,
+              heavy-body roasts this isn't for you, but for lovers of light,
+              bright, nuanced coffee, this is gold."
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Container for dynamically fetched review-modal.html -->
+    <div id="modalContainer"></div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-top">
+        <div class="footer-brand">
+          <h3>
+            <img src="logo.png" alt="The Brew Buddies Logo" /> The Brew Buddies
+          </h3>
+          <p>
+            Artisanal coffee and fine loose-leaf teas sourced ethically from
+            family-owned estates around the globe. Freshly roasted, perfectly
+            dried, delivered directly to your cup.
+          </p>
+        </div>
+        <div class="footer-links">
+          <div>
+            <h5>Shop Collections</h5>
+            <a>Single Origin Coffee</a><a>Artisanal Blends</a
+            ><a>Organic Loose Tea</a>
+          </div>
+          <div>
+            <h5>Our Heritage</h5>
+            <a>The Roastery Story</a><a>Sustainable Sourcing</a
+            ><a>Brew Guides</a>
+          </div>
+          <div>
+            <h5>Support</h5>
+            <a>Shipping & Delivery</a><a>Returns Policy</a><a>Contact Us</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          © 2026 The Brew Buddies Co. Sourced with integrity, packaged
+          beautifully.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Global fallback stub to prevent 'Uncaught ReferenceError' before component loads
+      window.toggleCart =
+        window.toggleCart ||
+        function (show) {
+          const drawer = document.getElementById("cartDrawer");
+          if (drawer) {
+            drawer.style.display = show === false ? "none" : "flex";
+          }
+        };
+
+      // Fetch Cart Drawer Component dynamically
+      fetch("/cart-drawer.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.body.insertAdjacentHTML("beforeend", html);
+        })
+        .catch((err) => console.error("Error loading cart drawer:", err));
+
+      // Fetch external review modal component dynamically
+      fetch("/review-modal.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("modalContainer").innerHTML = html;
+          setRating(5);
+        });
+
+      // Gallery & Option Interactive Controls
+      function switchImage(thumb) {
+        document
+          .querySelectorAll(".gallery-thumbs img")
+          .forEach((img) => img.classList.remove("active"));
+        thumb.classList.add("active");
+        document.getElementById("mainImage").src = thumb.src;
+      }
+
+      function selectWeight(btn) {
+        document
+          .querySelectorAll(".btn-weight")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+      }
+
+      let currentQty = 1;
+      function updateQty(delta) {
+        currentQty = Math.max(1, currentQty + delta);
+        document.getElementById("qty").innerText = currentQty;
+      }
+
+      // Review Modal Functions
+      let selectedRating = 5;
+      const ratingLabels = [
+        "1/5 Poor",
+        "2/5 Fair",
+        "3/5 Good",
+        "4/5 Very Good",
+        "5/5 Excellent",
+      ];
+
+      function setRating(stars) {
+        selectedRating = stars;
+        const spans = document.querySelectorAll(
+          "#starRating span:not(.rating-label)",
+        );
+        spans.forEach((s, idx) => {
+          if (idx < stars) s.classList.add("active");
+          else s.classList.remove("active");
+        });
+        const label = document.getElementById("ratingLabel");
+        if (label) label.innerText = ratingLabels[stars - 1];
+      }
+
+      function openReviewModal() {
+        const modal = document.getElementById("reviewModal");
+        if (modal) modal.style.display = "flex";
+      }
+
+      function closeReviewModal() {
+        const modal = document.getElementById("reviewModal");
+        if (modal) modal.style.display = "none";
+      }
+
+      function submitReview(e) {
+        e.preventDefault();
+        fetch("/api/reviews", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            rating: selectedRating,
+            title: document.getElementById("reviewTitle").value,
+            review: document.getElementById("reviewText").value,
+            name: document.getElementById("reviewerName").value,
+            email: document.getElementById("reviewerEmail").value,
+          }),
+        }).then(() => {
+          alert("Review submitted!");
+          closeReviewModal();
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Brew Buddies</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", system-ui, sans-serif;
+      }
+      body {
+        background-color: #faf8f5;
+        color: #2c2623;
+      }
+      .announcement-bar {
+        background-color: #111111;
+        color: #ffffff;
+        text-align: center;
+        padding: 8px;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+      }
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 48px;
+        background-color: #faf8f5;
+      }
+      .logo {
+        font-weight: 700;
+        font-size: 20px;
+        color: #1d7a46;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .logo img,
+      .footer-brand img {
+        height: 30px;
+        width: auto;
+      }
+      .footer-brand h3 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .search-bar input {
+        width: 380px;
+        padding: 10px 16px;
+        border-radius: 20px;
+        border: 1px solid #e2ddd5;
+        background-color: #f1ece4;
+        outline: none;
+      }
+      .nav-right {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+      .nav-link {
+        text-decoration: none;
+        color: #2c2623;
+        font-size: 14px;
+      }
+      .cart-icon {
+        text-decoration: none;
+        background-color: #1d7a46;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 16px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .category-pills {
+        display: flex;
+        gap: 12px;
+        padding: 0 48px 16px;
+        border-bottom: 1px solid #eae5dc;
+      }
+      .pill {
+        border: 1px solid #e2ddd5;
+        background: white;
+        padding: 8px 18px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      .pill.active {
+        background-color: #1d7a46;
+        color: white;
+        border-color: #1d7a46;
+      }
+      .hero {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 48px;
+        gap: 32px;
+      }
+      .hero-sub {
+        font-size: 11px;
+        font-weight: 700;
+        color: #1d7a46;
+        letter-spacing: 1px;
+      }
+      .hero-content h1 {
+        font-size: 48px;
+        margin: 12px 0;
+        color: #2c2623;
+        line-height: 1.1;
+      }
+      .hero-content p {
+        color: #6e6862;
+        margin-bottom: 24px;
+      }
+      .hero-buttons {
+        display: flex;
+        gap: 12px;
+      }
+      .btn-primary {
+        background-color: #1d7a46;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .btn-secondary {
+        background-color: transparent;
+        border: 1px solid #2c2623;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .hero-image img {
+        width: 480px;
+        height: 280px;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+      .store-container {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 32px;
+        padding: 0 48px 64px;
+      }
+      .sidebar h3 {
+        margin-bottom: 20px;
+      }
+      .filter-group {
+        margin-bottom: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 14px;
+      }
+      .filter-title {
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .price-inputs {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: #6e6862;
+      }
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .product-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+      .img-wrapper img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+      }
+      .card-body {
+        padding: 16px;
+      }
+      .card-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .tag {
+        background-color: #f1ece4;
+        font-size: 9px;
+        font-weight: 700;
+        padding: 4px 8px;
+        border-radius: 4px;
+        color: #1d7a46;
+      }
+      .rating {
+        font-size: 12px;
+        color: #e5a000;
+      }
+      .card-body h4 {
+        font-size: 16px;
+        margin-bottom: 12px;
+      }
+      .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .price {
+        font-weight: 700;
+        color: #2c2623;
+      }
+      .btn-add {
+        background-color: #1d7a46;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .promise-section {
+        text-align: center;
+        padding: 64px 48px;
+        background-color: #f5f1ea;
+      }
+      .promise-sub {
+        font-size: 11px;
+        font-weight: 700;
+        color: #1d7a46;
+      }
+      .promise-section h2 {
+        margin: 8px 0 32px;
+      }
+      .promise-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .promise-card {
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        text-align: left;
+      }
+      .promise-card .icon {
+        font-size: 24px;
+        margin-bottom: 12px;
+      }
+      .promise-card h4 {
+        margin-bottom: 8px;
+      }
+      .promise-card p {
+        font-size: 13px;
+        color: #6e6862;
+        line-height: 1.4;
+      }
+      footer {
+        background-color: #231b17;
+        color: #d3cdc6;
+        padding: 48px;
+      }
+      .footer-top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 32px;
+      }
+      .footer-brand h3 {
+        color: white;
+        margin-bottom: 12px;
+      }
+      .footer-brand p {
+        max-width: 320px;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+      .footer-links {
+        display: flex;
+        gap: 48px;
+      }
+      .footer-links h5 {
+        color: white;
+        margin-bottom: 12px;
+      }
+      .footer-links a {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 8px;
+        cursor: pointer;
+      }
+      .footer-bottom {
+        border-top: 1px solid #382f2a;
+        padding-top: 24px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Announcement Bar -->
+    <div class="announcement-bar">
+      Flash Offers — Free shipping on orders over NRs. 2,500
+    </div>
+
+    <!-- Header -->
+    <header class="navbar">
+      <div class="nav-left">
+        <a href="/" style="text-decoration: none"
+          ><div class="logo">
+            <img src="logo.png" alt="The Brew Buddies Logo" />
+            <span>The Brew Buddies</span>
+          </div></a
+        >
+      </div>
+      <div class="search-bar">
+        <input type="text" placeholder="Search premium beans, loose teas..." />
+      </div>
+      <div class="nav-right">
+        <a href="/account" class="nav-link">👤 Account</a>
+        <a href="/cart" class="cart-icon"
+          >🛒 <span class="cart-count">3</span></a
+        >
+      </div>
+    </header>
+
+    <!-- Category Pills -->
+    <nav class="category-pills">
+      <button class="pill active">Coffee</button>
+      <button class="pill">Loose Tea</button>
+      <button class="pill">Espresso Machines</button>
+      <button class="pill">Accessories</button>
+      <button class="pill">Best Sellers</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <span class="hero-sub">EXCEPTIONAL BEANS, ROASTED DAILY</span>
+        <h1>Discover Your Perfect Brew</h1>
+        <p>Bringing the Brew to You and Yours.</p>
+        <div class="hero-buttons">
+          <a
+            href="#productGrid"
+            class="btn-primary"
+            style="text-decoration: none; display: inline-block"
+            >Shop Now</a
+          >
+          <button class="btn-secondary">Explore Collections</button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img
+          src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80"
+          alt="Coffee Pour"
+        />
+      </div>
+    </section>
+
+    <!-- Store Section (Filters + Catalog) -->
+    <main class="store-container">
+      <!-- Sidebar Filters -->
+      <aside class="sidebar">
+        <h3>Filters</h3>
+
+        <div class="filter-group">
+          <label class="filter-title">Category</label>
+          <label><input type="checkbox" checked /> Single Origin Coffee</label>
+          <label><input type="checkbox" /> Loose-Leaf Tea</label>
+          <label><input type="checkbox" /> Espresso Blends</label>
+          <label><input type="checkbox" /> Accessories</label>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-title">Roast Level</label>
+          <label><input type="checkbox" /> Light Roast</label>
+          <label><input type="checkbox" checked /> Medium Roast</label>
+          <label><input type="checkbox" /> Dark Roast</label>
+          <label><input type="checkbox" /> Extra Dark</label>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-title">Price Range</label>
+          <input type="range" min="750" max="2750" value="2750" />
+          <div class="price-inputs">
+            <span>NRs. 750</span>
+            <span>NRs. 2,750</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Product Grid -->
+      <section class="product-grid" id="productGrid">
+        <!-- Dynamic Products injected from C++ File API -->
+      </section>
+    </main>
+
+    <!-- Promise Banner -->
+    <section class="promise-section">
+      <span class="promise-sub">THE BREW BUDDIES PROMISE</span>
+      <h2>Sourced with Purpose, Crafted with Care</h2>
+      <div class="promise-grid">
+        <div class="promise-card">
+          <div class="icon">🌿</div>
+          <h4>Ethically Sourced</h4>
+          <p>
+            We purchase raw beans directly from smallholders at 25% above Fair
+            Trade minimums.
+          </p>
+        </div>
+        <div class="promise-card">
+          <div class="icon">🔥</div>
+          <h4>Roasted to Order</h4>
+          <p>
+            Every batch is roasted within 24 hours of dispatch to lock in
+            vibrant aromatic oils.
+          </p>
+        </div>
+        <div class="promise-card">
+          <div class="icon">🛡️</div>
+          <h4>Preserved Freshness</h4>
+          <p>
+            Our double-sealed foil bags with degas valves guarantee peak shelf
+            flavor longevity.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-top">
+        <div class="footer-brand">
+          <h3>
+            <img src="logo.png" alt="The Brew Buddies Logo" /> The Brew Buddies
+          </h3>
+          <p>
+            Artisanal coffee and fine loose-leaf teas sourced ethically from
+            family-owned estates around the globe. Freshly roasted, perfectly
+            dried, delivered directly to your cup.
+          </p>
+        </div>
+        <div class="footer-links">
+          <div>
+            <h5>Shop Collections</h5>
+            <a>Single Origin Coffee</a>
+            <a>Artisanal Blends</a>
+            <a>Organic Loose Tea</a>
+            <a>Espresso Gear</a>
+          </div>
+          <div>
+            <h5>Our Heritage</h5>
+            <a>The Roastery Story</a>
+            <a>Sustainable Sourcing</a>
+            <a>Brew Guides</a>
+          </div>
+          <div>
+            <h5>Support</h5>
+            <a>Shipping & Delivery</a>
+            <a>Returns & Refund Policy</a>
+            <a>Contact Roasting Team</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          © 2026 The Brew Buddies Co. Sourced with integrity, packaged
+          beautifully.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Global fallback stub to prevent 'Uncaught ReferenceError' before component loads
+      window.toggleCart =
+        window.toggleCart ||
+        function (show) {
+          const drawer = document.getElementById("cartDrawer");
+          if (drawer) {
+            drawer.style.display = show === false ? "none" : "flex";
+          }
+        };
+
+      // Fetch Cart Drawer Component dynamically
+      fetch("/cart-drawer.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.body.insertAdjacentHTML("beforeend", html);
+        })
+        .catch((err) => console.error("Error loading cart drawer:", err));
+
+      // Fetch API Products
+      fetch("/api/products")
+        .then((res) => res.json())
+        .then((products) => {
+          const grid = document.getElementById("productGrid");
+          grid.innerHTML = products
+            .map(
+              (p) => `
+          <div class="product-card">
+            <a href="/product" style="text-decoration: none; color: inherit; display: block;">
+              <div class="img-wrapper">
+                <img src="${p.image}" alt="${p.name}">
+              </div>
+              <div class="card-body">
+                <div class="card-meta">
+                  <span class="tag">${p.tag}</span>
+                  <span class="rating">★ ${p.rating} (${p.reviewCount})</span>
+                </div>
+                <h4>${p.name}</h4>
+              </div>
+            </a>
+            <div class="card-footer" style="padding: 0 16px 16px;">
+              <span class="price">NRs. ${p.price.toLocaleString()}</span>
+              <button class="btn-add" onclick="toggleCart(true)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        `,
+            )
+            .join("");
+        })
+        .catch((err) => console.error("Error parsing product JSON:", err));
+    </script>
+  </body>
+</html>

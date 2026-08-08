@@ -1,0 +1,2 @@
+1.Server launching:
+The project utilizes cpp-httplib to handle HTTP server functionality on Windows. To compile the application using GCC (MinGW-w64), the Windows Sockets API library (ws2_32) must be linked explicitly during the build step. Omitting -lws2_32 results in unresolved socket symbol references during linking.
