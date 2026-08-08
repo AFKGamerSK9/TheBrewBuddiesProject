@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Shopping Cart — The Brew Buddies</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", system-ui, sans-serif;
+      }
+      body {
+        background-color: #faf8f5;
+        color: #2c2623;
+      }
+      .announcement-bar {
+        background-color: #111111;
+        color: #ffffff;
+        text-align: center;
+        padding: 8px;
+        font-size: 12px;
+      }
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 48px;
+        background-color: #faf8f5;
+        border-bottom: 1px solid #eae5dc;
+      }
+      .logo {
+        font-weight: 700;
+        font-size: 20px;
+        color: #1d7a46;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .logo img {
+        height: 30px;
+        width: auto;
+      }
+      .nav-right {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+      .nav-link {
+        text-decoration: none;
+        color: #2c2623;
+        font-size: 14px;
+      }
+      .cart-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 0 24px;
+      }
+      .cart-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+      }
+      .cart-grid {
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: 32px;
+      }
+      .free-shipping-banner {
+        background-color: #f7f9f6;
+        padding: 16px;
+        border-radius: 8px;
+        border: 1px solid #eae7e1;
+        margin-bottom: 20px;
+      }
+      .progress-bar-bg {
+        height: 6px;
+        background-color: #e2e8e3;
+        border-radius: 3px;
+        margin: 8px 0;
+      }
+      .progress-bar-fill {
+        height: 100%;
+        background-color: #1d7a46;
+        width: 74%;
+        border-radius: 3px;
+      }
+      .cart-item {
+        border: 1px solid #eee9e0;
+        border-radius: 10px;
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        background-color: #ffffff;
+        margin-bottom: 12px;
+        position: relative;
+      }
+      .item-img {
+        width: 72px;
+        height: 72px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+      .item-details h4 {
+        font-size: 15px;
+        font-weight: 700;
+      }
+      .item-details p {
+        font-size: 12px;
+        color: #8c857b;
+        margin-bottom: 8px;
+      }
+      .qty-control {
+        display: inline-flex;
+        align-items: center;
+        background: #f5f2eb;
+        border-radius: 4px;
+        padding: 4px 8px;
+        gap: 12px;
+      }
+      .qty-control button {
+        border: none;
+        background: none;
+        cursor: pointer;
+      }
+      .item-price {
+        font-size: 14px;
+        font-weight: 700;
+        margin-left: auto;
+      }
+      .remove-btn {
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 16px;
+        color: #9e9890;
+      }
+      .order-summary {
+        background-color: #ffffff;
+        border: 1px solid #eee9e0;
+        border-radius: 12px;
+        padding: 24px;
+        height: fit-content;
+      }
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-bottom: 12px;
+      }
+      .total-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 18px;
+        font-weight: 700;
+        padding-top: 12px;
+        border-top: 1px solid #eee9e0;
+        margin-top: 12px;
+      }
+      .btn-checkout {
+        width: 100%;
+        background-color: #1d7a46;
+        color: white;
+        border: none;
+        padding: 14px;
+        border-radius: 8px;
+        font-weight: 700;
+        margin-top: 20px;
+        cursor: pointer;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="logo.png" />
+  </head>
+  <body>
+    <div class="announcement-bar">
+      Flash Offers — Free shipping on orders over NRs. 2,500
+    </div>
+
+    <header class="navbar">
+      <a href="/" style="text-decoration: none"
+        ><div class="logo">
+          <img src="logo.png" alt="The Brew Buddies Logo" />
+          <span>The Brew Buddies</span>
+        </div></a
+      >
+      <div class="nav-right">
+        <a href="/account" class="nav-link">👤 Account</a>
+      </div>
+    </header>
+
+    <main class="cart-container">
+      <div class="cart-header">
+        <h1>Your Cart</h1>
+        <a
+          href="/"
+          style="color: #1d7a46; text-decoration: none; font-size: 14px"
+          >← Continue Shopping</a
+        >
+      </div>
+
+      <div class="cart-grid">
+        <section class="cart-items-list">
+          <div class="free-shipping-banner">
+            <div style="font-size: 12px; color: #4a4540">
+              🚚 Add <strong>NRs. 800</strong> more for
+              <strong>FREE</strong> Delivery!
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill"></div>
+            </div>
+          </div>
+
+          <div class="cart-item">
+            <img
+              src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=150&q=80"
+              class="item-img"
+            />
+            <div class="item-details">
+              <h4>Ethiopian Yirgacheffe</h4>
+              <p>250g, Whole Bean</p>
+              <div class="qty-control">
+                <button onclick="updateQty(this, -1)">-</button>
+                <span>1</span>
+                <button onclick="updateQty(this, 1)">+</button>
+              </div>
+            </div>
+            <div class="item-price">NRs. 1,250</div>
+            <button class="remove-btn" onclick="removeItem(this)">🗑</button>
+          </div>
+
+          <div class="cart-item">
+            <img
+              src="https://images.unsplash.com/photo-1594631252845-29fc4cc86de5?auto=format&fit=crop&w=150&q=80"
+              class="item-img"
+            />
+            <div class="item-details">
+              <h4>Highland Earl Grey</h4>
+              <p>100g, Loose Leaf</p>
+              <div class="qty-control">
+                <button onclick="updateQty(this, -1)">-</button>
+                <span>2</span>
+                <button onclick="updateQty(this, 1)">+</button>
+              </div>
+            </div>
+            <div class="item-price">NRs. 650</div>
+            <button class="remove-btn" onclick="removeItem(this)">🗑</button>
+          </div>
+        </section>
+
+        <aside class="order-summary">
+          <h3>Order Summary</h3>
+          <br />
+          <div class="summary-row">
+            <span>Subtotal</span><span>NRs. 2,700</span>
+          </div>
+          <div class="summary-row" style="color: #1d7a46; font-weight: 600">
+            <span>Shipping</span><span>FREE</span>
+          </div>
+          <div class="total-row">
+            <span>Total</span><span style="color: #1d7a46">NRs. 2,700</span>
+          </div>
+          <button class="btn-checkout">💳 Proceed to Checkout</button>
+        </aside>
+      </div>
+    </main>
+
+    <script>
+      function updateQty(btn, delta) {
+        const span = btn.parentElement.querySelector("span");
+        let val = parseInt(span.innerText) + delta;
+        if (val >= 1) span.innerText = val;
+      }
+
+      function removeItem(btn) {
+        btn.closest(".cart-item").remove();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome Back — The Brew Buddies</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+      body {
+        background-color: #faf8f5;
+        color: #2c2623;
+        min-height: 100vh;
+      }
+
+      /* Announcement & Nav */
+      .announcement-bar {
+        background-color: #1f1916;
+        color: #ffffff;
+        text-align: center;
+        padding: 8px;
+        font-size: 13px;
+        letter-spacing: 0.3px;
+      }
+
+      .navbar {
+        display: flex;
+        align-items: center;
+        padding: 16px 64px;
+        background-color: #faf8f5;
+      }
+      .logo {
+        font-weight: 700;
+        font-size: 22px;
+        color: #1d7a46;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .logo img {
+        height: 32px;
+        width: auto;
+      }
+
+      .nav-right {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        font-size: 14px;
+        color: #2c2623;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        text-decoration: none;
+        color: #2c2623;
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .cart-badge {
+        background: #1d7a46;
+        color: white;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      /* Dashboard Layout */
+      .dashboard-container {
+        max-width: 1100px;
+        margin: 16px auto 0;
+        padding: 0 48px;
+        display: grid;
+        grid-template-columns: 1.2fr 340px;
+        gap: 32px;
+        align-items: start;
+      }
+
+      .hero-section h1 {
+        font-size: 36px;
+        font-weight: 800;
+        color: #2c2623;
+        margin-bottom: 8px;
+      }
+      .hero-section p {
+        font-size: 14px;
+        color: #6e6862;
+        line-height: 1.5;
+        max-width: 540px;
+        margin-bottom: 20px;
+      }
+      .hero-image {
+        width: 100%;
+        height: 380px;
+        object-fit: cover;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      }
+
+      .profile-card-inline {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
+      .user-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #f0ece4;
+        margin-bottom: 16px;
+      }
+      .avatar-circle-inline {
+        width: 44px;
+        height: 44px;
+        background: #eae3d9;
+        color: #736961;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .user-info h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #2c2623;
+      }
+      .user-info span {
+        font-size: 12px;
+        color: #8c857b;
+      }
+
+      .menu-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 20px;
+      }
+      .menu-item a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 14px;
+        border-radius: 10px;
+        text-decoration: none;
+        color: #4a443f;
+        font-size: 14px;
+        font-weight: 500;
+        transition: background 0.2s;
+        cursor: pointer;
+      }
+      .menu-item.active a {
+        background-color: #f0ece4;
+        color: #111;
+        font-weight: 600;
+      }
+      .menu-item a:hover:not(.active) {
+        background-color: #faf8f5;
+      }
+      .menu-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .menu-badge {
+        background: #1d7a46;
+        color: white;
+        border-radius: 12px;
+        padding: 2px 8px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .subscription-banner {
+        background: #f6f3ee;
+        border-radius: 10px;
+        padding: 14px 16px;
+      }
+      .sub-title {
+        color: #1d7a46;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+      }
+      .sub-date {
+        font-size: 12px;
+        color: #6e6862;
+      }
+
+      /* Modal Global Overlay */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.65);
+        backdrop-filter: blur(2px);
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        padding: 16px;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+      }
+
+      /* Modal Cards */
+      .modal-card {
+        background: #e8e6e1;
+        width: 100%;
+        border-radius: 20px;
+        padding: 24px;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        color: #312723;
+      }
+
+      .modal-card.sm {
+        max-width: 400px;
+      }
+      .modal-card.md {
+        max-width: 440px;
+      }
+      .modal-card.lg {
+        max-width: 600px;
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: none;
+        background: #dfdad3;
+        color: #312723;
+        cursor: pointer;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-title {
+        font-family: Georgia, serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: #312723;
+        margin-bottom: 20px;
+      }
+
+      /* Form Controls */
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-label {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        color: #7d7268;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 12px 14px;
+        background-color: #dfdad2;
+        border: 1px solid #d0c8be;
+        border-radius: 8px;
+        font-size: 13px;
+        color: #312723;
+        outline: none;
+      }
+
+      .form-input:focus {
+        border-color: #1a4d3e;
+      }
+
+      .input-wrapper {
+        position: relative;
+      }
+
+      .eye-icon {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        opacity: 0.6;
+      }
+
+      .password-strength {
+        display: flex;
+        gap: 6px;
+        margin-top: 8px;
+      }
+
+      .strength-bar {
+        height: 4px;
+        flex: 1;
+        background-color: #dfdad2;
+        border-radius: 2px;
+      }
+
+      .strength-bar.active {
+        background-color: #1a4d3e;
+      }
+
+      .strength-text {
+        font-size: 11px;
+        font-weight: 700;
+        color: #1a4d3e;
+        margin-top: 6px;
+      }
+
+      .btn-primary {
+        width: 100%;
+        background-color: #1a4d3e;
+        color: #ffffff;
+        border: none;
+        padding: 14px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background-color 0.2s;
+      }
+
+      .btn-primary:hover {
+        background-color: #133a2e;
+      }
+
+      /* Profile Main Modal Inner Elements */
+      .profile-header-modal {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .header-tag-modal {
+        font-size: 9px;
+        font-weight: 700;
+        color: #8c857b;
+        letter-spacing: 0.8px;
+        margin-bottom: 16px;
+      }
+
+      .avatar-circle-modal {
+        width: 64px;
+        height: 64px;
+        background: #d1c9bd;
+        color: #1a4d3e;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 26px;
+        margin: 0 auto 12px;
+        border: 1px solid #c7beaf;
+      }
+
+      .profile-header-modal h2 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #2c2623;
+        margin-bottom: 4px;
+      }
+
+      .user-email-modal {
+        font-size: 12px;
+        color: #8c857b;
+      }
+
+      .rewards-card-modal {
+        background: #f1eee9;
+        border-radius: 14px;
+        padding: 16px;
+        margin-bottom: 20px;
+      }
+
+      .rewards-label-modal {
+        font-size: 11px;
+        font-weight: 700;
+        color: #3d352e;
+        margin-bottom: 12px;
+      }
+
+      .rewards-row-modal {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .points-val-modal {
+        font-size: 22px;
+        font-weight: 800;
+        color: #2c2623;
+        margin-bottom: 4px;
+      }
+
+      .value-text-modal {
+        font-size: 11px;
+        color: #7a7268;
+      }
+
+      .tier-badge-modal {
+        background: #965b36;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 600;
+        padding: 10px 12px;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .redeem-link-modal {
+        display: block;
+        text-align: center;
+        color: #1a4d3e;
+        font-size: 11px;
+        font-weight: 700;
+        text-decoration: none;
+        border-top: 1px dashed #d6cec3;
+        padding-top: 12px;
+      }
+
+      .modal-menu-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+
+      .modal-menu-btn {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background: transparent;
+        border: 1px solid #d0c8be;
+        border-radius: 10px;
+        color: #3d352e;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      .modal-menu-btn:hover {
+        background: #dfdad2;
+      }
+
+      .btn-signout-modal {
+        background: none;
+        border: none;
+        color: #1a4d3e;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: underline;
+        width: 100%;
+        text-align: center;
+      }
+
+      /* Drag & Drop zone */
+      .dropzone-box {
+        border: 1px dashed #b8afa4;
+        background-color: #dfdad2;
+        border-radius: 12px;
+        padding: 30px 20px;
+        text-align: center;
+        margin-top: 16px;
+        cursor: pointer;
+      }
+
+      .dropzone-text {
+        font-size: 12px;
+        color: #6e645a;
+        margin-top: 8px;
+      }
+
+      .dropzone-text span {
+        text-decoration: underline;
+        font-weight: 600;
+        color: #312723;
+      }
+
+      /* Order History Components */
+      .order-card {
+        background: #dfdad2;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 12px;
+      }
+
+      .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4px;
+      }
+
+      .order-id {
+        font-weight: 700;
+        font-size: 14px;
+      }
+
+      .order-badge {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 4px 8px;
+        border-radius: 12px;
+        text-transform: uppercase;
+      }
+
+      .badge-delivered {
+        background-color: #cde4db;
+        color: #1a4d3e;
+      }
+
+      .badge-processing {
+        background-color: #f5e4c3;
+        color: #8f6213;
+      }
+
+      .order-date {
+        font-size: 11px;
+        color: #7d7268;
+        margin-bottom: 12px;
+      }
+
+      .order-body {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+
+      .order-items {
+        display: flex;
+        gap: 8px;
+      }
+
+      .item-thumb {
+        width: 44px;
+        height: 44px;
+        background-color: #c7beaf;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+
+      .order-price {
+        font-weight: 700;
+        font-size: 15px;
+        color: #312723;
+      }
+
+      /* Wishlist Grid */
+      .wishlist-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .wishlist-card {
+        background: #dfdad2;
+        border-radius: 12px;
+        padding: 12px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        position: relative;
+      }
+
+      .wishlist-thumb {
+        width: 56px;
+        height: 56px;
+        background: #c7beaf;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+
+      .wishlist-info {
+        flex: 1;
+      }
+
+      .wishlist-name {
+        font-size: 12px;
+        font-weight: 700;
+        color: #312723;
+        line-height: 1.2;
+        margin-bottom: 4px;
+      }
+
+      .wishlist-price {
+        font-size: 11px;
+        color: #6e645a;
+        margin-bottom: 4px;
+      }
+
+      .wishlist-rating {
+        font-size: 10px;
+        color: #8f6213;
+      }
+
+      .btn-add-sm {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        background-color: #1a4d3e;
+        color: white;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 10px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="logo.png" />
+  </head>
+  <body>
+    <div class="announcement-bar">
+      Flash Offers — Free shipping on orders over NRs. 2,500
+    </div>
+
+    <header class="navbar">
+      <a href="/" style="text-decoration: none">
+        <div class="logo">
+          <img src="logo.png" alt="The Brew Buddies Logo" />
+          <span>The Brew Buddies</span>
+        </div>
+      </a>
+    </header>
+
+    <hr style="border: none; border-top: 1px solid #e0dad2; width: 100%" />
+
+    <main class="dashboard-container">
+      <section class="hero-section">
+        <h1>Welcome Back</h1>
+        <p>
+          Select from your premium profile options, manage active orders, or
+          browse personalized beans right from the quick navigation panel.
+        </p>
+        <img
+          class="hero-image"
+          src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=80"
+          alt="Coffee brewing"
+        />
+      </section>
+
+      <aside class="profile-card-inline">
+        <div class="user-header">
+          <div class="avatar-circle-inline">SK</div>
+          <div class="user-info">
+            <h3>Sarah K.</h3>
+            <span>Premium Member</span>
+          </div>
+        </div>
+
+        <ul class="menu-list">
+          <li class="menu-item active">
+            <a onclick="openModal('profileModal')">
+              <span class="menu-left">👤 My Account</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/settings"><span class="menu-left">⚙️ Settings</span></a>
+          </li>
+          <li class="menu-item">
+            <a href="/cart">
+              <span class="menu-left">🛒 Cart</span>
+              <span class="menu-badge">3</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/about"><span class="menu-left">💬 About Us</span></a>
+          </li>
+          <li class="menu-item">
+            <a href="/support"><span class="menu-left">🎧 Support</span></a>
+          </li>
+        </ul>
+
+        <div class="subscription-banner">
+          <div class="sub-title">SUBSCRIPTION ACTIVE</div>
+          <div class="sub-date">Next bag ships Jan 26</div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- ALL MODALS BELOW -->
+
+    <!-- 1. MAIN PROFILE MODAL -->
+    <div class="modal-overlay" id="profileModal">
+      <div class="modal-card sm" style="background: #ffffff">
+        <button class="modal-close" onclick="closeModal('profileModal')">
+          ✕
+        </button>
+
+        <div class="profile-header-modal">
+          <div class="header-tag-modal">THE BREW BUDDIES PROFILE</div>
+          <div class="avatar-circle-modal">S</div>
+          <h2>Hello, Siddharth!</h2>
+          <div class="user-email-modal">siddharth@brewbuddies.com</div>
+        </div>
+
+        <div class="rewards-card-modal">
+          <div class="rewards-label-modal">Brew Rewards Balance</div>
+          <div class="rewards-row-modal">
+            <div>
+              <div class="points-val-modal">350 Points</div>
+              <div class="value-text-modal">
+                Value: <strong>NRs. 350</strong> off your next order!
+              </div>
+            </div>
+            <div class="tier-badge-modal">Silver Beans Member</div>
+          </div>
+          <a href="#" class="redeem-link-modal">Redeem Points at Checkout →</a>
+        </div>
+
+        <div class="modal-menu-group">
+          <button
+            class="modal-menu-btn"
+            onclick="switchModal('profileModal', 'editProfileModal')"
+          >
+            <span>Edit Profile</span> <span>›</span>
+          </button>
+          <button
+            class="modal-menu-btn"
+            onclick="switchModal('profileModal', 'editPictureModal')"
+          >
+            <span>Edit Profile Picture</span> <span>›</span>
+          </button>
+          <button
+            class="modal-menu-btn"
+            onclick="switchModal('profileModal', 'changePasswordModal')"
+          >
+            <span>Change Password</span> <span>›</span>
+          </button>
+          <button
+            class="modal-menu-btn"
+            onclick="switchModal('profileModal', 'orderHistoryModal')"
+          >
+            <span>Order History</span> <span>›</span>
+          </button>
+          <button
+            class="modal-menu-btn"
+            onclick="switchModal('profileModal', 'wishlistModal')"
+          >
+            <span>My Wishlist</span> <span>›</span>
+          </button>
+        </div>
+
+        <button
+          class="btn-signout-modal"
+          onclick="alert('Signed out successfully!')"
+        >
+          Sign Out
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. EDIT PROFILE MODAL -->
+    <div class="modal-overlay" id="editProfileModal">
+      <div class="modal-card sm">
+        <button
+          class="modal-close"
+          onclick="switchModal('editProfileModal', 'profileModal')"
+        >
+          ✕
+        </button>
+        <div class="modal-title">Edit Profile</div>
+
+        <form
+          onsubmit="
+            event.preventDefault();
+            switchModal('editProfileModal', 'profileModal');
+          "
+        >
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input
+              type="text"
+              class="form-input"
+              value="Siddharth Shrestha"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input
+              type="email"
+              class="form-input"
+              value="siddharth@brewbuddies.com"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input
+              type="tel"
+              class="form-input"
+              value="+977 9801234567"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn-primary">Save Changes</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- 3. EDIT PROFILE PICTURE MODAL -->
+    <div class="modal-overlay" id="editPictureModal">
+      <div class="modal-card sm">
+        <button
+          class="modal-close"
+          onclick="switchModal('editPictureModal', 'profileModal')"
+        >
+          ✕
+        </button>
+        <div class="modal-title">Edit Profile Picture</div>
+
+        <div
+          class="avatar-circle-modal"
+          style="width: 80px; height: 80px; font-size: 36px; margin: 20px auto"
+        >
+          S
+        </div>
+
+        <div
+          class="dropzone-box"
+          onclick="document.getElementById('fileInput').click()"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#6e645a"
+            stroke-width="2"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg>
+          <div class="dropzone-text">
+            Drag new photo here or <span>Browse Files</span>
+          </div>
+          <input type="file" id="fileInput" hidden accept="image/*" />
+        </div>
+
+        <button
+          type="button"
+          class="btn-primary"
+          style="margin-top: 24px"
+          onclick="switchModal('editPictureModal', 'profileModal')"
+        >
+          Upload Image
+        </button>
+      </div>
+    </div>
+
+    <!-- 4. CHANGE PASSWORD MODAL -->
+    <div class="modal-overlay" id="changePasswordModal">
+      <div class="modal-card sm">
+        <button
+          class="modal-close"
+          onclick="switchModal('changePasswordModal', 'profileModal')"
+        >
+          ✕
+        </button>
+        <div class="modal-title">Change Password</div>
+
+        <form
+          onsubmit="
+            event.preventDefault();
+            switchModal('changePasswordModal', 'profileModal');
+          "
+        >
+          <div class="form-group">
+            <label class="form-label">Current Password</label>
+            <div class="input-wrapper">
+              <input
+                type="password"
+                class="form-input"
+                value="••••••••••••"
+                required
+              />
+              <span class="eye-icon">👁</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">New Password</label>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                class="form-input"
+                value="S0mePr0fess1onal!"
+                required
+              />
+              <span class="eye-icon">👁</span>
+            </div>
+            <div class="password-strength">
+              <div class="strength-bar active"></div>
+              <div class="strength-bar active"></div>
+              <div class="strength-bar"></div>
+            </div>
+            <div class="strength-text">Strong Password</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Confirm New Password</label>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                class="form-input"
+                value="S0mePr0fess1onal!"
+                required
+              />
+              <span class="eye-icon">👁</span>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary">Update Password</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- 5. ORDER HISTORY MODAL -->
+    <div class="modal-overlay" id="orderHistoryModal">
+      <div class="modal-card md">
+        <button
+          class="modal-close"
+          onclick="switchModal('orderHistoryModal', 'profileModal')"
+        >
+          ✕
+        </button>
+        <div class="modal-title">Order History</div>
+
+        <div class="order-card">
+          <div class="order-header">
+            <span class="order-id">#BB-9042</span>
+            <span class="order-badge badge-delivered">Delivered</span>
+          </div>
+          <div class="order-date">Placed on January 12, 2026</div>
+          <div class="order-body">
+            <div class="order-items">
+              <img
+                class="item-thumb"
+                src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=80&q=80"
+                alt="Coffee 1"
+              />
+              <img
+                class="item-thumb"
+                src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=80&q=80"
+                alt="Coffee 2"
+              />
+            </div>
+            <div class="order-price">NRs. 2,500</div>
+          </div>
+        </div>
+
+        <div class="order-card">
+          <div class="order-header">
+            <span class="order-id">#BB-8871</span>
+            <span class="order-badge badge-processing">Processing</span>
+          </div>
+          <div class="order-date">Placed on December 28, 2025</div>
+          <div class="order-body">
+            <div class="order-items">
+              <img
+                class="item-thumb"
+                src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?auto=format&fit=crop&w=80&q=80"
+                alt="Coffee 3"
+              />
+            </div>
+            <div class="order-price">NRs. 1,800</div>
+          </div>
+        </div>
+
+        <button type="button" class="btn-primary">View Full History</button>
+      </div>
+    </div>
+
+    <!-- 6. MY WISHLIST MODAL -->
+    <div class="modal-overlay" id="wishlistModal">
+      <div class="modal-card lg">
+        <button
+          class="modal-close"
+          onclick="switchModal('wishlistModal', 'profileModal')"
+        >
+          ✕
+        </button>
+        <div class="modal-title">My Wishlist</div>
+
+        <div class="wishlist-grid">
+          <div class="wishlist-card">
+            <img
+              class="wishlist-thumb"
+              src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=120&q=80"
+              alt="Ethiopian"
+            />
+            <div class="wishlist-info">
+              <div class="wishlist-name">Ethiopian Yirgacheffe</div>
+              <div class="wishlist-price">NRs. 1,250</div>
+              <div class="wishlist-rating">☆ (124)</div>
+            </div>
+            <button class="btn-add-sm">Add</button>
+          </div>
+
+          <div class="wishlist-card">
+            <img
+              class="wishlist-thumb"
+              src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=120&q=80"
+              alt="Sumatra"
+            />
+            <div class="wishlist-info">
+              <div class="wishlist-name">Sumatra Mandheling</div>
+              <div class="wishlist-price">NRs. 1,350</div>
+              <div class="wishlist-rating">☆ (89)</div>
+            </div>
+            <button class="btn-add-sm">Add</button>
+          </div>
+
+          <div class="wishlist-card">
+            <img
+              class="wishlist-thumb"
+              src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?auto=format&fit=crop&w=120&q=80"
+              alt="Espresso"
+            />
+            <div class="wishlist-info">
+              <div class="wishlist-name">Golden Hour Espresso</div>
+              <div class="wishlist-price">NRs. 1,100</div>
+              <div class="wishlist-rating">☆ (215)</div>
+            </div>
+            <button class="btn-add-sm">Add</button>
+          </div>
+
+          <div class="wishlist-card">
+            <img
+              class="wishlist-thumb"
+              src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=120&q=80"
+              alt="Matcha"
+            />
+            <div class="wishlist-info">
+              <div class="wishlist-name">Ceremonial Matcha</div>
+              <div class="wishlist-price">NRs. 1,600</div>
+              <div class="wishlist-rating">☆ (76)</div>
+            </div>
+            <button class="btn-add-sm">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Controller Script -->
+    <script>
+      function openModal(id) {
+        document.getElementById(id).classList.add("active");
+      }
+
+      function closeModal(id) {
+        document.getElementById(id).classList.remove("active");
+      }
+
+      function switchModal(fromId, toId) {
+        closeModal(fromId);
+        openModal(toId);
+      }
+    </script>
+  </body>
+</html>
