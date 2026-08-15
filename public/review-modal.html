@@ -225,14 +225,11 @@
     </button>
     <div class="modal-title">Write a Review</div>
 
-    <div class="product-summary">
-      <img
-        src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=120&q=80"
-        alt="Ethiopian Yirgacheffe"
-      />
+    <div class="product-summary" id="modalProductSummary">
+      <img id="modalProductImage" src="" alt="Product" />
       <div>
-        <div class="p-title">Ethiopian Yirgacheffe</div>
-        <div class="p-meta">250g, Whole Bean</div>
+        <div class="p-title" id="modalProductName">Loading...</div>
+        <div class="p-meta" id="modalProductMeta">Select weight and grind</div>
       </div>
     </div>
 
@@ -327,3 +324,328 @@
     </form>
   </div>
 </div>
+
+<script>
+  let currentRating = 5;
+
+  // ============================================================
+  // SET RATING
+  // ============================================================
+  function setRating(rating) {
+    currentRating = rating;
+
+    const stars = document.querySelectorAll("#starRating .star");
+
+    stars.forEach((star, index) => {
+      if (index < rating) {
+        star.classList.add("active");
+      } else {
+        star.classList.remove("active");
+      }
+    });
+
+    const labels = {
+      1: "1/5 Poor",
+      2: "2/5 Fair",
+      3: "3/5 Good",
+      4: "4/5 Very Good",
+      5: "5/5 Excellent",
+    };
+
+    const ratingLabel = document.getElementById("ratingLabel");
+
+    if (ratingLabel) {
+      ratingLabel.innerText = labels[rating];
+    }
+  }
+
+  // ============================================================
+  // UPDATE MODAL WITH PRODUCT INFO
+  // ============================================================
+  function updateModalProduct() {
+    if (typeof currentProduct !== "undefined" && currentProduct) {
+      const img = document.getElementById("modalProductImage");
+      const name = document.getElementById("modalProductName");
+      const meta = document.getElementById("modalProductMeta");
+
+      if (img) {
+        img.src =
+          currentProduct.image ||
+          "https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=120&q=80";
+        img.alt = currentProduct.name || "Product";
+      }
+      if (name) name.textContent = currentProduct.name || "Product";
+      if (meta) {
+        // Get selected weight
+        const activeWeight = document.querySelector(".btn-weight.active");
+        const weightText = activeWeight
+          ? activeWeight.textContent.trim()
+          : "250g";
+        meta.textContent = weightText + ", Whole Bean";
+      }
+    }
+  }
+
+  // ============================================================
+  // OPEN REVIEW MODAL
+  // ============================================================
+  function openReviewModal() {
+    updateModalProduct();
+    const container = document.getElementById("modalContainer");
+    const modal = document.getElementById("reviewModal");
+    if (container) container.style.display = "block";
+    if (modal) modal.style.display = "flex";
+  }
+
+  // ============================================================
+  // CLOSE REVIEW MODAL
+  // ============================================================
+  function closeReviewModal() {
+    const modal = document.getElementById("reviewModal");
+    const container = document.getElementById("modalContainer");
+
+    if (modal) {
+      modal.style.display = "none";
+    }
+    if (container) {
+      container.style.display = "none";
+    }
+  }
+
+  // ============================================================
+  // SUBMIT REVIEW - FIXED VERSION
+  // ============================================================
+  async function submitReview(event) {
+    event.preventDefault();
+
+    console.log("================================");
+    console.log("SUBMIT REVIEW");
+    console.log("================================");
+
+    // ----------------------------------------------------------
+    // GET PRODUCT ID FROM THE PAGE
+    // ----------------------------------------------------------
+    // Try multiple ways to get the product ID
+    let productId = null;
+
+    // Method 1: From the global currentProduct variable
+    if (typeof currentProduct !== "undefined" && currentProduct) {
+      productId = Number(currentProduct.id);
+      console.log("Got product ID from currentProduct:", productId);
+    }
+
+    // Method 2: From the URL
+    if (!productId) {
+      const params = new URLSearchParams(window.location.search);
+      const idFromUrl = params.get("id");
+      if (idFromUrl) {
+        productId = Number(idFromUrl);
+        console.log("Got product ID from URL:", productId);
+      }
+    }
+
+    // Method 3: From the product summary element
+    if (!productId) {
+      const summaryElement = document.querySelector(".product-summary");
+      if (summaryElement) {
+        const pTitle = summaryElement.querySelector(".p-title");
+        if (pTitle && pTitle.textContent) {
+          // Try to find the product by name
+          if (typeof allProducts !== "undefined" && allProducts) {
+            const foundProduct = allProducts.find(
+              (p) => p.name === pTitle.textContent.trim(),
+            );
+            if (foundProduct) {
+              productId = Number(foundProduct.id);
+              console.log("Got product ID from product name:", productId);
+            }
+          }
+        }
+      }
+    }
+
+    // If still no product ID, show error
+    if (!productId) {
+      alert(
+        "Product information is not loaded. Please refresh the page and try again.",
+      );
+      console.error("Could not determine product ID");
+      return;
+    }
+
+    console.log("Using Product ID:", productId);
+
+    // ----------------------------------------------------------
+    // CHECK RECOMMENDATION
+    // ----------------------------------------------------------
+    const recommendInput = document.querySelector(
+      'input[name="recommend"]:checked',
+    );
+
+    if (!recommendInput) {
+      alert("Please select whether you recommend this product.");
+      return;
+    }
+
+    // ----------------------------------------------------------
+    // COLLECT REVIEW DATA
+    // ----------------------------------------------------------
+    const reviewData = {
+      productId: productId,
+      rating: Number(currentRating || 5),
+      title: document.getElementById("reviewTitle").value.trim(),
+      text: document.getElementById("reviewText").value.trim(),
+      recommend: recommendInput.value,
+      name: document.getElementById("reviewerName").value.trim(),
+      email: document.getElementById("reviewerEmail").value.trim(),
+      verified: true,
+      date: new Date().toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }),
+    };
+
+    console.log("Review data:", reviewData);
+
+    // Validate required fields
+    if (!reviewData.title) {
+      alert("Please enter a review title.");
+      return;
+    }
+    if (!reviewData.text) {
+      alert("Please enter your review text.");
+      return;
+    }
+    if (!reviewData.name) {
+      alert("Please enter your name.");
+      return;
+    }
+    if (!reviewData.email) {
+      alert("Please enter your email address.");
+      return;
+    }
+
+    // ----------------------------------------------------------
+    // SEND REVIEW TO C++ SERVER
+    // ----------------------------------------------------------
+    try {
+      const response = await fetch("/api/reviews", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(reviewData),
+      });
+
+      console.log("HTTP status:", response.status);
+
+      // --------------------------------------------------------
+      // READ SERVER RESPONSE
+      // --------------------------------------------------------
+      const responseText = await response.text();
+      console.log("Server response:", responseText);
+
+      // --------------------------------------------------------
+      // CHECK HTTP STATUS
+      // --------------------------------------------------------
+      if (!response.ok) {
+        throw new Error(
+          "Server error " + response.status + ": " + responseText,
+        );
+      }
+
+      // --------------------------------------------------------
+      // PARSE RESPONSE
+      // --------------------------------------------------------
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (error) {
+        throw new Error("Server returned invalid JSON: " + responseText);
+      }
+
+      // --------------------------------------------------------
+      // CHECK SERVER STATUS
+      // --------------------------------------------------------
+      if (result.status !== "success") {
+        throw new Error(result.message || "Review was not saved.");
+      }
+
+      // ========================================================
+      // SERVER CONFIRMED SAVE
+      // ========================================================
+      console.log("REVIEW SAVED TO SERVER SUCCESSFULLY");
+
+      // --------------------------------------------------------
+      // UPDATE REVIEWS ON CURRENT PAGE
+      // --------------------------------------------------------
+      if (typeof allReviewsMap !== "undefined" && allReviewsMap) {
+        if (!allReviewsMap[productId]) {
+          allReviewsMap[productId] = [];
+        }
+        allReviewsMap[productId].unshift(reviewData);
+
+        // Update review count
+        if (typeof currentProduct !== "undefined" && currentProduct) {
+          currentProduct.reviewCount = allReviewsMap[productId].length;
+        }
+
+        // Refresh the display
+        if (typeof renderProductDetails === "function") {
+          renderProductDetails(currentProduct || { id: productId });
+        }
+        if (typeof renderReviewsList === "function") {
+          renderReviewsList();
+        }
+      }
+
+      // --------------------------------------------------------
+      // CLOSE MODAL
+      // --------------------------------------------------------
+      closeReviewModal();
+
+      // --------------------------------------------------------
+      // RESET FORM
+      // --------------------------------------------------------
+      const form = document.getElementById("reviewForm");
+      if (form) {
+        form.reset();
+      }
+
+      // --------------------------------------------------------
+      // RESET RATING
+      // --------------------------------------------------------
+      currentRating = 5;
+      setRating(5);
+
+      // --------------------------------------------------------
+      // SUCCESS MESSAGE
+      // --------------------------------------------------------
+      alert("✅ Review saved successfully!");
+
+      console.log("================================");
+      console.log("REVIEW SAVE COMPLETE");
+      console.log("================================");
+    } catch (error) {
+      // ========================================================
+      // ERROR
+      // ========================================================
+      console.error("================================");
+      console.error("REVIEW SAVE ERROR:");
+      console.error(error);
+      console.error("================================");
+
+      alert(
+        "❌ Failed to save review.\n\n" +
+          error.message +
+          "\n\nPress F12 → Console for details.",
+      );
+    }
+  }
+
+  // ============================================================
+  // INITIALIZE
+  // ============================================================
+  setRating(5);
+</script>

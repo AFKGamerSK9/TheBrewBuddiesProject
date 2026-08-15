@@ -73,3 +73,5 @@ Next Steps: Build System
 When splitting a C++ project into multiple .cpp files, running raw g++ commands manually becomes cumbersome.
 
 Setting up a basic CMakeLists.txt file lets VS Code or any IDE compile all .cpp files automatically. Would you like a starter CMakeLists.txt and an example of extracting the Product model into its own header file?
+
+This coffee brings a huge smile to my face every morning!

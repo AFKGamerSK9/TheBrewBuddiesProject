@@ -15,6 +15,7 @@
       body {
         background-color: #faf8f5;
         color: #2c2623;
+        scroll-behavior: smooth;
       }
       .announcement-bar {
         background-color: #111111;
@@ -164,11 +165,65 @@
         font-weight: 600;
         margin-bottom: 4px;
       }
+
+      /* Dual Range Slider Custom Styling */
+      .dual-range-container {
+        position: relative;
+        height: 40px;
+        margin-top: 8px;
+      }
+      .dual-range-container input[type="range"] {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 0;
+        background: none;
+        pointer-events: none;
+        -webkit-appearance: none;
+      }
+      .dual-range-container input[type="range"]::-webkit-slider-thumb {
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        background: #1d7a46;
+        pointer-events: auto;
+        -webkit-appearance: none;
+        cursor: pointer;
+        position: relative;
+        z-index: 3;
+      }
+      .dual-range-container input[type="range"]::-moz-range-thumb {
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        background: #1d7a46;
+        pointer-events: auto;
+        cursor: pointer;
+        border: none;
+        position: relative;
+        z-index: 3;
+      }
+      .slider-track {
+        position: absolute;
+        width: 100%;
+        height: 4px;
+        background: #e2ddd5;
+        top: 6px;
+        border-radius: 2px;
+        z-index: 1;
+      }
+
       .price-inputs {
         display: flex;
         justify-content: space-between;
         font-size: 12px;
         color: #6e6862;
+        font-weight: 600;
+        margin-top: 4px;
+      }
+      .catalog-wrapper {
+        display: flex;
+        flex-direction: column;
       }
       .product-grid {
         display: grid;
@@ -229,6 +284,25 @@
         font-size: 12px;
         font-weight: 600;
         cursor: pointer;
+      }
+      .page-btn {
+        background: #ffffff;
+        border: 1px solid #e2ddd5;
+        color: #2c2623;
+        padding: 8px 14px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .page-btn.active {
+        background-color: #1d7a46;
+        color: white;
+        border-color: #1d7a46;
+      }
+      .page-btn:hover:not(.active) {
+        background-color: #f1ece4;
       }
       .promise-section {
         text-align: center;
@@ -429,6 +503,8 @@
         border: 1px solid #e2ddd5;
         margin-bottom: 12px;
         gap: 16px;
+        text-decoration: none;
+        color: inherit;
       }
 
       .search-product-card img {
@@ -496,7 +572,7 @@
   <body>
     <!-- Top Announcement Bar -->
     <div class="announcement-bar">
-      Flash Offers — Free shipping on orders over NRs. 2,500
+      Flash Offers — Free shipping on orders over NRs. 2,500[cite: 7, 8]
     </div>
 
     <!-- Header -->
@@ -542,7 +618,9 @@
             style="text-decoration: none; display: inline-block"
             >Shop Now</a
           >
-          <button class="btn-secondary">Explore Collections</button>
+          <button class="btn-secondary" id="exploreCollectionsBtn">
+            Explore Collections
+          </button>
         </div>
       </div>
       <div class="hero-image">
@@ -559,35 +637,64 @@
       <aside class="sidebar">
         <h3>Filters</h3>
 
-        <div class="filter-group">
+        <div class="filter-group" id="categoryFilterGroup">
           <label class="filter-title">Category</label>
-          <label><input type="checkbox" checked /> Single Origin Coffee</label>
+          <label
+            ><input type="checkbox" id="singleOriginCheckbox" /> Single Origin
+            Coffee</label
+          >
           <label><input type="checkbox" /> Loose-Leaf Tea</label>
           <label><input type="checkbox" /> Espresso Blends</label>
           <label><input type="checkbox" /> Accessories</label>
         </div>
 
         <div class="filter-group">
-          <label class="filter-title">Roast Level</label>
-          <label><input type="checkbox" /> Light Roast</label>
-          <label><input type="checkbox" checked /> Medium Roast</label>
-          <label><input type="checkbox" /> Dark Roast</label>
-          <label><input type="checkbox" /> Extra Dark</label>
-        </div>
-
-        <div class="filter-group">
           <label class="filter-title">Price Range</label>
-          <input type="range" min="750" max="2750" value="2750" />
+          <div class="dual-range-container">
+            <div class="slider-track"></div>
+            <input
+              type="range"
+              id="minPriceSlider"
+              min="450"
+              max="3500"
+              value="450"
+              step="50"
+            />
+            <input
+              type="range"
+              id="maxPriceSlider"
+              min="450"
+              max="3500"
+              value="3500"
+              step="50"
+            />
+          </div>
           <div class="price-inputs">
-            <span>NRs. 750</span> <span>NRs. 2,750</span>
+            <span id="minPriceLabel">NRs. 450</span>
+            <span id="maxPriceLabel">NRs. 3,500</span>
           </div>
         </div>
       </aside>
 
-      <!-- Product Grid -->
-      <section class="product-grid" id="productGrid">
-        <!-- Dynamic Products injected from C++ File API -->
-      </section>
+      <!-- Product Catalog & Pagination Wrapper -->
+      <div class="catalog-wrapper">
+        <section class="product-grid" id="productGrid">
+          <!-- Dynamic Products injected from JSON API -->
+        </section>
+
+        <!-- Pagination Controls Bar -->
+        <div
+          id="paginationContainer"
+          style="
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 40px;
+          "
+        >
+          <!-- Dynamically generated page buttons will appear here -->
+        </div>
+      </div>
     </main>
 
     <!-- Promise Banner -->
@@ -600,7 +707,7 @@
           <h4>Ethically Sourced</h4>
           <p>
             We purchase raw beans directly from smallholders at 25% above Fair
-            Trade minimums.
+            Trade minimums.[cite: 7, 8]
           </p>
         </div>
         <div class="promise-card">
@@ -608,7 +715,7 @@
           <h4>Roasted to Order</h4>
           <p>
             Every batch is roasted within 24 hours of dispatch to lock in
-            vibrant aromatic oils.
+            vibrant aromatic oils.[cite: 7, 8]
           </p>
         </div>
         <div class="promise-card">
@@ -616,7 +723,7 @@
           <h4>Preserved Freshness</h4>
           <p>
             Our double-sealed foil bags with degas valves guarantee peak shelf
-            flavor longevity.
+            flavor longevity.[cite: 7, 8]
           </p>
         </div>
       </div>
@@ -632,7 +739,7 @@
           <p>
             Artisanal coffee and fine loose-leaf teas sourced ethically from
             family-owned estates around the globe. Freshly roasted, perfectly
-            dried, delivered directly to your cup.
+            dried, delivered directly to your cup.[cite: 7, 8]
           </p>
         </div>
         <div class="footer-links">
@@ -658,7 +765,7 @@
       <div class="footer-bottom">
         <p>
           © 2026 The Brew Buddies Co. Sourced with integrity, packaged
-          beautifully.
+          beautifully.[cite: 7, 8]
         </p>
       </div>
     </footer>
@@ -681,7 +788,6 @@
             type="text"
             id="instantSearchInput"
             placeholder="Yirgacheffe"
-            value="Yirgacheffe"
             autofocus
           />
         </div>
@@ -690,7 +796,8 @@
         <div class="quick-filters-section">
           <span class="quick-filters-title">QUICK FILTERS</span>
           <div class="filter-pills-row">
-            <button class="search-pill active">Single Origin</button>
+            <button class="search-pill active">All</button>
+            <button class="search-pill">Single Origin</button>
             <button class="search-pill">Dark Roast</button>
             <button class="search-pill">Espresso</button>
             <button class="search-pill">Loose Tea</button>
@@ -699,76 +806,15 @@
 
         <!-- Matching Products List -->
         <div class="matching-products-section">
-          <span class="matching-title">MATCHING PRODUCTS (3)</span>
-
-          <!-- Product Item 1 -->
-          <div class="search-product-card">
-            <img
-              src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=150&q=80"
-              alt="Ethiopian Yirgacheffe"
-            />
-            <div class="search-product-details">
-              <div class="search-meta-top">
-                <span class="search-tag">Single Origin</span>
-                <span class="search-rating"
-                  >★★★★★ <span class="review-count">(124)</span></span
-                >
-              </div>
-              <h4>Ethiopian Yirgacheffe (Medium Roast)</h4>
-            </div>
-            <div class="search-product-pricing">
-              <span class="search-price">NRs. 1,250</span>
-              <span class="in-stock-label">IN STOCK</span>
-            </div>
-          </div>
-
-          <!-- Product Item 2 -->
-          <div class="search-product-card">
-            <img
-              src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=150&q=80"
-              alt="Golden Hour Espresso Blend"
-            />
-            <div class="search-product-details">
-              <div class="search-meta-top">
-                <span class="search-tag">Artisanal Blend</span>
-                <span class="search-rating"
-                  >★★★★★ <span class="review-count">(215)</span></span
-                >
-              </div>
-              <h4>Golden Hour Espresso Blend</h4>
-            </div>
-            <div class="search-product-pricing">
-              <span class="search-price">NRs. 1,100</span>
-              <span class="in-stock-label">IN STOCK</span>
-            </div>
-          </div>
-
-          <!-- Product Item 3 -->
-          <div class="search-product-card">
-            <img
-              src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=150&q=80"
-              alt="Organic Ceremonial Matcha"
-            />
-            <div class="search-product-details">
-              <div class="search-meta-top">
-                <span class="search-tag">Loose Tea</span>
-                <span class="search-rating"
-                  >★★★★★ <span class="review-count">(76)</span></span
-                >
-              </div>
-              <h4>Organic Ceremonial Matcha</h4>
-            </div>
-            <div class="search-product-pricing">
-              <span class="search-price">NRs. 1,600</span>
-              <span class="in-stock-label">IN STOCK</span>
-            </div>
-          </div>
+          <span class="matching-title" id="instantMatchingTitle"
+            >MATCHING PRODUCTS (0)</span
+          >
+          <div id="instantSearchResultsList"></div>
         </div>
       </div>
     </div>
 
     <script>
-      // Global fallback stub to prevent 'Uncaught ReferenceError' before component loads
       window.toggleCart =
         window.toggleCart ||
         function (show) {
@@ -778,30 +824,160 @@
           }
         };
 
-      // Fetch Cart Drawer Component dynamically
-      fetch("/cart-drawer.html")
-        .then((res) => res.text())
-        .then((html) => {
-          document.body.insertAdjacentHTML("beforeend", html);
-        })
-        .catch((err) => console.error("Error loading cart drawer:", err));
+      let allProducts = [];
+      let filteredProducts = [];
+      let currentPage = 1;
+      const itemsPerPage = 9;
 
-      // Fetch API Products
-      fetch("/api/products")
+      // Fetch API Products and Initialize Filters & Pagination
+      fetch("/data/products.json")
         .then((res) => res.json())
         .then((products) => {
-          const grid = document.getElementById("productGrid");
-          grid.innerHTML = products
-            .map(
-              (p) => `
+          allProducts = products;
+          applyFilters();
+        })
+        .catch((err) => console.error("Error parsing product JSON:", err));
+
+      // Handle Category Pills Click
+      document.querySelectorAll(".category-pills .pill").forEach((pill) => {
+        pill.addEventListener("click", (e) => {
+          document
+            .querySelectorAll(".category-pills .pill")
+            .forEach((p) => p.classList.remove("active"));
+          e.target.classList.add("active");
+          const activeCategoryPill = e.target.textContent.trim();
+
+          const sidebarCheckboxes = document.querySelectorAll(
+            "#categoryFilterGroup input[type='checkbox']",
+          );
+
+          // Reset checkboxes depending on pill clicked
+          sidebarCheckboxes.forEach((cb) => (cb.checked = false));
+
+          if (activeCategoryPill === "Coffee") {
+            sidebarCheckboxes[0].checked = true; // Single Origin
+            sidebarCheckboxes[2].checked = true; // Espresso Blends
+          } else if (activeCategoryPill === "Loose Tea") {
+            sidebarCheckboxes[1].checked = true;
+          } else if (
+            activeCategoryPill === "Accessories" ||
+            activeCategoryPill === "Espresso Machines"
+          ) {
+            sidebarCheckboxes[3].checked = true;
+          } else if (activeCategoryPill === "Best Sellers") {
+            sidebarCheckboxes.forEach((cb) => (cb.checked = true));
+          }
+
+          currentPage = 1;
+          applyFilters();
+        });
+      });
+
+      // Dual Range Slider Logic
+      const minSlider = document.getElementById("minPriceSlider");
+      const maxSlider = document.getElementById("maxPriceSlider");
+      const minLabel = document.getElementById("minPriceLabel");
+      const maxLabel = document.getElementById("maxPriceLabel");
+
+      function updateDualSlider() {
+        let minVal = parseInt(minSlider.value);
+        let maxVal = parseInt(maxSlider.value);
+
+        if (minVal > maxVal) {
+          const temp = minVal;
+          minSlider.value = maxVal;
+          maxSlider.value = temp;
+          minVal = parseInt(minSlider.value);
+          maxVal = parseInt(maxSlider.value);
+        }
+
+        minLabel.textContent = `NRs. ${minVal.toLocaleString()}`;
+        maxLabel.textContent = `NRs. ${maxVal.toLocaleString()}`;
+
+        currentPage = 1;
+        applyFilters();
+      }
+
+      minSlider.addEventListener("input", updateDualSlider);
+      maxSlider.addEventListener("input", updateDualSlider);
+
+      // Listen to sidebar filter changes (Checkboxes)
+      document
+        .querySelectorAll(".sidebar input[type='checkbox']")
+        .forEach((input) => {
+          input.addEventListener("change", () => {
+            currentPage = 1;
+            applyFilters();
+          });
+        });
+
+      function applyFilters() {
+        const categoryCheckboxes = document.querySelectorAll(
+          "#categoryFilterGroup input[type='checkbox']",
+        );
+
+        const selectedCategories = [];
+        if (categoryCheckboxes[0].checked) {
+          selectedCategories.push("Single Origin");
+          selectedCategories.push("Single Origin Coffee");
+        }
+        if (categoryCheckboxes[1].checked) {
+          selectedCategories.push("Loose Tea");
+          selectedCategories.push("Loose-Leaf Tea");
+        }
+        if (categoryCheckboxes[2].checked) {
+          selectedCategories.push("Espresso Blend");
+          selectedCategories.push("Espresso Blends");
+          selectedCategories.push("Artisanal Blend");
+        }
+        if (categoryCheckboxes[3].checked) {
+          selectedCategories.push("Accessories");
+        }
+
+        const minPrice = parseInt(minSlider.value);
+        const maxPrice = parseInt(maxSlider.value);
+
+        filteredProducts = allProducts.filter((p) => {
+          const productCategory = p.tag || p.category;
+          const matchesCategory =
+            selectedCategories.length === 0 ||
+            (productCategory &&
+              selectedCategories.some(
+                (cat) => productCategory.toLowerCase() === cat.toLowerCase(),
+              ));
+
+          const matchesPrice = p.price >= minPrice && p.price <= maxPrice;
+          return matchesCategory && matchesPrice;
+        });
+
+        renderPage(currentPage);
+      }
+
+      function renderPage(page) {
+        currentPage = page;
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedItems = filteredProducts.slice(startIndex, endIndex);
+
+        const grid = document.getElementById("productGrid");
+
+        if (paginatedItems.length === 0) {
+          grid.innerHTML = `<p style="grid-column: span 3; text-align: center; padding: 40px; color: #6e6862;">No products match your filter criteria.</p>`;
+          document.getElementById("paginationContainer").innerHTML = "";
+          return;
+        }
+
+        grid.innerHTML = paginatedItems
+          .map(
+            (p) => `
           <div class="product-card">
-            <a href="/product" style="text-decoration: none; color: inherit; display: block;">
+            <a href="product.html?id=${p.id}" style="text-decoration: none; color: inherit; display: block;">
               <div class="img-wrapper">
                 <img src="${p.image}" alt="${p.name}">
               </div>
               <div class="card-body">
                 <div class="card-meta">
-                  <span class="tag">${p.tag}</span>
+                  <span class="tag">${p.tag || p.category}</span>
                   <span class="rating">★ ${p.rating} (${p.reviewCount})</span>
                 </div>
                 <h4>${p.name}</h4>
@@ -813,15 +989,36 @@
             </div>
           </div>
         `,
-            )
-            .join("");
-        })
-        .catch((err) => console.error("Error parsing product JSON:", err));
+          )
+          .join("");
 
-      // Instant Search Modal Controls
+        renderPaginationControls();
+      }
+
+      function renderPaginationControls() {
+        const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+        const container = document.getElementById("paginationContainer");
+
+        if (totalPages <= 1) {
+          container.innerHTML = "";
+          return;
+        }
+
+        let buttonsHTML = "";
+        for (let i = 1; i <= totalPages; i++) {
+          buttonsHTML += `<button class="page-btn ${i === currentPage ? "active" : ""}" onclick="renderPage(${i})">${i}</button>`;
+        }
+        container.innerHTML = buttonsHTML;
+      }
+
+      // Instant Search Modal Controls & Live Search Logic
       function openInstantSearch() {
         const modal = document.getElementById("instantSearchModal");
-        if (modal) modal.style.display = "flex";
+        if (modal) {
+          modal.style.display = "flex";
+          document.getElementById("instantSearchInput").focus();
+          filterInstantSearch("");
+        }
       }
 
       function closeInstantSearch() {
@@ -829,12 +1026,89 @@
         if (modal) modal.style.display = "none";
       }
 
+      function filterInstantSearch(query, tagFilter = "") {
+        const listContainer = document.getElementById(
+          "instantSearchResultsList",
+        );
+        const lowerQuery = query.toLowerCase();
+
+        const matched = allProducts.filter((p) => {
+          const pTag = p.tag || p.category || "";
+          const matchesText =
+            p.name.toLowerCase().includes(lowerQuery) ||
+            pTag.toLowerCase().includes(lowerQuery) ||
+            (p.description && p.description.toLowerCase().includes(lowerQuery));
+          const matchesTag =
+            tagFilter === "" || pTag.toLowerCase() === tagFilter.toLowerCase();
+          return matchesText && matchesTag;
+        });
+
+        document.getElementById("instantMatchingTitle").innerText =
+          `MATCHING PRODUCTS (${matched.length})`;
+
+        if (matched.length === 0) {
+          listContainer.innerHTML = `<p style="padding: 20px; text-align: center; color: #7a746e; font-size: 13px;">No matching products found.</p>`;
+          return;
+        }
+
+        listContainer.innerHTML = matched
+          .map(
+            (p) => `
+            <a href="product.html?id=${p.id}" class="search-product-card">
+              <img src="${p.image}" alt="${p.name}">
+              <div class="search-product-details">
+                <div class="search-meta-top">
+                  <span class="search-tag">${p.tag || p.category}</span>
+                  <span class="search-rating">★ ${p.rating} <span class="review-count">(${p.reviewCount})</span></span>
+                </div>
+                <h4>${p.name}</h4>
+              </div>
+              <div class="search-product-pricing">
+                <span class="search-price">NRs. ${p.price.toLocaleString()}</span>
+                <span class="in-stock-label">${p.stock > 0 ? "IN STOCK" : "OUT OF STOCK"}</span>
+              </div>
+            </a>
+          `,
+          )
+          .join("");
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
+        const exploreBtn = document.getElementById("exploreCollectionsBtn");
+        if (exploreBtn) {
+          exploreBtn.addEventListener("click", () => {
+            const storeSection = document.querySelector(".store-container");
+            if (storeSection) {
+              storeSection.scrollIntoView({ behavior: "smooth" });
+            }
+          });
+        }
+
         const searchInputBars = document.querySelectorAll(".search-bar input");
         searchInputBars.forEach((input) => {
           input.addEventListener("focus", (e) => {
             e.preventDefault();
             openInstantSearch();
+          });
+        });
+
+        const instantInput = document.getElementById("instantSearchInput");
+        if (instantInput) {
+          instantInput.addEventListener("input", (e) => {
+            filterInstantSearch(e.target.value);
+          });
+        }
+
+        const searchPills = document.querySelectorAll(".search-pill");
+        searchPills.forEach((pill) => {
+          pill.addEventListener("click", (e) => {
+            searchPills.forEach((p) => p.classList.remove("active"));
+            e.target.classList.add("active");
+            const pillText = e.target.textContent.trim();
+            const tagVal = pillText === "All" ? "" : pillText;
+            const currentQuery =
+              document.getElementById("instantSearchInput").value;
+            filterInstantSearch(currentQuery, tagVal);
           });
         });
       });

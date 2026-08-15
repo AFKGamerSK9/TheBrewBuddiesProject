@@ -19,21 +19,14 @@
         background-color: #faf8f5;
         color: #2c2623;
         min-height: 100vh;
-      }
-
-      /* Announcement & Nav */
-      .announcement-bar {
-        background-color: #1f1916;
-        color: #ffffff;
-        text-align: center;
-        padding: 8px;
-        font-size: 13px;
-        letter-spacing: 0.3px;
+        display: flex;
+        flex-direction: column;
       }
 
       .navbar {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         padding: 16px 64px;
         background-color: #faf8f5;
       }
@@ -50,45 +43,27 @@
         width: auto;
       }
 
-      .nav-right {
-        display: flex;
-        gap: 20px;
-        align-items: center;
-        font-size: 14px;
-        color: #2c2623;
-      }
-      .nav-item {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        text-decoration: none;
-        color: #2c2623;
-        font-weight: 500;
-        font-size: 14px;
-        cursor: pointer;
-      }
-      .cart-badge {
-        background: #1d7a46;
+      .nav-auth-btn {
+        background-color: #1a4d3e;
         color: white;
-        border-radius: 50%;
-        width: 18px;
-        height: 18px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 11px;
-        font-weight: 700;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
       }
 
       /* Dashboard Layout */
       .dashboard-container {
         max-width: 1100px;
-        margin: 16px auto 0;
+        margin: 16px auto 48px;
         padding: 0 48px;
         display: grid;
         grid-template-columns: 1.2fr 340px;
         gap: 32px;
         align-items: start;
+        flex: 1;
       }
 
       .hero-section h1 {
@@ -114,9 +89,13 @@
 
       .profile-card-inline {
         background: #ffffff;
+        min-height: 510px;
         border-radius: 16px;
         padding: 24px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
       .user-header {
         display: flex;
@@ -205,6 +184,76 @@
       .sub-date {
         font-size: 12px;
         color: #6e6862;
+      }
+
+      /* Footer Styling */
+      .site-footer {
+        background-color: #1c1815;
+        color: #d1c9bd;
+        padding: 56px 64px 32px;
+        margin-top: auto;
+      }
+
+      .footer-top {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 48px;
+        padding-bottom: 40px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .footer-brand .footer-logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+        font-size: 18px;
+        color: #ffffff;
+        margin-bottom: 16px;
+      }
+
+      .footer-brand .footer-logo img {
+        height: 28px;
+        width: auto;
+      }
+
+      .footer-brand p {
+        font-size: 13px;
+        color: #9c9286;
+        line-height: 1.6;
+        max-width: 360px;
+      }
+
+      .footer-col h4 {
+        font-size: 13px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 16px;
+        letter-spacing: 0.5px;
+      }
+
+      .footer-col ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .footer-col ul li a {
+        color: #9c9286;
+        text-decoration: none;
+        font-size: 13px;
+        transition: color 0.2s;
+      }
+
+      .footer-col ul li a:hover {
+        color: #ffffff;
+      }
+
+      .footer-bottom {
+        padding-top: 32px;
+        font-size: 12px;
+        color: #8c8378;
       }
 
       /* Modal Global Overlay */
@@ -356,6 +405,24 @@
 
       .btn-primary:hover {
         background-color: #133a2e;
+      }
+
+      .modal-switch-text {
+        text-align: center;
+        font-size: 12px;
+        color: #7d7268;
+        margin-top: 14px;
+      }
+
+      .modal-switch-text a {
+        color: #1a4d3e;
+        font-weight: 700;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .modal-switch-text a:hover {
+        text-decoration: underline;
       }
 
       /* Profile Main Modal Inner Elements */
@@ -648,10 +715,6 @@
     <link rel="icon" type="image/png" href="logo.png" />
   </head>
   <body>
-    <div class="announcement-bar">
-      Flash Offers — Free shipping on orders over NRs. 2,500
-    </div>
-
     <header class="navbar">
       <a href="/" style="text-decoration: none">
         <div class="logo">
@@ -659,13 +722,16 @@
           <span>The Brew Buddies</span>
         </div>
       </a>
+      <div id="navAuthContainer">
+        <!-- Dynamically populated Sign In or Account trigger -->
+      </div>
     </header>
 
     <hr style="border: none; border-top: 1px solid #e0dad2; width: 100%" />
 
     <main class="dashboard-container">
       <section class="hero-section">
-        <h1>Welcome Back</h1>
+        <h1 id="welcomeTitle">Welcome Back</h1>
         <p>
           Select from your premium profile options, manage active orders, or
           browse personalized beans right from the quick navigation panel.
@@ -677,46 +743,159 @@
         />
       </section>
 
-      <aside class="profile-card-inline">
-        <div class="user-header">
-          <div class="avatar-circle-inline">SK</div>
-          <div class="user-info">
-            <h3>Sarah K.</h3>
-            <span>Premium Member</span>
-          </div>
-        </div>
-
-        <ul class="menu-list">
-          <li class="menu-item active">
-            <a onclick="openModal('profileModal')">
-              <span class="menu-left">👤 My Account</span>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="/settings"><span class="menu-left">⚙️ Settings</span></a>
-          </li>
-          <li class="menu-item">
-            <a href="/cart">
-              <span class="menu-left">🛒 Cart</span>
-              <span class="menu-badge">3</span>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="/about"><span class="menu-left">💬 About Us</span></a>
-          </li>
-          <li class="menu-item">
-            <a href="/support"><span class="menu-left">🎧 Support</span></a>
-          </li>
-        </ul>
-
-        <div class="subscription-banner">
-          <div class="sub-title">SUBSCRIPTION ACTIVE</div>
-          <div class="sub-date">Next bag ships Jan 26</div>
-        </div>
+      <aside class="profile-card-inline" id="sidebarCardContainer">
+        <!-- Dynamically rendered based on active session state -->
       </aside>
     </main>
 
-    <!-- ALL MODALS BELOW -->
+    <!-- FOOTER SECTION -->
+    <footer class="site-footer">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="logo.png" alt="The Brew Buddies Logo" />
+            <span>The Brew Buddies</span>
+          </div>
+          <p>
+            Artisanal coffee and fine loose-leaf teas sourced ethically from
+            family-owned estates around the globe. Freshly roasted, perfectly
+            dried, delivered directly to your cup.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Shop Collections</h4>
+          <ul>
+            <li><a href="#">Single Origin Coffee</a></li>
+            <li><a href="#">Artisanal Blends</a></li>
+            <li><a href="#">Organic Loose Tea</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Our Heritage</h4>
+          <ul>
+            <li><a href="#">The Roastery Story</a></li>
+            <li><a href="#">Sustainable Sourcing</a></li>
+            <li><a href="#">Brew Guides</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Shipping & Delivery</a></li>
+            <li><a href="#">Returns Policy</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        &copy; 2026 The Brew Buddies Co. Sourced with integrity, packaged
+        beautifully.
+      </div>
+    </footer>
+
+    <!-- MODALS -->
+
+    <!-- SIGN IN MODAL -->
+    <div class="modal-overlay" id="signInModal">
+      <div class="modal-card sm" style="background: #ffffff">
+        <button class="modal-close" onclick="closeModal('signInModal')">
+          ✕
+        </button>
+        <div class="modal-title">Sign In to Your Account</div>
+        <form id="signInForm" onsubmit="handleSignIn(event)">
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input
+              type="email"
+              id="loginEmail"
+              class="form-input"
+              placeholder="ojash@brewbuddies.com"
+              autocomplete="off"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input
+              type="password"
+              id="loginPassword"
+              class="form-input"
+              placeholder="••••••••"
+              autocomplete="off"
+              required
+            />
+          </div>
+          <button type="submit" class="btn-primary">Sign In</button>
+        </form>
+        <div class="modal-switch-text">
+          Don't have an account?
+          <a onclick="switchModal('signInModal', 'signUpModal')"
+            >Create Account</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGN UP / CREATE ACCOUNT MODAL -->
+    <div class="modal-overlay" id="signUpModal">
+      <div class="modal-card sm" style="background: #ffffff">
+        <button class="modal-close" onclick="closeModal('signUpModal')">
+          ✕
+        </button>
+        <div class="modal-title">Create an Account</div>
+        <form id="signUpForm" onsubmit="handleSignUp(event)">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input
+              type="text"
+              id="signupName"
+              class="form-input"
+              placeholder="John Doe"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input
+              type="email"
+              id="signupEmail"
+              class="form-input"
+              placeholder="john@brewbuddies.com"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input
+              type="tel"
+              id="signupPhone"
+              class="form-input"
+              placeholder="+977 98xxxxxxxx"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input
+              type="password"
+              id="signupPassword"
+              class="form-input"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+          <button type="submit" class="btn-primary">Register Account</button>
+        </form>
+        <div class="modal-switch-text">
+          Already have an account?
+          <a onclick="switchModal('signUpModal', 'signInModal')">Sign In</a>
+        </div>
+      </div>
+    </div>
 
     <!-- 1. MAIN PROFILE MODAL -->
     <div class="modal-overlay" id="profileModal">
@@ -727,21 +906,26 @@
 
         <div class="profile-header-modal">
           <div class="header-tag-modal">THE BREW BUDDIES PROFILE</div>
-          <div class="avatar-circle-modal">S</div>
-          <h2>Hello, Siddharth!</h2>
-          <div class="user-email-modal">siddharth@brewbuddies.com</div>
+          <div class="avatar-circle-modal" id="modalAvatarInitials">O</div>
+          <h2 id="modalUserName">Hello, Ojash!</h2>
+          <div class="user-email-modal" id="modalUserEmail">
+            ojash@brewbuddies.com
+          </div>
         </div>
 
         <div class="rewards-card-modal">
           <div class="rewards-label-modal">Brew Rewards Balance</div>
           <div class="rewards-row-modal">
             <div>
-              <div class="points-val-modal">350 Points</div>
+              <div class="points-val-modal" id="modalPointsVal">350 Points</div>
               <div class="value-text-modal">
-                Value: <strong>NRs. 350</strong> off your next order!
+                Value: <strong id="modalPointsValueText">NRs. 350</strong> off
+                your next order!
               </div>
             </div>
-            <div class="tier-badge-modal">Silver Beans Member</div>
+            <div class="tier-badge-modal" id="modalTierBadge">
+              Silver Beans Member
+            </div>
           </div>
           <a href="#" class="redeem-link-modal">Redeem Points at Checkout →</a>
         </div>
@@ -779,10 +963,7 @@
           </button>
         </div>
 
-        <button
-          class="btn-signout-modal"
-          onclick="alert('Signed out successfully!')"
-        >
+        <button class="btn-signout-modal" onclick="handleSignOut()">
           Sign Out
         </button>
       </div>
@@ -810,7 +991,7 @@
             <input
               type="text"
               class="form-input"
-              value="Siddharth Shrestha"
+              value="Ojash Shrestha"
               required
             />
           </div>
@@ -820,7 +1001,7 @@
             <input
               type="email"
               class="form-input"
-              value="siddharth@brewbuddies.com"
+              value="ojash@brewbuddies.com"
               required
             />
           </div>
@@ -830,7 +1011,7 @@
             <input
               type="tel"
               class="form-input"
-              value="+977 9801234567"
+              value="+977 9845485299"
               required
             />
           </div>
@@ -855,7 +1036,7 @@
           class="avatar-circle-modal"
           style="width: 80px; height: 80px; font-size: 36px; margin: 20px auto"
         >
-          S
+          O
         </div>
 
         <div
@@ -1085,8 +1266,265 @@
       </div>
     </div>
 
-    <!-- Modal Controller Script -->
     <script>
+      let usersDatabase = [
+        {
+          id: 1,
+          name: "Ojash Shrestha",
+          email: "ojash@brewbuddies.com",
+          password: "password123",
+          phone: "+977 9845485299",
+          avatarInitials: "O",
+          membershipTier: "Silver Beans Member",
+          points: 350,
+          pointsValue: "NRs. 350",
+          subscription: "Active (Next bag ships Jan 26)",
+        },
+      ];
+
+      // Safely load users database with content-type checking
+      async function loadUsersDatabase() {
+        try {
+          const response = await fetch("/api/users");
+          const contentType = response.headers.get("content-type");
+
+          if (
+            response.ok &&
+            contentType &&
+            contentType.includes("application/json")
+          ) {
+            const serverUsers = await response.json();
+            if (Array.isArray(serverUsers) && serverUsers.length > 0) {
+              usersDatabase = serverUsers;
+            }
+          } else {
+            console.warn(
+              "API endpoint /api/users not found or not returning JSON. Using fallback data.",
+            );
+          }
+        } catch (error) {
+          console.error(
+            "Could not load users from server, using fallback.",
+            error,
+          );
+        }
+        updateUIState();
+      }
+
+      function getActiveUser() {
+        const storedEmail = localStorage.getItem("brewBuddyActiveUser");
+        if (!storedEmail) return null;
+        return (
+          usersDatabase.find(
+            (u) => u.email.toLowerCase() === storedEmail.toLowerCase(),
+          ) || null
+        );
+      }
+
+      function updateUIState() {
+        const user = getActiveUser();
+        const navContainer = document.getElementById("navAuthContainer");
+        const sidebarContainer = document.getElementById(
+          "sidebarCardContainer",
+        );
+        const welcomeTitle = document.getElementById("welcomeTitle");
+
+        if (user) {
+          navContainer.innerHTML = `<button class="nav-auth-btn" onclick="openModal('profileModal')">👤 ${user.name.split(" ")[0]}</button>`;
+          welcomeTitle.textContent = "Welcome Back";
+          sidebarContainer.innerHTML = `
+            <div class="user-header">
+              <div class="avatar-circle-inline">${user.avatarInitials}</div>
+              <div class="user-info">
+                <h3>${user.name}</h3>
+                <span>${user.membershipTier}</span>
+              </div>
+            </div>
+
+            <ul class="menu-list">
+              <li class="menu-item active">
+                <a onclick="openModal('profileModal')">
+                  <span class="menu-left">👤 My Account</span>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="/settings"><span class="menu-left">⚙️ Settings</span></a>
+              </li>
+              <li class="menu-item">
+                <a href="/cart">
+                  <span class="menu-left">🛒 Cart</span>
+                  <span class="menu-badge">3</span>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="/about"><span class="menu-left">💬 About Us</span></a>
+              </li>
+              <li class="menu-item">
+                <a href="/support"><span class="menu-left">🎧 Support</span></a>
+              </li>
+            </ul>
+
+            <div class="subscription-banner">
+              <div class="sub-title">SUBSCRIPTION ACTIVE</div>
+              <div class="sub-date">${user.subscription}</div>
+            </div>
+          `;
+
+          document.getElementById("modalAvatarInitials").textContent =
+            user.avatarInitials;
+          document.getElementById("modalUserName").textContent =
+            `Hello, ${user.name.split(" ")[0]}!`;
+          document.getElementById("modalUserEmail").textContent = user.email;
+          document.getElementById("modalPointsVal").textContent =
+            `${user.points} Points`;
+          document.getElementById("modalPointsValueText").textContent =
+            user.pointsValue;
+          document.getElementById("modalTierBadge").textContent =
+            user.membershipTier;
+        } else {
+          navContainer.innerHTML = `<button class="nav-auth-btn" onclick="openModal('signInModal')">Sign In</button>`;
+          welcomeTitle.textContent = "Welcome to The Brew Buddies";
+          sidebarContainer.innerHTML = `
+            <div style="text-align: center; padding: 40px 20px;">
+              <div style="font-size: 36px; margin-bottom: 12px;">☕</div>
+              <h3 style="margin-bottom: 8px; font-size: 18px;">You are signed out</h3>
+              <p style="font-size: 13px; color: #6e6862; margin-bottom: 20px;">Sign in to view your subscriptions, rewards points, and active orders.</p>
+              <button class="btn-primary" onclick="openModal('signInModal')">Sign In Now</button>
+            </div>
+          `;
+        }
+      }
+
+      async function handleSignIn(e) {
+        e.preventDefault();
+        const inputEmail = document
+          .getElementById("loginEmail")
+          .value.trim()
+          .toLowerCase();
+        const inputPassword = document.getElementById("loginPassword").value;
+
+        try {
+          const response = await fetch("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: inputEmail,
+              password: inputPassword,
+            }),
+          });
+
+          const contentType = response.headers.get("content-type");
+
+          if (
+            response.ok &&
+            contentType &&
+            contentType.includes("application/json")
+          ) {
+            const data = await response.json();
+            if (data.status === "success") {
+              localStorage.setItem("brewBuddyActiveUser", data.user.email);
+              closeModal("signInModal");
+              await loadUsersDatabase();
+              updateUIState();
+              return;
+            }
+          }
+
+          // Fallback / Local validation when API endpoint isn't set up yet
+          const localUser = usersDatabase.find(
+            (u) =>
+              u.email.toLowerCase() === inputEmail &&
+              u.password === inputPassword,
+          );
+
+          if (localUser) {
+            localStorage.setItem("brewBuddyActiveUser", localUser.email);
+            closeModal("signInModal");
+            updateUIState();
+          } else {
+            if (
+              confirm(
+                "Account not found or password incorrect. Would you like to create an account now?",
+              )
+            ) {
+              document.getElementById("signupEmail").value = inputEmail;
+              switchModal("signInModal", "signUpModal");
+            }
+          }
+        } catch (error) {
+          console.error("Login request error:", error);
+          alert("An error occurred while connecting to the server.");
+        }
+      }
+
+      async function handleSignUp(e) {
+        e.preventDefault();
+        const name = document.getElementById("signupName").value.trim();
+        const email = document
+          .getElementById("signupEmail")
+          .value.trim()
+          .toLowerCase();
+        const phone = document.getElementById("signupPhone").value.trim();
+        const password = document.getElementById("signupPassword").value;
+
+        const initials = name
+          ? name
+              .split(" ")
+              .map((n) => n[0])
+              .join("")
+              .toUpperCase()
+          : "U";
+
+        const newUser = {
+          id: usersDatabase.length + 1,
+          name: name,
+          email: email,
+          password: password,
+          phone: phone,
+          avatarInitials: initials,
+          membershipTier: "New Bean Member",
+          points: 50,
+          pointsValue: "NRs. 50",
+          subscription: "No active subscription",
+        };
+
+        try {
+          const response = await fetch("/api/users", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newUser),
+          });
+
+          if (response.ok) {
+            usersDatabase.push(newUser);
+            localStorage.setItem("brewBuddyActiveUser", email);
+            closeModal("signUpModal");
+            updateUIState();
+            alert("Account created successfully!");
+          } else {
+            // Local fallback if server endpoint is missing
+            usersDatabase.push(newUser);
+            localStorage.setItem("brewBuddyActiveUser", email);
+            closeModal("signUpModal");
+            updateUIState();
+            alert("Account created successfully (saved locally)!");
+          }
+        } catch (error) {
+          console.error("Error saving user:", error);
+          usersDatabase.push(newUser);
+          localStorage.setItem("brewBuddyActiveUser", email);
+          closeModal("signUpModal");
+          updateUIState();
+          alert("Account created successfully (saved locally)!");
+        }
+      }
+
+      function handleSignOut() {
+        localStorage.removeItem("brewBuddyActiveUser");
+        closeModal("profileModal");
+        updateUIState();
+      }
+
       function openModal(id) {
         document.getElementById(id).classList.add("active");
       }
@@ -1099,6 +1537,10 @@
         closeModal(fromId);
         openModal(toId);
       }
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        await loadUsersDatabase();
+      });
     </script>
   </body>
 </html>

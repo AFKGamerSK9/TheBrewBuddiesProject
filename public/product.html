@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ethiopian Yirgacheffe — The Brew Buddies</title>
+    <title id="pageTitle">Product Detail — The Brew Buddies</title>
 
     <style>
       * {
@@ -77,25 +77,6 @@
         border-radius: 16px;
         font-size: 14px;
         cursor: pointer;
-      }
-      .category-pills {
-        display: flex;
-        gap: 12px;
-        padding: 0 48px 16px;
-        border-bottom: 1px solid #eae5dc;
-      }
-      .pill {
-        border: 1px solid #e2ddd5;
-        background: white;
-        padding: 8px 18px;
-        border-radius: 20px;
-        cursor: pointer;
-        font-size: 13px;
-      }
-      .pill.active {
-        background-color: #1d7a46;
-        color: white;
-        border-color: #1d7a46;
       }
 
       /* Layout & Detail */
@@ -463,224 +444,12 @@
         font-weight: normal;
         margin-left: 8px;
       }
-      .review-photos {
-        display: flex;
-        gap: 10px;
-        margin-top: 12px;
-      }
-      .review-photos img {
-        width: 60px;
-        height: 60px;
-        border-radius: 6px;
-        object-fit: cover;
-      }
 
-      /* Cleaned Up Modal Container & Dynamic Component Styles */
       #modalContainer {
         display: none;
       }
 
-      .modal-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(22, 18, 16, 0.65);
-        backdrop-filter: blur(4px);
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-      }
-
-      .modal-card {
-        background: #ffffff;
-        width: 420px;
-        max-width: 90vw;
-        border-radius: 16px;
-        padding: 24px;
-        position: relative;
-        max-height: 90vh;
-        overflow-y: auto;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-      }
-
-      .modal-close {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        background: #f4f0ea;
-        border: none;
-        font-size: 12px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #555;
-      }
-
-      .modal-title {
-        font-size: 20px;
-        font-weight: 700;
-        color: #2c2623;
-        margin-bottom: 16px;
-      }
-
-      .product-summary {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        background: #faf7f2;
-        padding: 10px 14px;
-        border-radius: 12px;
-        margin-bottom: 20px;
-      }
-
-      .product-summary img {
-        width: 44px;
-        height: 44px;
-        border-radius: 8px;
-        object-fit: cover;
-      }
-
-      .product-summary .p-title {
-        font-size: 13px;
-        font-weight: 700;
-        color: #2c2623;
-      }
-
-      .product-summary .p-meta {
-        font-size: 11px;
-        color: #8a847c;
-        margin-top: 2px;
-      }
-
-      .modal-group {
-        margin-bottom: 16px;
-      }
-
-      .modal-group label {
-        display: block;
-        font-size: 12px;
-        font-weight: 700;
-        color: #2c2623;
-        margin-bottom: 6px;
-      }
-
-      .modal-input,
-      .modal-textarea {
-        width: 100%;
-        padding: 10px 12px;
-        border: 1px solid #e2ddd5;
-        border-radius: 8px;
-        font-size: 12px;
-        background: #fdfbf7;
-        color: #2c2623;
-        outline: none;
-      }
-
-      .modal-input:focus,
-      .modal-textarea:focus {
-        border-color: #1d7a46;
-        background: #ffffff;
-      }
-
-      .modal-textarea {
-        height: 70px;
-        resize: none;
-      }
-
-      .star-rating {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        cursor: pointer;
-      }
-
-      .star-rating .star {
-        font-size: 20px;
-        color: #e0d8cd;
-        transition: color 0.15s ease;
-      }
-
-      .star-rating .star.active {
-        color: #e5a000;
-      }
-
-      .rating-label {
-        font-size: 12px;
-        font-weight: 600;
-        color: #1d7a46;
-        margin-left: 8px;
-      }
-
-      .dropzone {
-        border: 1px dashed #d8d2c7;
-        background: #faf7f2;
-        border-radius: 10px;
-        padding: 14px;
-        text-align: center;
-        cursor: pointer;
-      }
-
-      .dropzone-icon {
-        font-size: 18px;
-        margin-bottom: 4px;
-      }
-
-      .dropzone-text {
-        font-size: 11px;
-        color: #7a746e;
-      }
-
-      .radio-row {
-        display: flex;
-        gap: 16px;
-        font-size: 12px;
-        color: #2c2623;
-      }
-
-      .radio-row label {
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        cursor: pointer;
-      }
-
-      .radio-row input[type="radio"] {
-        accent-color: #1d7a46;
-      }
-
-      .form-grid-2 {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-      }
-
-      .btn-submit-review {
-        width: 100%;
-        background-color: #1d7a46;
-        color: #ffffff;
-        border: none;
-        padding: 12px;
-        border-radius: 8px;
-        font-weight: 700;
-        font-size: 13px;
-        cursor: pointer;
-        margin-top: 8px;
-        transition: background 0.2s ease;
-      }
-
-      .btn-submit-review:hover {
-        background-color: #155c34;
-      }
-
-      /* Instant Search Modal Styling */
+      /* Instant Search Overlay Modal */
       .instant-search-overlay {
         display: none;
         position: fixed;
@@ -804,6 +573,8 @@
         border: 1px solid #e2ddd5;
         margin-bottom: 12px;
         gap: 16px;
+        text-decoration: none;
+        color: inherit;
       }
 
       .search-product-card img {
@@ -920,15 +691,19 @@
     <!-- Header -->
     <header class="navbar">
       <div class="nav-left">
-        <a href="/" style="text-decoration: none"
-          ><div class="logo">
+        <a href="/" style="text-decoration: none">
+          <div class="logo">
             <img src="logo.png" alt="The Brew Buddies Logo" />
             <span>The Brew Buddies</span>
-          </div></a
-        >
+          </div>
+        </a>
       </div>
       <div class="search-bar">
-        <input type="text" placeholder="Search premium beans, loose teas..." />
+        <input
+          type="text"
+          id="headerSearchInput"
+          placeholder="Search premium beans, loose teas..."
+        />
       </div>
       <div class="nav-right">
         <a href="/account" class="nav-link">👤 Account</a>
@@ -938,19 +713,11 @@
       </div>
     </header>
 
-    <!-- Navigation Pills -->
-    <nav class="category-pills">
-      <button class="pill active">Coffee</button>
-      <button class="pill">Loose Tea</button>
-      <button class="pill">Espresso Machines</button>
-      <button class="pill">Accessories</button>
-      <button class="pill">Best Sellers</button>
-    </nav>
-
     <!-- Breadcrumbs -->
     <div class="breadcrumb">
-      <a href="/">Home</a> <span>/</span> <a href="#">Coffee</a> <span>/</span>
-      <b>Ethiopian Yirgacheffe</b>
+      <a href="/">Home</a> <span>/</span>
+      <a href="#" id="breadcrumbCategory">Coffee</a> <span>/</span>
+      <b id="breadcrumbProductName">Loading...</b>
     </div>
 
     <!-- Product Detail Section -->
@@ -958,64 +725,52 @@
       <!-- Image Gallery -->
       <div class="gallery-col">
         <div class="gallery-main">
-          <img
-            id="mainImage"
-            src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=1000&q=80"
-            alt="Ethiopian Yirgacheffe"
-          />
+          <img id="mainImage" src="" alt="Product Image" />
         </div>
-        <div class="gallery-thumbs">
-          <img
-            class="active"
-            src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=300&q=80"
-            onclick="switchImage(this)"
-          />
-          <img
-            src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=300&q=80"
-            onclick="switchImage(this)"
-          />
-          <img
-            src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80"
-            onclick="switchImage(this)"
-          />
-          <img
-            src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=300&q=80"
-            onclick="switchImage(this)"
-          />
-          <img
-            src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?auto=format&fit=crop&w=300&q=80"
-            onclick="switchImage(this)"
-          />
+        <div class="gallery-thumbs" id="galleryThumbs">
+          <!-- Dynamically populated thumbnails -->
         </div>
       </div>
 
       <!-- Purchase Info -->
       <div class="p-info">
         <div>
-          <span class="badge-tag">SINGLE ORIGIN • ETHIOPIA</span>
-          <span class="rating-inline">★★★★★ (124)</span>
+          <span class="badge-tag" id="productTag">LOADING...</span>
+          <span class="rating-inline" id="productRating">★★★★★ (0)</span>
         </div>
 
-        <h1>Ethiopian Yirgacheffe</h1>
-        <div class="price-tag">NRs. 1,250</div>
+        <h1 id="productName">Loading Product...</h1>
+        <div class="price-tag" id="productPrice">NRs. 0</div>
 
-        <p class="description">
-          Renowned for its clean, refined floral and citrus cup notes. This
-          wet-processed lot displays high flavor intensity of lemon blossom,
-          bergamot, and fresh jasmine with a smooth black-tea finish.
+        <p class="description" id="productDescription">
+          Please wait while we load the product details...
         </p>
 
         <!-- Weight Options -->
         <div class="option-group">
           <label>Select Weight</label>
           <div class="weight-options">
-            <button class="btn-weight active" onclick="selectWeight(this)">
+            <button
+              class="btn-weight active"
+              data-multiplier="1"
+              onclick="selectWeight(this, 1)"
+            >
               250g
             </button>
-            <button class="btn-weight" onclick="selectWeight(this)">
+            <button
+              class="btn-weight"
+              data-multiplier="1.8"
+              onclick="selectWeight(this, 1.8)"
+            >
               500g
             </button>
-            <button class="btn-weight" onclick="selectWeight(this)">1kg</button>
+            <button
+              class="btn-weight"
+              data-multiplier="3.3"
+              onclick="selectWeight(this, 3.3)"
+            >
+              1kg
+            </button>
           </div>
         </div>
 
@@ -1034,13 +789,13 @@
         <div class="purchase-options">
           <label class="purchase-option-row">
             <input type="radio" name="purchase_type" value="once" />
-            <div><strong>One-time Purchase</strong> — NRs. 1,250</div>
+            <div><strong id="oneTimeText">One-time Purchase</strong></div>
           </label>
 
           <label class="purchase-option-row selected">
             <input type="radio" name="purchase_type" value="sub" checked />
             <div>
-              <strong>Subscribe & Save (10% Off)</strong> — NRs. 1,125
+              <strong id="subText">Subscribe & Save (10% Off)</strong>
               <div class="sub-details">
                 <span>Deliver every: </span>
                 <select>
@@ -1059,8 +814,12 @@
             <span id="qty">1</span>
             <button onclick="updateQty(1)">+</button>
           </div>
-          <button class="btn-add-cart-large" onclick="toggleCart(true)">
-            🛒 Add to Cart — NRs. 1,250
+          <button
+            class="btn-add-cart-large"
+            id="addToCartBtn"
+            onclick="toggleCart(true)"
+          >
+            🛒 Add to Cart — NRs. 0
           </button>
         </div>
 
@@ -1078,8 +837,12 @@
           <button class="tab-btn active" onclick="switchTab(this, 'specsTab')">
             Origin Story & Specs
           </button>
-          <button class="tab-btn" onclick="switchTab(this, 'reviewsTab')">
-            Reviews (2)
+          <button
+            class="tab-btn"
+            id="reviewsTabBtn"
+            onclick="switchTab(this, 'reviewsTab')"
+          >
+            Reviews (0)
           </button>
         </div>
       </div>
@@ -1088,67 +851,65 @@
       <div id="specsTab" class="tab-panel">
         <div class="story-col">
           <h3>A Heritage of High Altitudes</h3>
-          <p>
-            Our Ethiopian Yirgacheffe comes from the family-owned washing
-            station in the Gedeo zone. Grown at altitudes between 1,900 and
-            2,200 meters, these indigenous heirloom trees produce small, dense
-            beans packed with complex sugars.
+          <p id="specParagraph1">
+            Our selected items come from certified family-owned partners and
+            estate origins. Grown at optimal elevations, these beans and
+            components produce rich and complex profiles.
           </p>
-          <p>
-            Every harvest cherries are hand-sorted, depulped, fermented
-            underwater for 36 hours, and dried slowly on raised wooden beds.
-            This precise process preserves the delicate, tea-like quality that
-            has made Yirgacheffe famous worldwide.
+          <p id="specParagraph2">
+            Every harvest is carefully hand-sorted and quality-checked to
+            preserve the authentic aroma and distinct flavor characteristics
+            that define our collection.
           </p>
         </div>
       </div>
 
-      <!-- Tab 2: Reviews Section (Figma Design Layout) -->
+      <!-- Tab 2: Reviews Section -->
       <div id="reviewsTab" class="tab-panel" style="display: none">
         <!-- Rating Overview Card -->
         <div class="review-summary-card">
           <div class="rating-overview">
-            <span class="rating-score">4.9</span>
+            <span class="rating-score" id="summaryScore">0.0</span>
             <div class="stars">★★★★★</div>
             <span class="rating-badge">Excellent Average</span>
-            <small>Based on 428 Verified Ratings</small>
+            <small id="summaryCount">Based on 0 Verified Ratings</small>
           </div>
 
-          <div class="rating-bars">
+          <div class="rating-bars" id="ratingBarsContainer">
             <div class="bar-row">
               <span>5 Stars</span>
               <div class="progress-bar">
-                <div class="fill" style="width: 92%"></div>
+                <div class="fill" id="fill-5" style="width: 0%"></div>
               </div>
-              <span>92%</span>
+              <span id="pct-5">0%</span>
             </div>
             <div class="bar-row">
               <span>4 Stars</span>
               <div class="progress-bar">
-                <div class="fill" style="width: 6%"></div>
+                <div class="fill" id="fill-4" style="width: 0%"></div>
               </div>
-              <span>6%</span>
+              <span id="pct-4">0%</span>
             </div>
             <div class="bar-row">
               <span>3 Stars</span>
               <div class="progress-bar">
-                <div class="fill" style="width: 1%"></div>
+                <div class="fill" id="fill-3" style="width: 0%"></div>
               </div>
-              <span>1%</span>
+              <span id="pct-3">0%</span>
             </div>
             <div class="bar-row">
               <span>2 Stars</span>
               <div class="progress-bar">
-                <div class="fill" style="width: 1%"></div>
+                <div class="fill" id="fill-2" style="width: 0%"></div>
               </div>
-              <span>1%</span>
+              <span id="pct-2">0%</span>
             </div>
             <div class="bar-row">
               <span>1 Star</span>
               <div class="progress-bar">
-                <div class="fill" style="width: 0%"></div>
+                <div class="fill" id="fill-1" style="width: 0%"></div>
               </div>
-              <span>0%</span>
+              <span id="pct-1">0%</span>
             </div>
           </div>
 
@@ -1170,57 +931,7 @@
         </div>
 
         <!-- Reviews List -->
-        <div class="reviews-col">
-          <div class="review-card">
-            <div class="review-header">
-              <div class="user-avatar">
-                <div class="avatar-icon">PB</div>
-                <div>
-                  Pranish B.
-                  <span class="verified-tag">✔ Verified Buyer</span>
-                </div>
-              </div>
-              <div class="rating" style="color: #e5a000">
-                ★★★★★ <span class="review-date">Jan 12, 2026</span>
-              </div>
-            </div>
-            <p style="font-size: 13px; color: #6e6862; line-height: 1.5">
-              Absolutely stunning clean acidity! You get the lemon blossom
-              instantly on the first sip. This Yirgacheffe remains my all-time
-              favorite single origin.
-            </p>
-            <div class="review-photos">
-              <img
-                src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=150&q=80"
-                alt="Review photo 1"
-              />
-              <img
-                src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=150&q=80"
-                alt="Review photo 2"
-              />
-            </div>
-          </div>
-
-          <div class="review-card">
-            <div class="review-header">
-              <div class="user-avatar">
-                <div class="avatar-icon">AK</div>
-                <div>
-                  Anisha K.
-                  <span class="verified-tag">✔ Verified Buyer</span>
-                </div>
-              </div>
-              <div class="rating" style="color: #e5a000">
-                ★★★★★ <span class="review-date">Jan 08, 2026</span>
-              </div>
-            </div>
-            <p style="font-size: 13px; color: #6e6862; line-height: 1.5">
-              This bag is exactly what ethical premium coffee tastes like.
-              Superbly roasted, with deep floral notes and no bitter aftertaste.
-              Will buy again!
-            </p>
-          </div>
-        </div>
+        <div class="reviews-col"></div>
       </div>
     </section>
 
@@ -1244,8 +955,7 @@
           <input
             type="text"
             id="instantSearchInput"
-            placeholder="Yirgacheffe"
-            value="Yirgacheffe"
+            placeholder="Type to search products..."
             autofocus
           />
         </div>
@@ -1254,79 +964,51 @@
         <div class="quick-filters-section">
           <span class="quick-filters-title">QUICK FILTERS</span>
           <div class="filter-pills-row">
-            <button class="search-pill active">Single Origin</button>
-            <button class="search-pill">Dark Roast</button>
-            <button class="search-pill">Espresso</button>
-            <button class="search-pill">Loose Tea</button>
+            <button
+              class="search-pill active"
+              onclick="filterSearchTag('All', this)"
+            >
+              All
+            </button>
+            <button
+              class="search-pill"
+              onclick="filterSearchTag('Single Origin', this)"
+            >
+              Single Origin
+            </button>
+            <button
+              class="search-pill"
+              onclick="filterSearchTag('Espresso Blend', this)"
+            >
+              Espresso Blend
+            </button>
+            <button
+              class="search-pill"
+              onclick="filterSearchTag('Artisanal Blend', this)"
+            >
+              Artisanal Blend
+            </button>
+            <button
+              class="search-pill"
+              onclick="filterSearchTag('Loose Tea', this)"
+            >
+              Loose Tea
+            </button>
+            <button
+              class="search-pill"
+              onclick="filterSearchTag('Accessories', this)"
+            >
+              Accessories
+            </button>
           </div>
         </div>
 
         <!-- Matching Products List -->
         <div class="matching-products-section">
-          <span class="matching-title">MATCHING PRODUCTS (3)</span>
-
-          <!-- Product Item 1 -->
-          <div class="search-product-card">
-            <img
-              src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=150&q=80"
-              alt="Ethiopian Yirgacheffe"
-            />
-            <div class="search-product-details">
-              <div class="search-meta-top">
-                <span class="search-tag">Single Origin</span>
-                <span class="search-rating"
-                  >★★★★★ <span class="review-count">(124)</span></span
-                >
-              </div>
-              <h4>Ethiopian Yirgacheffe (Medium Roast)</h4>
-            </div>
-            <div class="search-product-pricing">
-              <span class="search-price">NRs. 1,250</span>
-              <span class="in-stock-label">IN STOCK</span>
-            </div>
-          </div>
-
-          <!-- Product Item 2 -->
-          <div class="search-product-card">
-            <img
-              src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=150&q=80"
-              alt="Golden Hour Espresso Blend"
-            />
-            <div class="search-product-details">
-              <div class="search-meta-top">
-                <span class="search-tag">Artisanal Blend</span>
-                <span class="search-rating"
-                  >★★★★★ <span class="review-count">(215)</span></span
-                >
-              </div>
-              <h4>Golden Hour Espresso Blend</h4>
-            </div>
-            <div class="search-product-pricing">
-              <span class="search-price">NRs. 1,100</span>
-              <span class="in-stock-label">IN STOCK</span>
-            </div>
-          </div>
-
-          <!-- Product Item 3 -->
-          <div class="search-product-card">
-            <img
-              src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=150&q=80"
-              alt="Organic Ceremonial Matcha"
-            />
-            <div class="search-product-details">
-              <div class="search-meta-top">
-                <span class="search-tag">Loose Tea</span>
-                <span class="search-rating"
-                  >★★★★★ <span class="review-count">(76)</span></span
-                >
-              </div>
-              <h4>Organic Ceremonial Matcha</h4>
-            </div>
-            <div class="search-product-pricing">
-              <span class="search-price">NRs. 1,600</span>
-              <span class="in-stock-label">IN STOCK</span>
-            </div>
-          </div>
+          <span class="matching-title" id="matchingTitle"
+            >MATCHING PRODUCTS (0)</span
+          >
+          <div id="instantSearchResultsList"></div>
         </div>
       </div>
     </div>
@@ -1370,7 +1052,267 @@
     </footer>
 
     <script>
-      // Fallback for cart drawer state
+      let allProducts = [];
+      let allReviewsMap = {};
+      let currentProduct = null;
+      let currentQty = 1;
+      let currentMultiplier = 1;
+      let selectedRating = 5;
+      let displayedReviewCount = 10;
+
+      // Robust CSV Parser for frontend
+      function parseCSV(text) {
+        let lines = text.split("\n");
+        let result = [];
+        if (lines.length === 0) return result;
+
+        let headers = parseCSVLine(lines[0]);
+
+        for (let i = 1; i < lines.length; i++) {
+          if (!lines[i].trim()) continue;
+          let currentline = parseCSVLine(lines[i]);
+          let obj = {};
+          for (let j = 0; j < headers.length; j++) {
+            obj[headers[j]] =
+              currentline[j] !== undefined ? currentline[j] : "";
+          }
+          result.push({
+            productId: parseInt(obj.productId) || 1,
+            rating: parseInt(obj.rating) || 5,
+            title: obj.title || "",
+            text: obj.text || "",
+            recommend: obj.recommend || "yes",
+            name: obj.name || "Anonymous",
+            email: obj.email || "",
+            verified:
+              obj.verified === "True" ||
+              obj.verified === "true" ||
+              obj.verified === true,
+            date: obj.date || "",
+          });
+        }
+        return result;
+      }
+
+      function parseCSVLine(text) {
+        let ret = [];
+        let cur = "";
+        let inquotes = false;
+        for (let i = 0; i < text.length; i++) {
+          let c = text[i];
+          if (c === '"') {
+            inquotes = !inquotes;
+          } else if (c === "," && !inquotes) {
+            ret.push(cur.trim());
+            cur = "";
+          } else {
+            cur += c;
+          }
+        }
+        ret.push(cur.trim());
+        return ret.map((val) => val.replace(/^"|"$/g, ""));
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        Promise.all([
+          fetch("/data/products.json").then((res) => res.json()),
+          fetch("/data/reviews.csv")
+            .then((res) => res.text())
+            .then((csvText) => parseCSV(csvText))
+            .catch(() => []),
+        ])
+          .then(([productsData, reviewsList]) => {
+            allProducts = productsData;
+
+            // Group reviews by productId
+            allReviewsMap = {};
+            reviewsList.forEach((r) => {
+              if (!allReviewsMap[r.productId]) {
+                allReviewsMap[r.productId] = [];
+              }
+              allReviewsMap[r.productId].push(r);
+            });
+
+            const params = new URLSearchParams(window.location.search);
+            const productId = parseInt(params.get("id")) || 3;
+
+            currentProduct =
+              allProducts.find((p) => p.id === productId) || allProducts[0];
+
+            if (allReviewsMap[currentProduct.id]) {
+              currentProduct.reviewCount =
+                allReviewsMap[currentProduct.id].length;
+            }
+
+            renderProductDetails(currentProduct);
+            renderInstantSearchResults(allProducts);
+          })
+          .catch((err) => {
+            console.error("Error loading application data:", err);
+          });
+
+        fetch("/review-modal.html")
+          .then((res) => res.text())
+          .then((html) => {
+            document.getElementById("modalContainer").innerHTML = html;
+          });
+      });
+
+      function updateReviewSummary(productReviews) {
+        const totalReviews = productReviews.length;
+
+        if (totalReviews === 0) {
+          document.getElementById("summaryScore").innerText = "0.0";
+          document.getElementById("summaryCount").innerText =
+            "Based on 0 Verified Ratings";
+          for (let i = 1; i <= 5; i++) {
+            document.getElementById(`fill-${i}`).style.width = "0%";
+            document.getElementById(`pct-${i}`).innerText = "0%";
+          }
+          return;
+        }
+
+        let sumRatings = 0;
+        const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+        productReviews.forEach((r) => {
+          sumRatings += r.rating;
+          if (counts[r.rating] !== undefined) {
+            counts[r.rating]++;
+          }
+        });
+
+        const averageScore = (sumRatings / totalReviews).toFixed(1);
+        document.getElementById("summaryScore").innerText = averageScore;
+        document.getElementById("summaryCount").innerText =
+          `Based on ${totalReviews} Verified Ratings`;
+
+        for (let i = 1; i <= 5; i++) {
+          const percentage = Math.round((counts[i] / totalReviews) * 100);
+          document.getElementById(`fill-${i}`).style.width = `${percentage}%`;
+          document.getElementById(`pct-${i}`).innerText = `${percentage}%`;
+        }
+      }
+
+      function updateDynamicPrices() {
+        if (!currentProduct) return;
+
+        const basePrice = Math.round(currentProduct.price * currentMultiplier);
+        const subPrice = Math.round(basePrice * 0.9);
+
+        document.getElementById("productPrice").innerText =
+          `NRs. ${basePrice.toLocaleString()}`;
+        document.getElementById("oneTimeText").innerText =
+          `One-time Purchase — NRs. ${basePrice.toLocaleString()}`;
+        document.getElementById("subText").innerText =
+          `Subscribe & Save (10% Off) — NRs. ${subPrice.toLocaleString()}`;
+        document.getElementById("addToCartBtn").innerText =
+          `🛒 Add to Cart — NRs. ${basePrice.toLocaleString()}`;
+      }
+
+      function renderProductDetails(prod) {
+        currentMultiplier = 1;
+        document.querySelectorAll(".btn-weight").forEach((btn, idx) => {
+          if (idx === 0) btn.classList.add("active");
+          else btn.classList.remove("active");
+        });
+
+        document.getElementById("pageTitle").innerText =
+          `${prod.name} — The Brew Buddies`;
+        document.getElementById("breadcrumbProductName").innerText = prod.name;
+        document.getElementById("breadcrumbCategory").innerText = prod.tag;
+        document.getElementById("productTag").innerText =
+          prod.tag.toUpperCase();
+        document.getElementById("productName").innerText = prod.name;
+        document.getElementById("productDescription").innerText =
+          prod.description;
+
+        document.getElementById("mainImage").src = prod.image;
+
+        const thumbsContainer = document.getElementById("galleryThumbs");
+        thumbsContainer.innerHTML = `
+          <img class="active" src="${prod.image}" onclick="switchImage(this)" />
+          <img src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=300&q=80" onclick="switchImage(this)" />
+          <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=300&q=80" onclick="switchImage(this)" />
+          <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80" onclick="switchImage(this)" />
+          <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=300&q=80" onclick="switchImage(this)" />
+        `;
+
+        updateDynamicPrices();
+
+        const productReviews = allReviewsMap[prod.id] || [];
+        prod.reviewCount = productReviews.length;
+
+        document.getElementById("productRating").innerText =
+          `★★★★★ (${prod.reviewCount})`;
+        document.getElementById("reviewsTabBtn").innerText =
+          `Reviews (${prod.reviewCount})`;
+
+        updateReviewSummary(productReviews);
+        renderReviewsList();
+      }
+
+      function renderReviewsList() {
+        const reviewsCol = document.querySelector(".reviews-col");
+        if (!reviewsCol || !currentProduct) return;
+
+        const productReviews = allReviewsMap[currentProduct.id] || [];
+        const chunk = productReviews.slice(0, displayedReviewCount);
+
+        if (productReviews.length === 0) {
+          reviewsCol.innerHTML = `<p style="padding: 16px; text-align: center; color: #6e6862; font-size: 13px;">No reviews yet. Be the first to write one!</p>`;
+          return;
+        }
+
+        let html = chunk
+          .map((r) => {
+            const initials = r.name
+              .split(" ")
+              .map((n) => n[0])
+              .join("")
+              .toUpperCase();
+            return `
+              <div class="review-card">
+                <div class="review-header">
+                  <div class="user-avatar">
+                    <div class="avatar-icon">${initials}</div>
+                    <div>
+                      ${r.name}
+                      ${r.verified ? '<span class="verified-tag">✔ Verified Buyer</span>' : ""}
+                    </div>
+                  </div>
+                  <div class="rating" style="color: #e5a000">
+                    ${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}
+                    <span class="review-date">${r.date}</span>
+                  </div>
+                </div>
+                ${r.title ? `<h4 style="font-size: 14px; margin-bottom: 4px; color: #2c2623;">${r.title}</h4>` : ""}
+                <p style="font-size: 13px; color: #6e6862; line-height: 1.5">
+                  ${r.text}
+                </p>
+              </div>
+            `;
+          })
+          .join("");
+
+        if (displayedReviewCount < productReviews.length) {
+          html += `
+            <div style="text-align: center; margin-top: 24px;">
+              <button onclick="loadMoreReviews()" style="background: white; border: 1px solid #1d7a46; color: #1d7a46; padding: 10px 24px; border-radius: 20px; font-weight: 600; cursor: pointer; font-size: 13px;">
+                Load More Reviews (${productReviews.length - displayedReviewCount} remaining)
+              </button>
+            </div>
+          `;
+        }
+
+        reviewsCol.innerHTML = html;
+      }
+
+      function loadMoreReviews() {
+        displayedReviewCount += 10;
+        renderReviewsList();
+      }
+
       window.toggleCart =
         window.toggleCart ||
         function (show) {
@@ -1380,24 +1322,6 @@
           }
         };
 
-      // Load cart drawer dynamic component
-      fetch("/cart-drawer.html")
-        .then((res) => res.text())
-        .then((html) => {
-          document.body.insertAdjacentHTML("beforeend", html);
-        })
-        .catch((err) => console.error("Error loading cart drawer:", err));
-
-      // Load external review write modal dynamic component
-      fetch("/review-modal.html")
-        .then((res) => res.text())
-        .then((html) => {
-          document.getElementById("modalContainer").innerHTML = html;
-          if (typeof setRating === "function") setRating(5);
-        })
-        .catch((err) => console.error("Error loading review modal:", err));
-
-      // Gallery & Option Selection
       function switchImage(thumb) {
         document
           .querySelectorAll(".gallery-thumbs img")
@@ -1406,20 +1330,21 @@
         document.getElementById("mainImage").src = thumb.src;
       }
 
-      function selectWeight(btn) {
+      function selectWeight(btn, multiplier) {
         document
           .querySelectorAll(".btn-weight")
           .forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
+
+        currentMultiplier = multiplier;
+        updateDynamicPrices();
       }
 
-      let currentQty = 1;
       function updateQty(delta) {
         currentQty = Math.max(1, currentQty + delta);
         document.getElementById("qty").innerText = currentQty;
       }
 
-      // Tab Switching Logic
       function switchTab(clickedBtn, tabId) {
         document
           .querySelectorAll(".tab-btn")
@@ -1435,7 +1360,28 @@
         }
       }
 
-      // Fixed Review Modal Toggle Logic
+      function setRating(rating) {
+        selectedRating = rating;
+        const stars = document.querySelectorAll("#starRating .star");
+        stars.forEach((star, index) => {
+          if (index < rating) {
+            star.classList.add("active");
+          } else {
+            star.classList.remove("active");
+          }
+        });
+
+        const labels = {
+          1: "1/5 Poor",
+          2: "2/5 Fair",
+          3: "3/5 Good",
+          4: "4/5 Very Good",
+          5: "5/5 Excellent",
+        };
+        const ratingLbl = document.getElementById("ratingLabel");
+        if (ratingLbl) ratingLbl.innerText = labels[rating];
+      }
+
       function openReviewModal() {
         const container = document.getElementById("modalContainer");
         const modal = document.getElementById("reviewModal");
@@ -1450,51 +1396,59 @@
         if (container) container.style.display = "none";
       }
 
-      // Rating selector
-      let selectedRating = 5;
-      const ratingLabels = [
-        "1/5 Poor",
-        "2/5 Fair",
-        "3/5 Good",
-        "4/5 Very Good",
-        "5/5 Excellent",
-      ];
+      function submitReview(event) {
+        event.preventDefault();
+        if (!currentProduct) return;
 
-      function setRating(stars) {
-        selectedRating = stars;
-        const spans = document.querySelectorAll(
-          "#starRating span:not(.rating-label)",
-        );
-        spans.forEach((s, idx) => {
-          if (idx < stars) s.classList.add("active");
-          else s.classList.remove("active");
-        });
-        const label = document.getElementById("ratingLabel");
-        if (label) label.innerText = ratingLabels[stars - 1];
-      }
+        const reviewData = {
+          productId: currentProduct.id,
+          rating: selectedRating,
+          title: document.getElementById("reviewTitle").value,
+          text: document.getElementById("reviewText").value,
+          recommend: document.querySelector('input[name="recommend"]:checked')
+            .value,
+          name: document.getElementById("reviewerName").value,
+          email: document.getElementById("reviewerEmail").value,
+          verified: true,
+          date: new Date().toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          }),
+        };
 
-      function submitReview(e) {
-        e.preventDefault();
         fetch("/api/reviews", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            rating: selectedRating,
-            title: document.getElementById("reviewTitle").value,
-            review: document.getElementById("reviewText").value,
-            name: document.getElementById("reviewerName").value,
-            email: document.getElementById("reviewerEmail").value,
-          }),
-        }).then(() => {
-          alert("Review submitted!");
-          closeReviewModal();
-        });
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(reviewData),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (!allReviewsMap[currentProduct.id]) {
+              allReviewsMap[currentProduct.id] = [];
+            }
+            allReviewsMap[currentProduct.id].unshift(reviewData);
+
+            renderProductDetails(currentProduct);
+            closeReviewModal();
+            document.getElementById("reviewForm").reset();
+            setRating(5);
+            alert("Thank you! Your review has been successfully submitted.");
+          })
+          .catch((err) => {
+            console.error("Error submitting review:", err);
+            alert("Failed to submit review.");
+          });
       }
 
-      // Instant Search Modal Controls
       function openInstantSearch() {
         const modal = document.getElementById("instantSearchModal");
-        if (modal) modal.style.display = "flex";
+        if (modal) {
+          modal.style.display = "flex";
+          document.getElementById("instantSearchInput").focus();
+        }
       }
 
       function closeInstantSearch() {
@@ -1502,15 +1456,79 @@
         if (modal) modal.style.display = "none";
       }
 
+      function renderInstantSearchResults(productsToRender) {
+        const listContainer = document.getElementById(
+          "instantSearchResultsList",
+        );
+        document.getElementById("matchingTitle").innerText =
+          `MATCHING PRODUCTS (${productsToRender.length})`;
+
+        if (productsToRender.length === 0) {
+          listContainer.innerHTML = `<p style="padding: 20px; text-align: center; color: #7a746e; font-size: 13px;">No matching products found.</p>`;
+          return;
+        }
+
+        listContainer.innerHTML = productsToRender
+          .map(
+            (p) => `
+              <a href="product.html?id=${p.id}" class="search-product-card">
+                <img src="${p.image}" alt="${p.name}" />
+                <div class="search-product-details">
+                  <div class="search-meta-top">
+                    <span class="search-tag">${p.tag}</span>
+                    <span class="search-rating">★★★★★ <span class="review-count">(${p.reviewCount || 0})</span></span>
+                  </div>
+                  <h4>${p.name}</h4>
+                </div>
+                <div class="search-product-pricing">
+                  <span class="search-price">NRs. ${p.price.toLocaleString()}</span>
+                  <span class="in-stock-label">IN STOCK</span>
+                </div>
+              </a>
+            `,
+          )
+          .join("");
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
-        const searchInputBars = document.querySelectorAll(".search-bar input");
-        searchInputBars.forEach((input) => {
-          input.addEventListener("focus", (e) => {
+        const searchInput = document.getElementById("headerSearchInput");
+        if (searchInput) {
+          searchInput.addEventListener("focus", (e) => {
             e.preventDefault();
             openInstantSearch();
           });
-        });
+        }
+
+        const instantInput = document.getElementById("instantSearchInput");
+        if (instantInput) {
+          instantInput.addEventListener("input", (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = allProducts.filter(
+              (p) =>
+                p.name.toLowerCase().includes(query) ||
+                p.tag.toLowerCase().includes(query) ||
+                p.description.toLowerCase().includes(query),
+            );
+            renderInstantSearchResults(filtered);
+          });
+        }
       });
+
+      function filterSearchTag(tag, btn) {
+        document
+          .querySelectorAll(".search-pill")
+          .forEach((p) => p.classList.remove("active"));
+        btn.classList.add("active");
+
+        const filtered =
+          tag === "All"
+            ? allProducts
+            : allProducts.filter(
+                (p) => p.tag.toLowerCase() === tag.toLowerCase(),
+              );
+
+        renderInstantSearchResults(filtered);
+      }
 
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {

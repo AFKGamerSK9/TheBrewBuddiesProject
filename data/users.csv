@@ -1,0 +1,5 @@
+id,name,email,phone,password,avatarInitials,membershipTier,points,pointsValue,subscription
+1,"Ojash Shrestha","ojash@brewbuddies.com",+977 9845485299,"ojash123","OS","Silver Beans Member",350,"NRs. 350","Active (Next bag ships Jan 26)"
+2,"Janit Saru","janit@brewbuddies.com","+977 9800000000","janit123","JS","New Bean Member",50,"NRs. 50","No active subscription"
+3,"Dipika Dahal","dipika@brewbuddies.com","+977 9800000001","dipika123","DD","New Bean Member",50,"NRs. 50","No active subscription"
+4,"Pooja Banjade","pooja@brewbuddies.com","+977 9800000002","pooja123","PB","New Bean Member",50,"NRs. 50","No active subscription"
