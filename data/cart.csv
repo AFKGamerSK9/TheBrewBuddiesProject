@@ -1,0 +1,3 @@
+account_id,email,product_id,product_name,quantity,price,added_from
+1,ojash@brewbuddies.com,p1,Ethiopian Yirgacheffe,1,1250,product.html
+1,ojash@brewbuddies.com,p2,Highland Earl Grey,2,650,index.html

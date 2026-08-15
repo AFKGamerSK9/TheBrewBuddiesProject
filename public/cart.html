@@ -52,6 +52,18 @@
         color: #2c2623;
         font-size: 14px;
       }
+      .user-badge-link {
+        text-decoration: none;
+        background-color: #1d7a46;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 16px;
+        font-size: 13px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
       .cart-container {
         max-width: 1000px;
         margin: 40px auto;
@@ -176,18 +188,18 @@
   </head>
   <body>
     <div class="announcement-bar">
-      Flash Offers — Free shipping on orders over NRs. 2,500
+      Flash Offers — Free shipping on orders over NRs. 2,500[cite: 10]
     </div>
 
     <header class="navbar">
-      <a href="/" style="text-decoration: none"
-        ><div class="logo">
+      <a href="/" style="text-decoration: none">
+        <div class="logo">
           <img src="logo.png" alt="The Brew Buddies Logo" />
           <span>The Brew Buddies</span>
-        </div></a
-      >
-      <div class="nav-right">
-        <a href="/account" class="nav-link">👤 Account</a>
+        </div>
+      </a>
+      <div class="nav-right" id="navRightContainer">
+        <!-- Dynamic Auth State Injected Here -->
       </div>
     </header>
 
@@ -217,6 +229,7 @@
             <img
               src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=150&q=80"
               class="item-img"
+              alt="Ethiopian Yirgacheffe"
             />
             <div class="item-details">
               <h4>Ethiopian Yirgacheffe</h4>
@@ -235,6 +248,7 @@
             <img
               src="https://images.unsplash.com/photo-1594631252845-29fc4cc86de5?auto=format&fit=crop&w=150&q=80"
               class="item-img"
+              alt="Highland Earl Grey"
             />
             <div class="item-details">
               <h4>Highland Earl Grey</h4>
@@ -268,6 +282,42 @@
     </main>
 
     <script>
+      // Authentication State Management (Synchronized with index.html)
+      function renderAuthNavbar() {
+        const navRight = document.getElementById("navRightContainer");
+        if (!navRight) return;
+
+        // 1. Read the active user's email from localStorage
+        const activeEmail = localStorage.getItem("brewBuddyActiveUser");
+
+        // 2. Fetch the active user's profile or fallback to a default if logged in
+        let currentUser = null;
+        if (activeEmail) {
+          currentUser = JSON.parse(
+            localStorage.getItem("brewBuddyActiveUserProfile"),
+          ) || { name: activeEmail.split("@")[0], isLoggedIn: true };
+        }
+
+        if (activeEmail && currentUser) {
+          const firstName = currentUser.name
+            ? currentUser.name.split(" ")[0]
+            : activeEmail.split("@")[0];
+
+          navRight.innerHTML = `
+            <a href="/account" class="user-badge-link">
+              <span>👤</span>
+              <span>${firstName}</span>
+            </a>
+          `;
+        } else {
+          navRight.innerHTML = `
+            <a href="/signin" class="nav-link" style="font-weight: 600; color: #1d7a46; text-decoration: none; padding: 6px 16px; border: 1.5px solid #1d7a46; border-radius: 20px;">Sign In</a>
+          `;
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", renderAuthNavbar);
+
       function updateQty(btn, delta) {
         const span = btn.parentElement.querySelector("span");
         let val = parseInt(span.innerText) + delta;

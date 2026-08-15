@@ -716,7 +716,7 @@
   </head>
   <body>
     <header class="navbar">
-      <a href="/" style="text-decoration: none">
+      <a href="index.html" style="text-decoration: none">
         <div class="logo">
           <img src="logo.png" alt="The Brew Buddies Logo" />
           <span>The Brew Buddies</span>
@@ -980,18 +980,13 @@
         </button>
         <div class="modal-title">Edit Profile</div>
 
-        <form
-          onsubmit="
-            event.preventDefault();
-            switchModal('editProfileModal', 'profileModal');
-          "
-        >
+        <form onsubmit="handleUpdateProfile(event)">
           <div class="form-group">
             <label class="form-label">Full Name</label>
             <input
               type="text"
+              id="editProfileName"
               class="form-input"
-              value="Ojash Shrestha"
               required
             />
           </div>
@@ -1000,8 +995,8 @@
             <label class="form-label">Email Address</label>
             <input
               type="email"
+              id="editProfileEmail"
               class="form-input"
-              value="ojash@brewbuddies.com"
               required
             />
           </div>
@@ -1010,8 +1005,8 @@
             <label class="form-label">Phone Number</label>
             <input
               type="tel"
+              id="editProfilePhone"
               class="form-input"
-              value="+977 9845485299"
               required
             />
           </div>
@@ -1034,6 +1029,7 @@
 
         <div
           class="avatar-circle-modal"
+          id="modalPictureInitials"
           style="width: 80px; height: 80px; font-size: 36px; margin: 20px auto"
         >
           O
@@ -1095,7 +1091,7 @@
               <input
                 type="password"
                 class="form-input"
-                value="••••••••••••"
+                placeholder="••••••••••••"
                 required
               />
               <span class="eye-icon">👁</span>
@@ -1106,9 +1102,9 @@
             <label class="form-label">New Password</label>
             <div class="input-wrapper">
               <input
-                type="text"
+                type="password"
                 class="form-input"
-                value="S0mePr0fess1onal!"
+                placeholder="New Password"
                 required
               />
               <span class="eye-icon">👁</span>
@@ -1125,9 +1121,9 @@
             <label class="form-label">Confirm New Password</label>
             <div class="input-wrapper">
               <input
-                type="text"
+                type="password"
                 class="form-input"
-                value="S0mePr0fess1onal!"
+                placeholder="Confirm Password"
                 required
               />
               <span class="eye-icon">👁</span>
@@ -1282,7 +1278,6 @@
         },
       ];
 
-      // Safely load users database with content-type checking
       async function loadUsersDatabase() {
         try {
           const response = await fetch("/api/users");
@@ -1297,10 +1292,6 @@
             if (Array.isArray(serverUsers) && serverUsers.length > 0) {
               usersDatabase = serverUsers;
             }
-          } else {
-            console.warn(
-              "API endpoint /api/users not found or not returning JSON. Using fallback data.",
-            );
           }
         } catch (error) {
           console.error(
@@ -1370,7 +1361,10 @@
             </div>
           `;
 
+          // Populate Main Profile Modal & Edit Profile Form dynamically
           document.getElementById("modalAvatarInitials").textContent =
+            user.avatarInitials;
+          document.getElementById("modalPictureInitials").textContent =
             user.avatarInitials;
           document.getElementById("modalUserName").textContent =
             `Hello, ${user.name.split(" ")[0]}!`;
@@ -1381,6 +1375,11 @@
             user.pointsValue;
           document.getElementById("modalTierBadge").textContent =
             user.membershipTier;
+
+          // Populate Edit Profile inputs with active user's details
+          document.getElementById("editProfileName").value = user.name;
+          document.getElementById("editProfileEmail").value = user.email;
+          document.getElementById("editProfilePhone").value = user.phone || "";
         } else {
           navContainer.innerHTML = `<button class="nav-auth-btn" onclick="openModal('signInModal')">Sign In</button>`;
           welcomeTitle.textContent = "Welcome to The Brew Buddies";
@@ -1422,7 +1421,12 @@
           ) {
             const data = await response.json();
             if (data.status === "success") {
+              // Store both the email pointer and the user profile object
               localStorage.setItem("brewBuddyActiveUser", data.user.email);
+              localStorage.setItem(
+                "brewBuddyActiveUserProfile",
+                JSON.stringify(data.user),
+              );
               closeModal("signInModal");
               await loadUsersDatabase();
               updateUIState();
@@ -1430,7 +1434,6 @@
             }
           }
 
-          // Fallback / Local validation when API endpoint isn't set up yet
           const localUser = usersDatabase.find(
             (u) =>
               u.email.toLowerCase() === inputEmail &&
@@ -1438,7 +1441,12 @@
           );
 
           if (localUser) {
+            // Store both the email pointer and the user profile object
             localStorage.setItem("brewBuddyActiveUser", localUser.email);
+            localStorage.setItem(
+              "brewBuddyActiveUserProfile",
+              JSON.stringify(localUser),
+            );
             closeModal("signInModal");
             updateUIState();
           } else {
@@ -1495,32 +1503,61 @@
             body: JSON.stringify(newUser),
           });
 
-          if (response.ok) {
-            usersDatabase.push(newUser);
-            localStorage.setItem("brewBuddyActiveUser", email);
-            closeModal("signUpModal");
-            updateUIState();
-            alert("Account created successfully!");
-          } else {
-            // Local fallback if server endpoint is missing
-            usersDatabase.push(newUser);
-            localStorage.setItem("brewBuddyActiveUser", email);
-            closeModal("signUpModal");
-            updateUIState();
-            alert("Account created successfully (saved locally)!");
-          }
+          usersDatabase.push(newUser);
+          // Store both the email pointer and the user profile object
+          localStorage.setItem("brewBuddyActiveUser", newUser.email);
+          localStorage.setItem(
+            "brewBuddyActiveUserProfile",
+            JSON.stringify(newUser),
+          );
+          closeModal("signUpModal");
+          updateUIState();
+          alert("Account created successfully!");
         } catch (error) {
           console.error("Error saving user:", error);
           usersDatabase.push(newUser);
-          localStorage.setItem("brewBuddyActiveUser", email);
+          // Store both the email pointer and the user profile object
+          localStorage.setItem("brewBuddyActiveUser", newUser.email);
+          localStorage.setItem(
+            "brewBuddyActiveUserProfile",
+            JSON.stringify(newUser),
+          );
           closeModal("signUpModal");
           updateUIState();
           alert("Account created successfully (saved locally)!");
         }
       }
 
+      function handleUpdateProfile(e) {
+        e.preventDefault();
+        const user = getActiveUser();
+        if (!user) return;
+
+        user.name = document.getElementById("editProfileName").value.trim();
+        user.email = document
+          .getElementById("editProfileEmail")
+          .value.trim()
+          .toLowerCase();
+        user.phone = document.getElementById("editProfilePhone").value.trim();
+        user.avatarInitials = user.name
+          .split(" ")
+          .map((n) => n[0])
+          .join("")
+          .toUpperCase();
+
+        localStorage.setItem("brewBuddyActiveUser", user.email);
+        localStorage.setItem(
+          "brewBuddyActiveUserProfile",
+          JSON.stringify(user),
+        );
+        switchModal("editProfileModal", "profileModal");
+        updateUIState();
+        alert("Profile updated successfully!");
+      }
+
       function handleSignOut() {
         localStorage.removeItem("brewBuddyActiveUser");
+        localStorage.removeItem("brewBuddyActiveUserProfile");
         closeModal("profileModal");
         updateUIState();
       }

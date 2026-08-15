@@ -578,7 +578,7 @@
     <!-- Header -->
     <header class="navbar">
       <div class="nav-left">
-        <a href="/" style="text-decoration: none"
+        <a href="index.html" style="text-decoration: none"
           ><div class="logo">
             <img src="logo.png" alt="The Brew Buddies Logo" />
             <span>The Brew Buddies</span>
@@ -588,11 +588,12 @@
       <div class="search-bar">
         <input type="text" placeholder="Search premium beans, loose teas..." />
       </div>
-      <div class="nav-right">
-        <a href="/account" class="nav-link">👤 Account</a>
-        <a href="/cart" class="cart-icon"
-          >🛒 <span class="cart-count">3</span></a
-        >
+      <div
+        class="nav-right"
+        id="navRightContainer"
+        style="display: flex; align-items: center; gap: 16px"
+      >
+        <!-- Dynamically populated based on authentication state -->
       </div>
     </header>
 
@@ -814,7 +815,51 @@
       </div>
     </div>
 
+    <!-- Sign In Modal Fallback Element -->
+    <div id="signInModal" style="display: none"></div>
+
     <script>
+      // Authentication State Management
+      function updateAuthNav() {
+        const navRight = document.getElementById("navRightContainer");
+        if (!navRight) return;
+
+        const activeEmail = localStorage.getItem("brewBuddyActiveUser");
+
+        let currentUser = null;
+        if (activeEmail) {
+          currentUser = JSON.parse(
+            localStorage.getItem("brewBuddyActiveUserProfile"),
+          ) || { name: activeEmail.split("@")[0], isLoggedIn: true };
+        }
+
+        if (activeEmail && currentUser) {
+          const firstName = currentUser.name
+            ? currentUser.name.split(" ")[0]
+            : activeEmail.split("@")[0];
+          navRight.innerHTML = `
+            <div style="position: relative;">
+              <button onclick="window.location.href='account.html'" class="nav-link" style="display: flex; align-items: center; gap: 8px; background: #1d7a46; color: white; padding: 6px 14px; border-radius: 20px; font-weight: 600; border: none; cursor: pointer;">
+                <span style="font-size: 11px; background: rgba(255,255,255,0.2); width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%;">👤</span>
+                <span>${firstName}</span>
+              </button>
+            </div>
+            <a href="/cart" class="cart-icon">🛒 <span class="cart-count">3</span></a>
+          `;
+        } else {
+          navRight.innerHTML = `
+            <a href="account.html" class="nav-link" style="font-weight: 600; color: #1d7a46; text-decoration: none; padding: 6px 16px; border: 1.5px solid #1d7a46; border-radius: 20px;">Sign In</a>
+            <a href="/cart" class="cart-icon">🛒 <span class="cart-count">3</span></a>
+          `;
+        }
+      }
+
+      function openModal(modalId) {
+        if (modalId === "signInModal") {
+          window.location.href = "account.html";
+        }
+      }
+
       window.toggleCart =
         window.toggleCart ||
         function (show) {
@@ -823,6 +868,44 @@
             drawer.style.display = show === false ? "none" : "flex";
           }
         };
+
+      // Add to Cart Frontend Implementation
+      async function addToCart(product, sourcePage) {
+        const activeUser = JSON.parse(
+          localStorage.getItem("brewBuddyActiveUserProfile"),
+        );
+
+        if (!activeUser) {
+          alert("Please sign in to add items to your cart.");
+          openModal("signInModal");
+          return;
+        }
+
+        const cartPayload = {
+          account_id: activeUser.id || 1,
+          email: activeUser.email,
+          product_id: product.id,
+          product_name: product.name,
+          quantity: product.quantity || 1,
+          price: product.price,
+          added_from: sourcePage, // 'index.html' or 'product.html'
+        };
+
+        try {
+          const response = await fetch("/api/cart/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(cartPayload),
+          });
+
+          if (response.ok) {
+            alert("Item added to cart successfully!");
+            updateAuthNav(); // Refresh cart badge count
+          }
+        } catch (error) {
+          console.error("Error adding item to cart:", error);
+        }
+      }
 
       let allProducts = [];
       let filteredProducts = [];
@@ -851,12 +934,11 @@
             "#categoryFilterGroup input[type='checkbox']",
           );
 
-          // Reset checkboxes depending on pill clicked
           sidebarCheckboxes.forEach((cb) => (cb.checked = false));
 
           if (activeCategoryPill === "Coffee") {
-            sidebarCheckboxes[0].checked = true; // Single Origin
-            sidebarCheckboxes[2].checked = true; // Espresso Blends
+            sidebarCheckboxes[0].checked = true;
+            sidebarCheckboxes[2].checked = true;
           } else if (activeCategoryPill === "Loose Tea") {
             sidebarCheckboxes[1].checked = true;
           } else if (
@@ -901,7 +983,6 @@
       minSlider.addEventListener("input", updateDualSlider);
       maxSlider.addEventListener("input", updateDualSlider);
 
-      // Listen to sidebar filter changes (Checkboxes)
       document
         .querySelectorAll(".sidebar input[type='checkbox']")
         .forEach((input) => {
@@ -985,7 +1066,7 @@
             </a>
             <div class="card-footer" style="padding: 0 16px 16px;">
               <span class="price">NRs. ${p.price.toLocaleString()}</span>
-              <button class="btn-add" onclick="toggleCart(true)">🛒 Add to Cart</button>
+              <button class="btn-add" onclick='addToCart(${JSON.stringify(p)}, "index.html")'>🛒 Add to Cart</button>
             </div>
           </div>
         `,
@@ -1011,7 +1092,6 @@
         container.innerHTML = buttonsHTML;
       }
 
-      // Instant Search Modal Controls & Live Search Logic
       function openInstantSearch() {
         const modal = document.getElementById("instantSearchModal");
         if (modal) {
@@ -1074,6 +1154,8 @@
       }
 
       document.addEventListener("DOMContentLoaded", () => {
+        updateAuthNav();
+
         const exploreBtn = document.getElementById("exploreCollectionsBtn");
         if (exploreBtn) {
           exploreBtn.addEventListener("click", () => {

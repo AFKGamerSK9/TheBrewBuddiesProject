@@ -36,6 +36,7 @@
         justify-content: space-between;
         padding: 16px 48px;
         background-color: #faf8f5;
+        border-bottom: 1px solid #eae5dc;
       }
       .logo {
         font-weight: 700;
@@ -68,6 +69,18 @@
         text-decoration: none;
         color: #2c2623;
         font-size: 14px;
+      }
+      .user-badge-link {
+        text-decoration: none;
+        background-color: #1d7a46;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 16px;
+        font-size: 13px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 6px;
       }
       .cart-icon {
         text-decoration: none;
@@ -685,7 +698,7 @@
   <body>
     <!-- Top Announcement Bar -->
     <div class="announcement-bar">
-      Flash Offers — Free shipping on orders over NRs. 2,500
+      Flash Offers — Free shipping on orders over NRs. 2,500[cite: 10]
     </div>
 
     <!-- Header -->
@@ -706,7 +719,10 @@
         />
       </div>
       <div class="nav-right">
-        <a href="/account" class="nav-link">👤 Account</a>
+        <!-- Dynamically updated account/sign-in link -->
+        <a href="/account" id="accountLink" class="user-badge-link"
+          >👤 Account</a
+        >
         <a href="/cart" class="cart-icon"
           >🛒 <span class="cart-count">3</span></a
         >
@@ -817,7 +833,7 @@
           <button
             class="btn-add-cart-large"
             id="addToCartBtn"
-            onclick="toggleCart(true)"
+            onclick="handleAddToCart()"
           >
             🛒 Add to Cart — NRs. 0
           </button>
@@ -1060,6 +1076,88 @@
       let selectedRating = 5;
       let displayedReviewCount = 10;
 
+      // Check current user session and update top-right navigation link
+      function checkUserSession() {
+        const accountLink = document.getElementById("accountLink");
+        if (!accountLink) return;
+
+        const activeEmail = localStorage.getItem("brewBuddyActiveUser");
+
+        let currentUser = null;
+        if (activeEmail) {
+          currentUser = JSON.parse(
+            localStorage.getItem("brewBuddyActiveUserProfile"),
+          ) || { name: activeEmail.split("@")[0], isLoggedIn: true };
+        }
+
+        if (activeEmail && currentUser) {
+          const firstName = currentUser.name
+            ? currentUser.name.split(" ")[0]
+            : activeEmail.split("@")[0];
+
+          accountLink.href = "/account";
+          accountLink.innerHTML = `👤 ${firstName}`;
+          accountLink.classList.add("user-badge-link");
+        } else {
+          accountLink.href = "/signin";
+          accountLink.innerHTML = "Sign In";
+          accountLink.classList.remove("user-badge-link");
+          accountLink.classList.add("nav-link");
+        }
+      }
+
+      // Add to Cart Frontend Implementation for product.html
+      async function addToCart(product, sourcePage) {
+        const activeUser = JSON.parse(
+          localStorage.getItem("brewBuddyActiveUserProfile"),
+        );
+
+        if (!activeUser) {
+          alert("Please sign in to add items to your cart.");
+          window.location.href = "account.html";
+          return;
+        }
+
+        const cartPayload = {
+          account_id: activeUser.id || 1,
+          email: activeUser.email,
+          product_id: product.id,
+          product_name: product.name,
+          quantity: product.quantity || 1,
+          price: product.price,
+          added_from: sourcePage, // 'index.html' or 'product.html'
+        };
+
+        try {
+          const response = await fetch("/api/cart/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(cartPayload),
+          });
+
+          if (response.ok) {
+            alert("Item added to cart successfully!");
+            checkUserSession();
+          }
+        } catch (error) {
+          console.error("Error adding item to cart:", error);
+        }
+      }
+
+      function handleAddToCart() {
+        if (!currentProduct) return;
+        const adjustedPrice = Math.round(
+          currentProduct.price * currentMultiplier,
+        );
+        const itemPayload = {
+          id: currentProduct.id,
+          name: currentProduct.name,
+          price: adjustedPrice,
+          quantity: currentQty,
+        };
+        addToCart(itemPayload, "product.html");
+      }
+
       // Robust CSV Parser for frontend
       function parseCSV(text) {
         let lines = text.split("\n");
@@ -1114,6 +1212,8 @@
       }
 
       document.addEventListener("DOMContentLoaded", () => {
+        checkUserSession();
+
         Promise.all([
           fetch("/data/products.json").then((res) => res.json()),
           fetch("/data/reviews.csv")
@@ -1124,7 +1224,6 @@
           .then(([productsData, reviewsList]) => {
             allProducts = productsData;
 
-            // Group reviews by productId
             allReviewsMap = {};
             reviewsList.forEach((r) => {
               if (!allReviewsMap[r.productId]) {
@@ -1312,15 +1411,6 @@
         displayedReviewCount += 10;
         renderReviewsList();
       }
-
-      window.toggleCart =
-        window.toggleCart ||
-        function (show) {
-          const drawer = document.getElementById("cartDrawer");
-          if (drawer) {
-            drawer.style.display = show === false ? "none" : "flex";
-          }
-        };
 
       function switchImage(thumb) {
         document
